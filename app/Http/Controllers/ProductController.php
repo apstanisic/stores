@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Route;
 use App\Store;
+use App\Product;
 
 class ProductController extends Controller
 {
@@ -16,7 +17,7 @@ class ProductController extends Controller
     public function __construct() {
 
 
-        $this->middleware('auth');
+        $this->middleware(['auth', 'owner']);
 
         // Dohvata store sa id-jem iz wildcard-a
         // $a = Route::input('store');
@@ -30,7 +31,7 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($store)
     {
         //
     }
@@ -40,7 +41,7 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($store)
     {
         //
     }
@@ -51,7 +52,7 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $store)
     {
         //
     }
@@ -62,9 +63,9 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($store, $id)
     {
-        //
+        $product = Product::findOrFail($id);
     }
 
     /**
@@ -73,7 +74,7 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($store, $id)
     {
         //
     }
@@ -85,7 +86,7 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,$store, $id)
     {
         //
     }
@@ -96,7 +97,7 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($store, $id)
     {
         //
     }

@@ -13,6 +13,7 @@ class StoresController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('owner')->except('index', 'create', 'store');
     }
     /**
      * Prikazuje sve korisnikove prodavnice
