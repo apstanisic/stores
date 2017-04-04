@@ -1,23 +1,6 @@
-
-
-/* Sticky footer */
-html {
-  height: 100%;
-}
-
 body {
   font-family: 'Raleway', sans-serif;
   font-weight: 400; 
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-body > div {
-  flex: 1;
-  flex-grow: 1;
-  width: 100%;
-  max-width: 100%;
 }
 
 
@@ -25,10 +8,95 @@ body > div {
     background-color: transparent;
 }
 
-.max-500 {
-	max-width: 500px;
+body {
+  overflow-x: hidden;
+}
+.overflow-hidden {
+  overflow: hidden;
 }
 
+
+/* Sidebar */
+
+.sidebar {
+  display: inline-flex;
+  flex-direction: column;
+  width: 50px;
+  min-width: 50px;
+  min-height: 100vh;
+  overflow: hidden;
+  transition: all 500ms ease;
+}
+
+
+.sidebar-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 50px;
+  min-height: 50px;
+}
+
+.sidebar-text {
+  /*width: 200px;*/
+  white-space: nowrap;
+  padding-right: 20px;
+}
+
+.sidebar-block {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  max-width: 300px;
+}
+
+ /* ======== */
+
+/* Buttons */
+button {
+  cursor: pointer;
+}
+
+button:focus, button:active {
+   outline: none;
+}
+
+.btn-transparent {
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+  padding: 0px;
+}
+
+
+/* =========== */
+
+/* Width */
+.w-auto {
+  width: auto!important;
+}
+
+.min-250 {
+  min-width: 250px!important;
+}
+
+.max-500 {
+  max-width: 500px;
+}
+
+/* ======== */
+
+
+/* Text */
+
+.text-lightgrey {
+  color: #ccc!important;
+}
+
+/* ======= */
 
 @media (max-width: 767px){
 	.border-bottom-lightgrey {

@@ -26,7 +26,10 @@
 
 		<div>
 		 	@if (Auth::check())
-		 		<a href="{{ url('logout') }}" class="btn btn-outline-secondary my-3 my-md-0 mx-1" >Logout</a>
+				<form action="{{ route('logout') }}" method="post">
+					{{ csrf_field() }}
+					<button type="submit" class="btn btn-outline-secondary my-3 my-md-0 mx-1">Logout</button>
+				</form>
 	 		@else
 				<a href="{{ url('/login') }}" class="btn btn-outline-secondary my-3 my-md-0 mx-1" >Login</a>
 		      	<a href="{{ url('/register') }}" class="btn btn-outline-secondary my-3 my-md-0 mx-1" >Sign Up</a>

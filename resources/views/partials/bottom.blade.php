@@ -10,7 +10,7 @@
 <!-- Custom javascript -->
 <script src="{{ asset('js/script.js') }}"></script>
 <!-- Additional javascript -->
-	@yield('javascript')
+@yield('javascript')
 	
 <!-- End additional javascript -->
 <!-- End custom javascript -->

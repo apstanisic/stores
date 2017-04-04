@@ -1,19 +1,17 @@
 @extends('layouts.base')
 
 
-
+@section('stylesheet')
+<link rel="stylesheet" href="{{ asset('css/sticky.css') }}">
+@endsection
 
 @section('body')
+
 	@include('partials.header')
-
-	@yield('before')
-
-	<div class="container">
-		{{-- @require('loader') --}}
+	
+	<div class="content">
 		@yield('content')
 	</div>
-
-	@yield('after')
 
 	@include('partials.footer')
 	

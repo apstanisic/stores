@@ -11,14 +11,21 @@
 |
 */
 
+
+// Staticne stranice
 Route::get('/', 'PagesController@index');
 Route::get('/pocetna', 'PagesController@index');
-Route::get('/cenovnik', 'PagesController@prices');
-Route::get('/korisnici', 'PagesController@users');
-Route::get('/zasto_mi', 'PagesController@whyUs');
+// Route::get('/cenovnik', 'PagesController@prices');
+// Route::get('/korisnici', 'PagesController@users');
+// Route::get('/zasto_mi', 'PagesController@whyUs');
 Route::get('/upustva', 'PagesController@guides');
-Route::get('/kontakt', 'PagesController@contact');
+// Route::get('/kontakt', 'PagesController@contact');
 
+
+// Autentifikacija
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+
+Route::resource('stores', 'StoresController');
+Route::resource('stores/{store}/products', 'ProductController');
