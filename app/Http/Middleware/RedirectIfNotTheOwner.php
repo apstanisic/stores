@@ -18,7 +18,8 @@ class RedirectIfNotTheOwner
      */
     public function handle($request, Closure $next)
     {
-        
+
+        // TODO : verovatno ima lepsi nacin da se uzme input
         // Ako nije vlasnik prodavnice vrati ga na sve prodavnice
         if(!$request->user()->isStoreOwner(Route::input('store'))){
             return redirect()->route('stores.index');
