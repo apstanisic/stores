@@ -46,7 +46,7 @@ class StoresController extends Controller
     {
         $store = new Store($request->all());
         Auth::user()->stores()->save($store);
-        return redirect('/stores/create');
+        return redirect()->route('stores.create');
     }
 
     /**
@@ -86,7 +86,7 @@ class StoresController extends Controller
 
         $store->update($request->all());
 
-        return redirect("stores/{$id}");
+        return redirect()->route('stores.show', [$id]);
     }
 
     /**

@@ -10,22 +10,32 @@ use App\Product;
 class ProductController extends Controller
 {
 
+    /*
+        Svaki proizvod ima prodavnicu kojoj pripada
+        Svaka metoda ima pristup toj prodavnici
+        Vrednost se stavlja u konstruktoru
+    */
+        
     private $productStore;
 
 
 
-    public function __construct() {
-
-
+    public function __construct(Request $request) 
+    {
         $this->middleware(['auth', 'owner']);
 
-        // Dohvata store sa id-jem iz wildcard-a
-        // $a = Route::input('store');
-        $this->productStore = Store::find(1);
-        // $this->store = Store::find(Route::input('store'));
+        /**
+         * Dohvata store jer svaka metoda ime store, dohvata iz url-a.  
+         * Proverava se $request->route() jer prilikom route:list
+         * ne Route::input, tako da mora prvo da se proveri
+         */
 
-        
+        if ($request->route()) {
+            $this->productStore = Store::findOrFail(Route::input('store'));
+        }
     }
+
+
     /**
      * Display a listing of the resource.
      *
