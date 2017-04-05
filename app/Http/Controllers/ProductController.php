@@ -15,7 +15,7 @@ class ProductController extends Controller
         Svaka metoda ima pristup toj prodavnici
         Vrednost se stavlja u konstruktoru
     */
-        
+
     private $productStore;
 
 
@@ -25,6 +25,7 @@ class ProductController extends Controller
         $this->middleware(['auth', 'owner']);
 
         /**
+         * TODO : napravi nadkontroler za sve kontrolere koje imaju store u url
          * Dohvata store jer svaka metoda ime store, dohvata iz url-a.  
          * Proverava se $request->route() jer prilikom route:list
          * ne Route::input, tako da mora prvo da se proveri
