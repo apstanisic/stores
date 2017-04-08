@@ -14,6 +14,7 @@
 
 // Staticne stranice
 Route::get('/', 'PagesController@index');
+Route::get('/home', 'PagesController@index');
 Route::get('/pocetna', 'PagesController@index');
 // Route::get('/cenovnik', 'PagesController@prices');
 // Route::get('/korisnici', 'PagesController@users');
@@ -25,7 +26,7 @@ Route::get('/upustva', 'PagesController@guides');
 // Autentifikacija
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+//Route::get('/home', 'HomeController@index');
 
 Route::resource('stores', 'StoresController');
 Route::resource('stores/{store}/products', 'ProductController');

@@ -63,6 +63,7 @@
 		</div>
 
 		<div class="content container min-250 overflow-hidden">
+			@include('partials.flash')
 			@yield('content')
 		</div>
 	</div>

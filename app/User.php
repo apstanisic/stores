@@ -38,17 +38,13 @@ class User extends Authenticatable
 
     public function isStoreOwner ($store) {
 
-        // Dohvata prodavnicu
-        $store = Store::find($store);
+        // Dohvata prodavnicu kojoj je vlasnik i ima 
+        // id koji je prosledjen u url-u
+        $store = Store::isOwner()->find($store);
 
         // Ako nema prodavnice vraca false
         if(!$store) {
             return false;
-        }
-
-        // Ako ulogovani korisnik nije vlasnik vraca false
-        if($store->user->id !== Auth::id()){
-           return false;
         }
 
         // Ako je vlasnik vraca true

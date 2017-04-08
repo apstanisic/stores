@@ -11,35 +11,36 @@ class PagesController extends Controller
     {
         $this->middleware('guest', ['only' => 'index']);
     }
-    public function index () {
-        $format = [
-            'hideLabel' => true,
-            'large' => true,
-            'placeholder' => true
-        ];
-
-    	return view('pages.welcome', compact('format'));
+    
+    public function index ()
+    {
+    	return view('pages.welcome');
     }
 
 
-    public function prices () {
+    public function prices ()
+    {
     	return view('pages.prices');
     }
 
 
-    public function whyUs () {
+    public function whyUs ()
+    {
     	return view('layouts.master');
     }
 
-    public function guides () {
+    public function guides ()
+    {
     	return view('pages.guides');
     }
 
-    public function contact () {
+    public function contact ()
+    {
     	return view('layouts.master');
     }
 
-    public function users () {
+    public function users ()
+    {
     	return view('layouts.master');
     }
 

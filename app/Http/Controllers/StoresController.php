@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreRequest;
 use App\Store;
 use Auth;
+use Session;
 
 class StoresController extends Controller
 {
@@ -22,7 +23,7 @@ class StoresController extends Controller
      */
     public function index()
     {
-        $stores = Store::where('user_id', 1)->get();
+        $stores = Store::isOwner()->get();
         return view('stores.all', compact('stores'));
     }
 
@@ -44,9 +45,15 @@ class StoresController extends Controller
      */
     public function store(StoreRequest $request)
     {
+    	/* Isto kao nacin ispod, neka sluzi kao podsetnik
+    	*  Kako sve moze
         $store = new Store($request->all());
         Auth::user()->stores()->save($store);
-        return redirect()->route('stores.create');
+		*/
+        $store = Auth::user()->stores()->create($request->all());
+        Session::flash('flash_success', 'Uspesno napravljena prodavnica');
+        
+        return redirect()->route('stores.show', [$store->id]);
     }
 
     /**

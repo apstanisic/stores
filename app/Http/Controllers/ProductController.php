@@ -16,7 +16,7 @@ class ProductController extends Controller
         Vrednost se stavlja u konstruktoru
     */
 
-    private $productStore;
+    private $store;
 
 
 
@@ -32,7 +32,7 @@ class ProductController extends Controller
          */
 
         if ($request->route()) {
-            $this->productStore = Store::findOrFail(Route::input('store'));
+            $this->store = Store::findOrFail(Route::input('store'));
         }
     }
 
