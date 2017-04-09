@@ -1,9 +1,9 @@
 @extends('layouts.base')
 
 
-@section('stylesheet')
-<link rel="stylesheet" href="{{ asset('css/sticky.css') }}">
-@endsection
+@push('stylesheet')
+	<link rel="stylesheet" href="{{ asset('css/sticky.css') }}">
+@endpush
 
 @section('body')
 

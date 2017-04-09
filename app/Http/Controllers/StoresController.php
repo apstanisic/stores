@@ -51,6 +51,7 @@ class StoresController extends Controller
         Auth::user()->stores()->save($store);
 		*/
         $store = Auth::user()->stores()->create($request->all());
+        
         Session::flash('flash_success', 'Uspesno napravljena prodavnica');
         
         return redirect()->route('stores.show', [$store->id]);

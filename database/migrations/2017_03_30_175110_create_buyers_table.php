@@ -13,6 +13,7 @@ class CreateBuyersTable extends Migration
      */
     public function up()
     {
+       /*
         Schema::create('buyers', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('store_id')->unsigned();
@@ -26,6 +27,7 @@ class CreateBuyersTable extends Migration
                   ->references('id')
                   ->on('stores');
         });
+        */
     }
 
     /**
@@ -35,6 +37,6 @@ class CreateBuyersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('buyers');
+        // Schema::dropIfExists('buyers');
     }
 }

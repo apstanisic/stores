@@ -2,8 +2,7 @@
 
 
 @php
-	// Sluzi kao inkrement za redni broj radnje
-	$i = 1;
+	$i = 1; // Sluzi kao inkrement za redni broj radnje
 @endphp
 
 @section('content')
@@ -59,3 +58,4 @@
 	@endif
 
 @endsection
+

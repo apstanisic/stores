@@ -16,13 +16,14 @@
 
 	<!-- Bootstrap 4 -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+	
 	<!-- Bootstrap 4 Material Theme-->
 	{{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.3.0/css/mdb.min.css"> --}}
 
 	<!-- Custom css -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <!-- Additional css -->
-	@yield('stylesheet')
+	@stack('stylesheet')
 	
 	<!-- End additional css -->
 	<!-- End custom css -->

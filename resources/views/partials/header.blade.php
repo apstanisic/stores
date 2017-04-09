@@ -5,7 +5,7 @@
 	<a class="navbar-brand" href="{{ url('/') }}">Navbar</a>
 
 	<div class="collapse navbar-collapse text-center" id="navbarTogglerDemo02">
-
+		{{-- Uraditi dinamicki --}}
 		<ul class="navbar-nav mr-auto mt-2 mt-md-0">
 			<li class="nav-item border-bottom-lightgrey py-2 py-sm-0">
 				<a class="nav-link" href="{{ url('/zasto_mi') }}">Zasto mi</a>
@@ -23,7 +23,8 @@
 				<a class="nav-link" href="{{ url('/cenovnik') }}">Cenovnik</a>
 			</li>
 		</ul>
-
+		{{-- @end --}}
+	
 		<div>
 		 	@if (Auth::check())
 				<form action="{{ route('logout') }}" method="post">

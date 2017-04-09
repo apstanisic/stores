@@ -36,6 +36,10 @@ class User extends Authenticatable
         return $this->hasMany('App\Store');
     }
 
+    public function roles() {
+    	return $this->belongsToMany('App\Role')->withTimestamps();
+    }
+
     public function isStoreOwner ($store) {
 
         // Dohvata prodavnicu kojoj je vlasnik i ima 

@@ -17,7 +17,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-                // TODO // Skinuti kada se stavi nova verzija mysql-a
+        // TODO // Skinuti kada se stavi nova verzija mysql-a
         Schema::defaultStringLength(191);
     }
 
