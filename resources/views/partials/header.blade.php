@@ -22,6 +22,9 @@
 			<li class="nav-item border-bottom-lightgrey py-2 py-sm-0">
 				<a class="nav-link" href="{{ url('/cenovnik') }}">Cenovnik</a>
 			</li>
+			<li class="nav-item border-bottom-lightgrey py-2 py-sm-0">
+				<a class="nav-link" href="{{ route('stores.create') }}">Napravi prodavnicu</a>
+			</li>
 		</ul>
 		{{-- @end --}}
 	
@@ -32,8 +35,8 @@
 					<button type="submit" class="btn btn-outline-secondary my-3 my-md-0 mx-1">Logout</button>
 				</form>
 	 		@else
-				<a href="{{ url('/login') }}" class="btn btn-outline-secondary my-3 my-md-0 mx-1" >Login</a>
-		      	<a href="{{ url('/register') }}" class="btn btn-outline-secondary my-3 my-md-0 mx-1" >Sign Up</a>
+				<a href="{{ route('login') }}" class="btn btn-outline-secondary my-3 my-md-0 mx-1" >Login</a>
+		      	<a href="{{ route('register') }}" class="btn btn-outline-secondary my-3 my-md-0 mx-1" >Sign Up</a>
 	      	@endif
 		</div>
 	</div>

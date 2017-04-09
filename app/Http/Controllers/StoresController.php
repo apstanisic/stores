@@ -94,6 +94,8 @@ class StoresController extends Controller
 
         $store->update($request->all());
 
+        Session::flash('flash_success', 'Uspesno izmenjena prodavnica');
+
         return redirect()->route('stores.show', [$id]);
     }
 

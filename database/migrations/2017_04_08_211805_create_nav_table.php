@@ -18,6 +18,8 @@ class CreateNavTable extends Migration
         	$table->increments('id');
         	$table->string('name');
         	$table->text('path');
+        	$table->text('icon');
+        	$table->timestamps();
 
         });
     }

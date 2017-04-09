@@ -1,5 +1,8 @@
 {{ csrf_field() }}
-<label for="storeName">Naziv prodavnice
+<div class="form-group">
+	<label for="storeName" class="d-block text-center h5">Naziv</label>
 	<input type="text" name="name" class="form-control" id="storeName" value="{{ $store->name or old('name') }}">
-</label>
-<button type="submit" class="btn btn-warning">{{ $submitButton }}</button>
+</div>
+<div class="form-group">
+	<button type="submit" class="btn btn-warning btn-block">{{ $submitButton }}</button>
+</div>

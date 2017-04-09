@@ -17,6 +17,7 @@ class CreatePremissionsTable extends Migration
 
         	$table->increments('id');
         	$table->string('name');
+        	$table->text('readable');
         	$table->timestamps();
         	
         });

@@ -1,3 +1,4 @@
+@include('partials.errors')
 @if (Session::has('flash_danger'))
 	<div class="alert alert-danger my-2  alert-dismissible fade show text-center" role="alert">
 	  	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -18,4 +19,3 @@
 	  	</p>
 	</div>
 @endif
-@include('partials.errors')

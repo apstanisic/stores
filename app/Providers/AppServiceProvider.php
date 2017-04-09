@@ -19,6 +19,7 @@ class AppServiceProvider extends ServiceProvider
     {
         // TODO // Skinuti kada se stavi nova verzija mysql-a
         Schema::defaultStringLength(191);
+
     }
 
     /**

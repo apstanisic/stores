@@ -2,10 +2,10 @@
 
 
 @section('content')
-	@include('partials.errors')
-	<form method="post" action="{{ route('stores.update', [$store->id]) }}">
+	<h1 class="text-center mt-5 mb-3">Izmeni prodavnicu</h1>
+	<form method="post" action="{{ route('stores.update', [$store->id]) }}" class="my-5 max-750 mx-auto">
 		<input type="hidden" name="_method" value="patch">
-		@include('stores.form', ['submitButton' => 'Promeni ime'])
+		@include('stores.form', ['submitButton' => 'Izmeni'])
 	</form>
 
 
