@@ -3,11 +3,9 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Route;
-use Auth;
 use App\Store;
 
-class RedirectIfNotTheOwner
+class RedirectIfCategoryNotInStore
 {
     /**
      * Handle an incoming request.
@@ -19,12 +17,16 @@ class RedirectIfNotTheOwner
     public function handle($request, Closure $next)
     {
 
-        // TODO : verovatno ima lepsi nacin da se uzme input
-        // Ako nije vlasnik prodavnice vrati ga na sve prodavnice
+    	// Prodavnica iz url-a
+    	$store = Store::find($request->store);
 
-        if(!$request->user()->isStoreOwner($request->store)){
-            return redirect()->route('stores.index');
-        }
+    	// Ako prodavnica nema kategoriju iz url-a
+		if(!$store->hasCategory($request->category)){
+
+			// Vrati na sve kategorije iz prodavnice
+			return redirect()->route('categories.index', [$store->id]);
+
+		}
 
         return $next($request);
     }

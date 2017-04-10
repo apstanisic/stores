@@ -116,7 +116,7 @@
 
 		<div class="content container min-250 overflow-hidden">
 			@include('partials.flash')
-			@yield('content', compact('store'))
+			@yield('content')
 		</div>
 	</div>
 

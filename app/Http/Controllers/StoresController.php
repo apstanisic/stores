@@ -112,6 +112,9 @@ class StoresController extends Controller
     public function destroy($id)
     {
         Store::destroy($id);
+
+        Session::flash('flash_success', 'Uspesno izbrisana prodavnica');
+
         return redirect()->route('stores.index');
     }
 }

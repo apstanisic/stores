@@ -3,13 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
-use Request;
-use Validator;
-use App\Category;
-use Route;
 
-class CategoryRequest extends FormRequest
+class ProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -18,7 +13,7 @@ class CategoryRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -28,20 +23,17 @@ class CategoryRequest extends FormRequest
      */
     public function rules()
     {
-
         return [
             'name' => 'required|min:3',
-            'parent_id' => [
-            	// parent_id moze da bude null
-            	'nullable',
-            	// ako nije null mora da postoji u tabeli categories u tabeli id
+            // 'description' => 'required'
+            'price' => 'numeric',
+            'remaining' => 'numeric|nullable'
+            'category_id' => [
+
+	            'numeric',
             	Rule::exists('categories', 'id')->where(function($query) {
             		// I prodavnica iz url-a mora da bude prodavnica iz tabele
             		$query->where('store_id', Route::input('store'));
-
-            		// Roditelj mora da nema svog roditelja
-            		//$query->where('parent_id', null);
-            		
             	}),
             ]
         ];

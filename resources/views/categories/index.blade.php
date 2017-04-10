@@ -13,10 +13,15 @@
 		</div>
 	@else
 		<div class="container">
-			<h2 class="h1 text-center my-4">Vase kategorije</h2>
+			<h2 class="text-center my-4">Kategorije u prodavnici "{{ $store->name }}"</h2>
 			<div class="table-responsive">
 			<table class="table table-hover">
 				<thead class="thead-default">
+					<tr>
+						<th colspan="6" class="text-center">
+							<a href="{{ route('categories.create', [$store->id]) }}">Napravi kategoriju</a>
+						</th>
+					</tr>
 					<tr>
 						<th class="w-50p">#</th>
 						<th class="text-center">Kategorija</th>

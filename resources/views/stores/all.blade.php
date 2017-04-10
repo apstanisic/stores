@@ -18,6 +18,11 @@
 			<table class="table table-hover">
 				<thead class="thead-default">
 					<tr>
+						<th colspan="3" class="text-center">
+							<a href="{{ route('stores.create') }}">Napravi prodavnicu</a>
+						</th>
+					</tr>
+					<tr>
 						<th class="w-50p">#</th>
 						<th class="text-center">Prodavnica</th>
 						<th class="text-center w-100p">Proizvodi</th>

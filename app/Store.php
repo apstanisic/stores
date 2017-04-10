@@ -31,4 +31,15 @@ class Store extends Model
     public function scopeIsOwner($query) {
 		$query->where('user_id', Auth::id());
 	}
+
+	public function hasCategory($category) {
+
+		$category = $this->categories()->find($category);
+
+		if (!$category) {
+			return false;
+		}
+
+		return true;
+	}
 }
