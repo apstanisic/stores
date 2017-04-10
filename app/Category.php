@@ -8,7 +8,7 @@ class Category extends Model
 {
 
 	protected $fillable = [
-		'name'
+		'name', 'parent_id'
 	];
 	
     public $timestamps = false;
@@ -16,7 +16,11 @@ class Category extends Model
 	
 
 
-    public function products () {
+    public function products() {
     	return $this->hasMany('App\Product');
+    }
+
+    public function parent() {
+    	return $this->belongsTo('App\Category');
     }
 }

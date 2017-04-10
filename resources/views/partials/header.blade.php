@@ -1,8 +1,15 @@
 <nav class="navbar navbar-toggleable-sm navbar-inverse bg-inverse">
+
 	<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 	</button>
-	<a class="navbar-brand" href="{{ url('/') }}">Navbar</a>
+
+	<a class="navbar-brand" href="{{ url('/') }}">
+		<h1 class="h3 my-0 p-0 ">
+			<img src="{{ asset('img/logo.png') }}" style="height: 32px;"/>
+			Oglasi
+		</h1>
+	</a>
 
 	<div class="collapse navbar-collapse text-center" id="navbarTogglerDemo02">
 		{{-- Uraditi dinamicki --}}

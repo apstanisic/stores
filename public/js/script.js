@@ -9,7 +9,8 @@ var sidebar = (function () {
 
 	function calculate() {
 		if($document.width() >= 1000){
-			$sidebar.addClass('min-250');
+			// TODO : Na ucitavanju da postavlja duzinu
+			// $sidebar.addClass('min-250');
 		}
 	}
 

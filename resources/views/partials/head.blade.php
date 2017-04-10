@@ -4,6 +4,9 @@
     
 	<title>Aleksandar</title>
 
+	<!-- Created by:  http://www.kameleon.pics  -->
+	<link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
+	
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 

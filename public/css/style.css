@@ -55,9 +55,23 @@ body {
   max-width: 300px;
 }
 
+.sidebar a:hover, 
+.sidebar button:hover {
+	text-decoration: none;
+}
+
+/*
+.sidebar a:active i, 
+.sidebar button:active i,
+*/ 
+.sidebar a:hover i, 
+.sidebar button:hover i {
+  transform: scale(1.5);
+}
+
  /* ======== */
 
-/* Buttons */
+/* Buttons and links */
 button {
   cursor: pointer;
 }
@@ -75,7 +89,6 @@ button:focus, button:active {
   outline:none;
   padding: 0px;
 }
-
 
 /* =========== */
 

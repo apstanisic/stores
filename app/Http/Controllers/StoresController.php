@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreRequest;
 use App\Store;
+use App\Category;
 use Auth;
 use Session;
 
@@ -51,6 +52,9 @@ class StoresController extends Controller
         Auth::user()->stores()->save($store);
 		*/
         $store = Auth::user()->stores()->create($request->all());
+
+        // Pravi default kategoriju koji korisnik moze da brise
+        $store->categories()->create(['name' => 'Nesvrstano']);
         
         Session::flash('flash_success', 'Uspesno napravljena prodavnica');
         
