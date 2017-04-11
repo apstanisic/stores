@@ -25,7 +25,7 @@ class StoresController extends Controller
     public function index()
     {
         $stores = Store::isOwner()->get();
-        return view('stores.all', compact('stores'));
+        return view('stores.index', compact('stores'));
     }
 
     /**
@@ -67,9 +67,10 @@ class StoresController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Store $store)
     {
-        $store = Store::findOrFail($id);
+    	// Ako se prosledjuje id, a ne objekat
+        // $store = Store::findOrFail($id);
         return view('stores.show', compact('store'));
     }
 
@@ -79,9 +80,10 @@ class StoresController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Store $store)
     {
-        $store = Store::findOrFail($id);
+    	// Ako se prosledjuje id, a ne objekat
+        //$store = Store::findOrFail($id);
         return view('stores.edit', compact('store'));
     }
 
@@ -92,9 +94,10 @@ class StoresController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreRequest $request, $id)
+    public function update(StoreRequest $request, Store $store)
     {
-        $store = Store::findOrFail($id);
+    	// Ako se prosledjuje id, a ne objekat
+        //$store = Store::findOrFail($id);
 
         $store->update($request->all());
 
@@ -109,9 +112,11 @@ class StoresController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Store $store)
     {
-        Store::destroy($id);
+    	// Ako se prosledjuje id, a ne objekat
+        // Store::destroy($id);
+    	$store->delete();
 
         Session::flash('flash_success', 'Uspesno izbrisana prodavnica');
 

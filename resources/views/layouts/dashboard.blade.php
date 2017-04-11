@@ -77,17 +77,18 @@
 			</a>
 
 
-
-
-	
-			<a href="#" class="text-lightgrey">
-				<div class="sidebar-block text-danger">
-					<div class="sidebar-icon">
-						<i class="fa fa-trash" aria-hidden="true"></i>
+			<form action="{{ route('stores.destroy', [$store->id]) }}" method="post">
+				{{ csrf_field() }}
+				<input type="hidden" name="_method" value="delete">
+				<button type="submit" class="btn-transparent text-lightgrey">
+					<div class="sidebar-block">
+						<div class="sidebar-icon">
+							<i class="fa fa-trash" aria-hidden="true"></i>
+						</div>
+						<span class="sidebar-text">Izbrisi prodavnicu</span>
 					</div>
-					<span class="sidebar-text">Izbrisi prodavnicu</span>
-				</div>
-			</a>			
+				</button>
+			</form>	
 
 	
 
