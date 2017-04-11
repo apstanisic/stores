@@ -19,12 +19,12 @@ class Product extends Model
 
 	public function store () 
 	{
-		return $this->belongsTo('App\Store');
+		return $this->belongsTo(Store::class);
 	}
 
 
 	public function images () 
 	{
-		return $this->hasMany('App\Image');
+		return $this->hasMany(Image::class);
 	}
 }

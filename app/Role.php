@@ -9,11 +9,11 @@ class Role extends Model
 
     public function users()
     {
-    	$this->belongsToMany('App\User')->withTimestamps();
+    	$this->belongsToMany(User::class)->withTimestamps();
     }
 
     public function premissions()
     {
-    	return $this->belongsToMany('App\Premission')->withTimestamps();
+    	return $this->belongsToMany(Premission::class)->withTimestamps();
     }
 }

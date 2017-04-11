@@ -33,11 +33,11 @@ class User extends Authenticatable
     * Korisnik moze da ima vise prodavnica
     */
     public function stores () {
-        return $this->hasMany('App\Store');
+        return $this->hasMany(Store::class);
     }
 
     public function roles() {
-    	return $this->belongsToMany('App\Role')->withTimestamps();
+    	return $this->belongsToMany(Role::class)->withTimestamps();
     }
 
     public function isStoreOwner ($store) {

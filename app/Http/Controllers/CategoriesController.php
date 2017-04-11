@@ -12,7 +12,7 @@ use Session;
 class CategoriesController extends Controller
 {
 
-	private $store;
+	//private $store;
 
 	// Mozda bolje ovo negu u dve metode da se dohvataju kategorije
 	//private $parents = $this->store->categories;
@@ -23,20 +23,24 @@ class CategoriesController extends Controller
         $this->middleware(['auth', 'owner']);
         $this->middleware('categoryInStore')->except('index', 'create', 'store');
 
-        if ($request->route()) {
-            $this->store = Store::findOrFail(Route::input('store'));
-        }
+
+        // Treba ako se prosledjuje id store, a ne objekat
+        // if ($request->route()) {
+        //     $this->store = Store::findOrFail(Route::input('store'));
+        // }
+
+
         // Ovako se deli var sa svim view-ima
-        // view()->share('store', $this->store);
+        // view()->share('store', $store);
     }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($store)
+    public function index(Store $store)
     {
-    	$categories = $this->store->categories;
+    	$categories = $store->categories;
 
         return view('categories.index', compact('categories'));
     }
@@ -46,7 +50,7 @@ class CategoriesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($store)
+    public function create(Store $store)
     {
     	/*
     	Ako hocu samo glavne kategorije
@@ -55,7 +59,7 @@ class CategoriesController extends Controller
 
 		// Sve kategorije koje mogu da budu roditelji
 		// Napravljene kategorije
-    	$parents = $this->store->categories;
+    	$parents = $store->categories;
 
         return view('categories.create', compact('parents'));
     }
@@ -66,13 +70,13 @@ class CategoriesController extends Controller
      * @param  App\Http\Requests\CategoryRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CategoryRequest $request, $store)
+    public function store(CategoryRequest $request, Store $store)
     {
-        $this->store->categories()->create($request->all());
+        $store->categories()->create($request->all());
 
         Session::flash('flash_success', 'Uspesno napravljena kategorija');
 
-        return redirect()->route('categories.index', [$this->store->id]);
+        return redirect()->route('categories.index', [$store->id]);
     }
 
     /**
@@ -81,9 +85,9 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($store, $id)
+    public function show(Store $store, Category $category)
     {
-        $category = Category::findOrFail($id);
+        //$category = Category::findOrFail($id);
 
         return view('categories.show', compact('category'));
     }
@@ -94,11 +98,11 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($store, $id)
+    public function edit(Store $store, Category $category)
     {
-        $parents = $this->store->categories;
+        $parents = $store->categories;
 
-        $category = Category::findOrFail($id);
+        //$category = Category::findOrFail($id);
 
         return view('categories.edit', compact('parents', 'category'));
     }
@@ -110,15 +114,15 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CategoryRequest $request, $store, $id)
+    public function update(CategoryRequest $request, Store $store, Category $category)
     {
-        $category = Category::findOrFail($id);
+        //$category = Category::findOrFail($id);
 
         $category->update($request->all());
 
         Session::flash('flash_success', 'Uspesno izmenjena kategorija');
 
-        return redirect()->route('categories.show', [$store, $id]);
+        return redirect()->route('categories.show', [$store->id, $category->id]);
     }
 
     /**
@@ -127,17 +131,19 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($store, $id)
+    public function destroy(Store $store, Category $category)
     {
-        Category::destroy($id);
+        // Category::destroy($id);
+        
+    	$category->delete();
 
         Session::flash('flash_success', 'Uspesno izbrisana kategorija');
 
-        return redirect()->route('categories.index', [$store]);
+        return redirect()->route('categories.index', [$store->id]);
     }
 
 
-    public function products($store, $id)
+    public function products(Store $store, Category $category)
     {
     	// Lists all products from selected category
     }

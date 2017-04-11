@@ -18,7 +18,7 @@
 		        </div>
 
 		        <div class="col-12 col-md-6">
-		        	@include('forms.auth.register', compact($format = ['hideLabel' => true, 'large' => true, 'placeholder' => true]))
+		        	@include('auth.forms.register', compact($format = ['hideLabel' => true, 'large' => true, 'placeholder' => true]))
 				</div>
 
 		    </div>

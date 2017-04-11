@@ -10,13 +10,7 @@ use App\Product;
 class ProductsController extends Controller
 {
 
-    /*
-        Svaki proizvod ima prodavnicu kojoj pripada
-        Svaka metoda ima pristup toj prodavnici
-        Vrednost se stavlja u konstruktoru
-    */
 
-    private $store;
 
 
 
@@ -24,16 +18,21 @@ class ProductsController extends Controller
     {
         $this->middleware(['auth', 'owner']);
 
+        /*
+			Uradjen route model binding
+        */
+
         /**
-         * TODO : napravi nadkontroler za sve kontrolere koje imaju store u url
+         * DONE : napravi nadkontroler za sve kontrolere koje imaju store u url
          * Dohvata store jer svaka metoda ime store, dohvata iz url-a.  
          * Proverava se $request->route() jer prilikom route:list
          * ne Route::input, tako da mora prvo da se proveri
          */
 
-        if ($request->route()) {
-            $this->store = Store::findOrFail(Route::input('store'));
-        }
+        // 
+        // if ($request->route()) {
+        //     $this->store = Store::findOrFail(Route::input('store'));
+        // }
     }
 
 
@@ -42,7 +41,7 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($store)
+    public function index(Store $store)
     {
         //
     }
@@ -52,7 +51,7 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($store)
+    public function create(Store $store)
     {
         //
     }
@@ -63,7 +62,7 @@ class ProductsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $store)
+    public function store(Request $request, Store $store)
     {
         //
     }
@@ -74,7 +73,7 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($store, $id)
+    public function show(Store $store, $id)
     {
         $product = Product::findOrFail($id);
     }
@@ -85,7 +84,7 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($store, $id)
+    public function edit(Store $store, $id)
     {
         //
     }
@@ -97,7 +96,7 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$store, $id)
+    public function update(Request $request, Store $store, $id)
     {
         //
     }
@@ -108,7 +107,7 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($store, $id)
+    public function destroy(Store $store, $id)
     {
         //
     }

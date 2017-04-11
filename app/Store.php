@@ -15,15 +15,16 @@ class Store extends Model
     
 	// Prodavnica pripada user-u
     public function user () {
-    	return $this->belongsTo('App\User');
+    	// return $this->belongsTo('App\User');
+    	$this->belongsTo(User::class);
     }
 
     public function categories () {
-    	return $this->hasMany('App\Category');
+    	return $this->hasMany(Category::class);
     }
 
     public function products () {
-    	return $this->hasMany('App\Product');
+    	return $this->hasMany(Product::class);
     }
 
 
@@ -41,5 +42,9 @@ class Store extends Model
 		}
 
 		return true;
+	}
+
+	public static function url() {
+		return \Route::input('store');
 	}
 }

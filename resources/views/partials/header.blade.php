@@ -23,15 +23,15 @@
 			<li class="nav-item border-bottom-lightgrey py-2 py-sm-0">
 				<a class="nav-link" href="{{ url('/upustva') }}">Upustva</a>
 			</li>
-			<li class="nav-item border-bottom-lightgrey py-2 py-sm-0">
+			{{-- <li class="nav-item border-bottom-lightgrey py-2 py-sm-0">
 				<a class="nav-link" href="{{ url('/kontakt') }}">Kontakt</a>
-			</li>
+			</li> --}}
 			<li class="nav-item border-bottom-lightgrey py-2 py-sm-0">
 				<a class="nav-link" href="{{ url('/cenovnik') }}">Cenovnik</a>
 			</li>
-			<li class="nav-item border-bottom-lightgrey py-2 py-sm-0">
+			{{-- <li class="nav-item border-bottom-lightgrey py-2 py-sm-0">
 				<a class="nav-link" href="{{ route('stores.create') }}">Napravi prodavnicu</a>
-			</li>
+			</li> --}}
 		</ul>
 		{{-- @end --}}
 	

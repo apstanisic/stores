@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use App\Store;
+use Route;
 
 class RedirectIfCategoryNotInStore
 {
@@ -16,9 +17,11 @@ class RedirectIfCategoryNotInStore
      */
     public function handle($request, Closure $next)
     {
-
     	// Prodavnica iz url-a
-    	$store = Store::find($request->store);
+    	//$store = Store::find($request->store);
+
+		// $store = Route::input('store');
+		$store = Store::url();
 
     	// Ako prodavnica nema kategoriju iz url-a
 		if(!$store->hasCategory($request->category)){

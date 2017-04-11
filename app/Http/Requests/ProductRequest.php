@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Store;
 
 class ProductRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class ProductRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -33,7 +34,7 @@ class ProductRequest extends FormRequest
 	            'numeric',
             	Rule::exists('categories', 'id')->where(function($query) {
             		// I prodavnica iz url-a mora da bude prodavnica iz tabele
-            		$query->where('store_id', Route::input('store'));
+            		$query->where('store_id', Store::url()->id);
             	}),
             ]
         ];

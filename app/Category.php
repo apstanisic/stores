@@ -15,10 +15,11 @@ class Category extends Model
 
 
     public function products() {
-    	return $this->hasMany('App\Product');
+    	return $this->hasMany(Product::class);
     }
 
     public function parent() {
-    	return $this->belongsTo('App\Category');
+    	// return $this->belongsTo('App\Category');
+    	return $this->belongsTo(Category::class);
     }
 }

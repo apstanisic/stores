@@ -1,7 +1,7 @@
 {{ csrf_field() }}
 <div class="form-group">
 	<label for="categoryName" class="d-block text-center h5">Naziv</label>
-	<input type="text" name="name" class="form-control" id="categoryName" value="{{ $category->name or old('name') }}">
+	<input type="text" name="name" class="form-control" id="categoryName" value="{{ $category->name or old('name') }}" required>
 </div>
 <div class="form-group">
 	<label for="categoryParent" class="d-block text-center h5">Nadkategorija</label>

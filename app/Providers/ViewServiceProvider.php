@@ -17,7 +17,6 @@ class ViewServiceProvider extends ServiceProvider
     public function boot()
     {
     	$this->getStoreFromRoute();
-
     }
 
     /**
@@ -42,8 +41,10 @@ class ViewServiceProvider extends ServiceProvider
     		'products.*'
     	];
 
+		// Ako se prosledjuje id
+		// Store::findOrFail(Route::input('store'))
         view()->composer($views, function($view) {
-        	$view->with('store', Store::findOrFail(Route::input('store')));
+        	$view->with('store', Store::url());
         });
     }
 }

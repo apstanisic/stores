@@ -4,10 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Request;
-use Validator;
 use App\Category;
-use Route;
+use App\Store;
 
 class CategoryRequest extends FormRequest
 {
@@ -37,7 +35,7 @@ class CategoryRequest extends FormRequest
             	// ako nije null mora da postoji u tabeli categories u tabeli id
             	Rule::exists('categories', 'id')->where(function($query) {
             		// I prodavnica iz url-a mora da bude prodavnica iz tabele
-            		$query->where('store_id', Route::input('store'));
+            		$query->where('store_id', Store::url()->id);
 
             		// Roditelj mora da nema svog roditelja
             		//$query->where('parent_id', null);
