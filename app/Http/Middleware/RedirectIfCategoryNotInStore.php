@@ -27,7 +27,7 @@ class RedirectIfCategoryNotInStore
 		if(!$store->hasCategory($request->category)){
 
 			// Vrati na sve kategorije iz prodavnice
-			return redirect()->route('categories.index', [$store->id]);
+			return redirect()->route('stores.categories.index', [$store->id]);
 
 		}
 

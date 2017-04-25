@@ -58,5 +58,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'owner' => \App\Http\Middleware\RedirectIfNotTheOwner::class,
         'categoryInStore' => \App\Http\Middleware\RedirectIfCategoryNotInStore::class,
+        'productInStore' => \App\Http\Middleware\RedirectIfProductNotInStore::class
     ];
 }

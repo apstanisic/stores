@@ -3,7 +3,7 @@
 
 @section('body')
 	<div class="d-flex">
-	
+
 		<div class="sidebar bg-inverse pt-2 d-inline" id="sidebar">
 
 				<button type="button" class="btn-transparent text-lightgrey" id="sidebarToggle">
@@ -35,7 +35,7 @@
 					<span class="sidebar-text">Pocetna</span>
 				</div>
 			</a>
-		
+
 
 			<a href="{{ route('stores.show', [$store->id]) }}" class="text-lightgrey">
 				<div class="sidebar-block">
@@ -47,7 +47,7 @@
 			</a>
 
 
-			<a href="{{ route('products.index', [$store->id]) }}" class="text-lightgrey">
+			<a href="{{ route('stores.products.index', [$store->id]) }}" class="text-lightgrey">
 				<div class="sidebar-block">
 					<div class="sidebar-icon">
 						<i class="fa fa-archive" aria-hidden="true"></i>
@@ -56,7 +56,7 @@
 				</div>
 			</a>
 
-			<a href="{{ route('categories.index', [$store->id]) }}" class="text-lightgrey">
+			<a href="{{ route('stores.categories.index', [$store->id]) }}" class="text-lightgrey">
 				<div class="sidebar-block">
 					<div class="sidebar-icon">
 						<i class="fa fa-list-alt" aria-hidden="true"></i>
@@ -88,9 +88,9 @@
 						<span class="sidebar-text">Izbrisi prodavnicu</span>
 					</div>
 				</button>
-			</form>	
+			</form>
 
-	
+
 
 			<a href="#" class="text-lightgrey">
 				<div class="sidebar-block">

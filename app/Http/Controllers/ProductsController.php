@@ -3,20 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\ProductRequest;
 use Route;
 use App\Store;
 use App\Product;
+use Session;
 
 class ProductsController extends Controller
 {
 
-
-
-
-
-    public function __construct(Request $request) 
+    public function __construct(Request $request)
     {
         $this->middleware(['auth', 'owner']);
+        $this->middleware('productInStore')->except('index', 'create', 'store');
 
         /*
 			Uradjen route model binding
@@ -24,12 +23,12 @@ class ProductsController extends Controller
 
         /**
          * DONE : napravi nadkontroler za sve kontrolere koje imaju store u url
-         * Dohvata store jer svaka metoda ime store, dohvata iz url-a.  
+         * Dohvata store jer svaka metoda ime store, dohvata iz url-a.
          * Proverava se $request->route() jer prilikom route:list
          * ne Route::input, tako da mora prvo da se proveri
          */
 
-        // 
+        //
         // if ($request->route()) {
         //     $this->store = Store::findOrFail(Route::input('store'));
         // }
@@ -43,7 +42,9 @@ class ProductsController extends Controller
      */
     public function index(Store $store)
     {
-        //
+
+        $products = $store->products()->latest()->get();
+        return view('products.index', compact('products'));
     }
 
     /**
@@ -53,7 +54,8 @@ class ProductsController extends Controller
      */
     public function create(Store $store)
     {
-        //
+        $categories = $store->categories;
+        return view('products.create', compact('categories'));
     }
 
     /**
@@ -62,9 +64,13 @@ class ProductsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Store $store)
+    public function store(ProductRequest $request, Store $store)
     {
-        //
+        $store->products()->create($request->all());
+
+        Session::flash('flash_success', 'Uspesno dodat proizvod');
+
+        return redirect()->route('stores.products.index', [$store->id]);
     }
 
     /**
@@ -73,9 +79,9 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Store $store, $id)
+    public function show(Store $store, Product $product)
     {
-        $product = Product::findOrFail($id);
+        return view('products.show', compact('product'));
     }
 
     /**
@@ -84,9 +90,11 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Store $store, $id)
+    public function edit(Store $store, Product $product)
     {
-        //
+        $categories = $store->categories;
+
+        return view('products.edit', compact('product', 'categories'));
     }
 
     /**
@@ -96,9 +104,13 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Store $store, $id)
+    public function update(ProductRequest $request, Store $store, Product $product)
     {
-        //
+        $product->update($request->all());
+
+        Session::flash('flash_success', 'Uspesno izmenjen proizvod');
+
+        return redirect()->route('stores.products.show', [$store->id, $product->id]);
     }
 
     /**
@@ -107,8 +119,12 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Store $store, $id)
+    public function destroy(Store $store, Product $product)
     {
-        //
+        $product->delete();
+
+        Session::flash('flash_success', 'Uspesno izbrisan proizvod');
+
+        return redirect()->route('stores.products.index', [$store->id]);
     }
 }

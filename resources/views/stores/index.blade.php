@@ -38,7 +38,7 @@
 							<td class="text-center h3"><a href="{{ route('stores.show', [$store->id]) }}">{{ $store->name }}</a></td>
 
 							<td class="text-center">
-								<a href="{{ route('products.index', [$store->id]) }}" class="btn btn-primary">
+								<a href="{{ route('stores.products.index', [$store->id]) }}" class="btn btn-primary">
 									<i class="fa fa-archive" aria-hidden="true"></i>
 								</a>
 							</td>
@@ -48,7 +48,7 @@
 									<i class="fa fa-pencil" aria-hidden="true"></i>
 								</a>
 							</td> --}}
-{{-- 
+{{--
 							<td class="text-center">
 								<form method="post" action="{{ route('stores.destroy', [$store->id]) }}" >
 									{{ csrf_field() }}

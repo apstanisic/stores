@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Store;
+use Illuminate\Validation\Rule;
 
 class ProductRequest extends FormRequest
 {
@@ -28,7 +29,7 @@ class ProductRequest extends FormRequest
             'name' => 'required|min:3',
             // 'description' => 'required'
             'price' => 'numeric',
-            'remaining' => 'numeric|nullable'
+            'remaining' => 'numeric|nullable',
             'category_id' => [
 
 	            'numeric',

@@ -1,6 +1,6 @@
 body {
   font-family: 'Raleway', sans-serif;
-  font-weight: 400; 
+  font-weight: 400;
 }
 
 
@@ -55,16 +55,16 @@ body {
   max-width: 300px;
 }
 
-.sidebar a:hover, 
+.sidebar a:hover,
 .sidebar button:hover {
 	text-decoration: none;
 }
 
 /*
-.sidebar a:active i, 
+.sidebar a:active i,
 .sidebar button:active i,
-*/ 
-.sidebar a:hover i, 
+*/
+.sidebar a:hover i,
 .sidebar button:hover i {
   transform: scale(1.5);
 }

@@ -12,7 +12,7 @@ use Session;
 class StoresController extends Controller
 {
 
-    public function __construct()
+	public function __construct()
     {
         $this->middleware('auth');
         $this->middleware('owner')->except('index', 'create', 'store');
@@ -35,7 +35,7 @@ class StoresController extends Controller
      */
     public function create()
     {
-        return view('stores.create');
+       return view('stores.create');
     }
 
     /**
@@ -55,9 +55,9 @@ class StoresController extends Controller
 
         // Pravi default kategoriju koji korisnik moze da brise
         $store->categories()->create(['name' => 'Nesvrstano']);
-        
+
         Session::flash('flash_success', 'Uspesno napravljena prodavnica');
-        
+
         return redirect()->route('stores.show', [$store->id]);
     }
 
@@ -87,8 +87,7 @@ class StoresController extends Controller
         return view('stores.edit', compact('store'));
     }
 
-    /**
-     * Menja prodavnicu u bazi.
+    /**     * Menja prodavnicu u bazi.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id

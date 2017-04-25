@@ -30,7 +30,14 @@ Auth::routes();
 
 Route::resource('stores', 'StoresController');
 
-Route::resource('stores/{store}/products', 'ProductsController');
 
-Route::resource('stores/{store}/categories', 'CategoriesController');
-Route::get('stores/{store}/categories/{category}/products', 'CategoriesController@products')->name('categories.products');
+
+Route::resource('stores.products', 'ProductsController');
+Route::resource('stores.categories', 'CategoriesController');
+Route::get('stores/{store}/categories/{category}/products', 'CategoriesController@products')->name('stores.categories.products');
+
+
+/* Rucni nacin nacin */
+// Route::resource('stores/{store}/products', 'ProductsController');
+// Route::resource('stores/{store}/categories', 'CategoriesController');
+// Route::get('stores/{store}/categories/{category}/products', 'CategoriesController@products')->name('categories.products');

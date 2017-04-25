@@ -76,7 +76,7 @@ class CategoriesController extends Controller
 
         Session::flash('flash_success', 'Uspesno napravljena kategorija');
 
-        return redirect()->route('categories.index', [$store->id]);
+        return redirect()->route('stores.categories.index', [$store->id]);
     }
 
     /**
@@ -122,7 +122,7 @@ class CategoriesController extends Controller
 
         Session::flash('flash_success', 'Uspesno izmenjena kategorija');
 
-        return redirect()->route('categories.show', [$store->id, $category->id]);
+        return redirect()->route('stores.categories.show', [$store->id, $category->id]);
     }
 
     /**
@@ -134,17 +134,20 @@ class CategoriesController extends Controller
     public function destroy(Store $store, Category $category)
     {
         // Category::destroy($id);
-        
+
     	$category->delete();
 
         Session::flash('flash_success', 'Uspesno izbrisana kategorija');
 
-        return redirect()->route('categories.index', [$store->id]);
+        return redirect()->route('stores.categories.index', [$store->id]);
     }
 
 
     public function products(Store $store, Category $category)
     {
+        $products = \App\Product::all()->where('category_id', $category->id);
+        return view('products.index', compact('products'));
+        dd($products);
     	// Lists all products from selected category
     }
 }

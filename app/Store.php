@@ -8,28 +8,28 @@ use Auth;
 class Store extends Model
 {
 
-    protected $fillable = [
-        'name'
-    ];
+	protected $fillable = [
+		'name'
+	];
 
-    
+
 	// Prodavnica pripada user-u
-    public function user () {
-    	// return $this->belongsTo('App\User');
-    	$this->belongsTo(User::class);
-    }
+	public function user () {
+		// return $this->belongsTo('App\User');
+		$this->belongsTo(User::class);
+	}
 
-    public function categories () {
-    	return $this->hasMany(Category::class);
-    }
+	public function categories () {
+		return $this->hasMany(Category::class);
+	}
 
-    public function products () {
-    	return $this->hasMany(Product::class);
-    }
+	public function products () {
+		return $this->hasMany(Product::class);
+	}
 
 
 	// Sve prodavnice ciji je vlasnik ulogovani korisnik
-    public function scopeIsOwner($query) {
+	public function scopeIsOwner($query) {
 		$query->where('user_id', Auth::id());
 	}
 
@@ -44,6 +44,18 @@ class Store extends Model
 		return true;
 	}
 
+	public function hasProduct($product)
+	{
+		$product = $this->products()->find($product);
+
+		if (!$product) {
+			return false;
+		}
+
+		return true;
+	}
+
+	// Dohvata prodavnicu preko url-a
 	public static function url() {
 		return \Route::input('store');
 	}
