@@ -6,6 +6,7 @@
 <p class="display-4 text-center">{{ $product->description }}</p>
 <p class="display-4 text-center">{{ $product->price }} din</p>
 <p class="display-4 text-center">{{ $product->remaining }}</p>
+<p class="display-4 text-center">{{ $product->category->name }}</p>
 <p class="display-4 text-center">{{ $product->store->name }}</p>
 
 Neki podaci o proizvodu <hr>

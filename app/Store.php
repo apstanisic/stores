@@ -12,7 +12,12 @@ class Store extends Model
 		'name'
 	];
 
-
+/* Route model binding sa name a ne sa id
+	public function getRouteKeyName()
+	{
+		return 'name';
+	}
+*/
 	// Prodavnica pripada user-u
 	public function user () {
 		// return $this->belongsTo('App\User');
