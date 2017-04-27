@@ -12,8 +12,8 @@ class Product extends Model
 		'description',
 		'price',
 		'remaining',
-		// 'store_id', // Ovo ne treba da bude fillable, jer ide store->product->create()
 		'category_id'
+		// 'store_id', // Ovo ne treba da bude fillable, jer ide store->product->create()
 	];
 
 

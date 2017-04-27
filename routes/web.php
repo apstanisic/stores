@@ -12,6 +12,8 @@
 */
 
 
+/* ====== TODO: UserController ======== */
+
 // Staticne stranice
 Route::get('/', 'PagesController@index');
 Route::get('/home', 'PagesController@index');
@@ -25,6 +27,11 @@ Route::get('/upustva', 'PagesController@guides');
 
 // Autentifikacija
 Auth::routes();
+Route::get('/profile', 'Auth\UserController@index')->name('user.index');
+Route::get('/profile/edit', 'Auth\UserController@edit')->name('user.edit');
+Route::patch('/profile', 'Auth\UserController@update')->name('user.update');
+Route::patch('/profile/password', 'Auth\UserController@updatePassword')->name('user.updatePassword');
+Route::delete('/profile', 'Auth\UserController@destroy')->name('user.destroy');
 
 //Route::get('/home', 'HomeController@index');
 

@@ -15,18 +15,6 @@
 					</div>
 				</button>
 
-			{{-- <form action="{{ route('logout') }}" method="post">
-				{{ csrf_field() }}
-				<button type="submit" class="btn-transparent text-lightgrey">
-					<div class="sidebar-block">
-						<div class="sidebar-icon">
-							<i class="fa fa-sign-out" aria-hidden="true"></i>
-						</div>
-						<span class="sidebar-text">Izlogujte se</span>
-					</div>
-				</button>
-			</form> --}}
-
 			<a href="{{ route('stores.index') }}" class="text-lightgrey">
 				<div class="sidebar-block">
 					<div class="sidebar-icon">

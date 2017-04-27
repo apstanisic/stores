@@ -18,3 +18,17 @@ var sidebar = (function () {
 	$(window).on('load', calculate);
 
 })();
+
+var deleteProfile = (function() {
+
+	let $enableProfileDelete = $('#enableProfileDelete');
+	let $profileDelete = $('#profileDelete');
+
+	function enableDelete(event) {
+		$enableProfileDelete.remove();
+		$profileDelete.prop('disabled', false);
+	}
+
+	$('body').on('dblclick', $enableProfileDelete, enableDelete);
+
+})();

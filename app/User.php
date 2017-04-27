@@ -40,9 +40,20 @@ class User extends Authenticatable
     	return $this->belongsToMany(Role::class)->withTimestamps();
     }
 
+    public function products()
+    {
+        return $this->hasManyThrough(Product::class, Store::class);
+    }
+
+    public function productsCount()
+    {
+        // Bolje za bazu nego da se dohvataju svi pa da se onda broji
+        return $this->products()->count();
+    }
+
     public function isStoreOwner ($store) {
 
-        // Dohvata prodavnicu kojoj je vlasnik i ima 
+        // Dohvata prodavnicu kojoj je vlasnik i ima
         // id koji je prosledjen u url-u
         $store = Store::isOwner()->find($store);
 
@@ -53,6 +64,6 @@ class User extends Authenticatable
 
         // Ako je vlasnik vraca true
         return true;
-        
+
     }
 }
