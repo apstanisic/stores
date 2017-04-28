@@ -44,13 +44,14 @@ class UpdateProfileRequest extends FormRequest
                     'username' => [
                         'required',
                         'min:6',
-                        'max:30',
+                        'max:50',
                         'alpha_dash',
                         Rule::unique('users')->ignore($user->id)
                     ],
                     'email' => [
                         'required',
                         'email',
+                        'max:255',
                         Rule::unique('users')->ignore($user->id)
                     ]
                 ];

@@ -78,13 +78,13 @@ class UserController extends Controller
             'username' => 'required|in:' . auth()->user()->username
         ]);
 
-        return 'TODO: soft delete! Casscade prodavnica';
+        // return 'TODO: soft delete! Casscade prodavnica';
 
         auth()->user()->delete();
 
         Session::flash('flash_success', 'Uspesno izbrisan profil');
 
-        return redirect()->url('/');
+        return redirect('/');//->url('/');
     }
 
 }

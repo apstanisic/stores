@@ -11,18 +11,11 @@ class PagesController extends Controller
     {
         $this->middleware('guest', ['only' => 'index']);
     }
-    
+
     public function index ()
     {
     	return view('pages.welcome');
     }
-
-
-    public function prices ()
-    {
-    	return view('pages.prices');
-    }
-
 
     public function whyUs ()
     {
@@ -31,7 +24,7 @@ class PagesController extends Controller
 
     public function guides ()
     {
-    	return view('pages.guides');
+    	return view('layouts.master');
     }
 
     public function contact ()
@@ -39,10 +32,10 @@ class PagesController extends Controller
     	return view('layouts.master');
     }
 
-    public function users ()
-    {
-    	return view('layouts.master');
-    }
+    // public function users ()
+    // {
+    // 	return view('layouts.master');
+    // }
 
 
 }

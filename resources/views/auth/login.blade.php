@@ -2,6 +2,7 @@
 
 
 @section('body')
+@include('partials.flash')
 <div class="max-500 mx-auto mt-5">
 	<a href="{{ url('/') }}">
 		<div class="my-3 text-center">

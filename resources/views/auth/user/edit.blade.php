@@ -23,7 +23,7 @@
 				</div>
 
 				<div class="form-group">
-					<button type="submit" class="btn btn-warning btn-block">Izmeni podatke</button>
+					<button type="submit" class="btn btn-warning btn-block">Izmeni</button>
 				</div>
 
 			</form>
@@ -53,7 +53,7 @@
 				</div>
 
 				<div class="form-group">
-					<button type="submit" class="btn btn-warning btn-block">Izmeni podatke</button>
+					<button type="submit" class="btn btn-warning btn-block">Izmeni</button>
 				</div>
 
 			</form>
@@ -70,7 +70,7 @@
 				<div class="form-group">
 					<button type="button" class="btn btn-danger btn-block" id="enableProfileDelete">Dupli klik da omogucite brisanje</button>
 				</div>
-				<div  class="form-group" id="usernameProfileDeleteDiv" style="display: none;">
+				<div  class="form-group" id="profileDeleteHidden" style="display: none;">
 					<label for="usernameProfileDelete">Ukucajte vas username, da biste obrisali profil</label>
 					<input type="text" class="form-control" name="username" placeholder="Username" id="usernameProfileDelete">
 				</div>

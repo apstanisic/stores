@@ -1,9 +1,11 @@
+'use strict';
+
 var sidebar = (function () {
 
 	let $document = $(document);
 	let $sidebar = $('#sidebar');
 
-	function expend() {
+	function toggle() {
 		$sidebar.toggleClass('min-250');
 	}
 
@@ -14,26 +16,23 @@ var sidebar = (function () {
 		}
 	}
 
-	$('body').on('click', '#sidebarToggle', expend);
+	$('body').on('click', '#sidebarToggle', toggle);
 	$(window).on('load', calculate);
 
 })();
 
-var deleteProfile = (function() {
+var enableProfileDeleting = (function() {
 
-	let $enableProfileDelete = $('#enableProfileDelete');
-	let $profileDelete = $('#profileDelete');
-	// let $usernameProfileDelete = $('#usernameProfileDelete');
-	let $usernameProfileDeleteDiv = $('#usernameProfileDeleteDiv');
-
+	let $buttonEnable = $('#enableProfileDelete');
+	let $buttonDelete = $('#profileDelete');
+	let $hiddenInput = $('#profileDeleteHidden');
 
 	function enableDelete(event) {
-		$enableProfileDelete.remove();
-		$profileDelete.prop('disabled', false);
-		// $usernameProfileDelete.attr('type', 'text');
-		$usernameProfileDeleteDiv.show();
+		$buttonEnable.remove();
+		$buttonDelete.prop('disabled', false);
+		$hiddenInput.show();
 	}
 
-	$('body').on('dblclick', $enableProfileDelete, enableDelete);
+	$('body').on('dblclick', $buttonEnable, enableDelete);
 
 })();

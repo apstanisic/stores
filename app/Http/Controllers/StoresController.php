@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreRequest;
-use App\Store;
 use App\Category;
-use Auth;
+use App\Store;
 use Session;
+use Auth;
 
 class StoresController extends Controller
 {

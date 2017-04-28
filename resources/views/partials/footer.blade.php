@@ -2,12 +2,12 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-            	{{-- Footer linkovi 
+            	{{-- Footer linkovi
 				<ul></ul>
 				End footer linkovi --}}
             </div>
             <div class="col-12 text-center mt-2 h5"><span class="h6">Created by</span><strong>
-                <a href="#autor">
+                <a href="{{ route('about') }}">
                     AStanisic
                 </a></strong>
             </div>

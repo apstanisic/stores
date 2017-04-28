@@ -11,21 +11,14 @@
 |
 */
 
-
-/* ====== TODO: UserController ======== */
-
-// Staticne stranice
-Route::get('/', 'PagesController@index');
-Route::get('/home', 'PagesController@index');
-Route::get('/pocetna', 'PagesController@index');
-// Route::get('/cenovnik', 'PagesController@prices');
-// Route::get('/korisnici', 'PagesController@users');
-// Route::get('/zasto_mi', 'PagesController@whyUs');
-Route::get('/upustva', 'PagesController@guides');
-// Route::get('/kontakt', 'PagesController@contact');
+// For store owners
+Route::resource('stores', 'StoresController');
+Route::resource('stores.products', 'ProductsController');
+Route::resource('stores.categories', 'CategoriesController');
+Route::get('stores/{store}/categories/{category}/products', 'CategoriesController@products')->name('stores.categories.products');
 
 
-// Autentifikacija
+// Auth and user profile
 Auth::routes();
 Route::get('/profile', 'Auth\UserController@index')->name('user.index');
 Route::get('/profile/edit', 'Auth\UserController@edit')->name('user.edit');
@@ -33,18 +26,25 @@ Route::patch('/profile', 'Auth\UserController@update')->name('user.update');
 Route::patch('/profile/password', 'Auth\UserController@updatePassword')->name('user.updatePassword');
 Route::delete('/profile', 'Auth\UserController@destroy')->name('user.destroy');
 
-//Route::get('/home', 'HomeController@index');
 
-Route::resource('stores', 'StoresController');
+// For buyers
+
+/*
+	How to call stores for shopping and products??
+	Maybe FrontStores, BuyerStores, BuyerProducts
+*/
+
+// Route::get('users.stores.placeholder', 'PlaceholderController@index');
+// Route::get('users.stores.placeholder/item', 'PlaceholderController@index');
 
 
 
-Route::resource('stores.products', 'ProductsController');
-Route::resource('stores.categories', 'CategoriesController');
-Route::get('stores/{store}/categories/{category}/products', 'CategoriesController@products')->name('stores.categories.products');
 
 
-/* Rucni nacin nacin */
-// Route::resource('stores/{store}/products', 'ProductsController');
-// Route::resource('stores/{store}/categories', 'CategoriesController');
-// Route::get('stores/{store}/categories/{category}/products', 'CategoriesController@products')->name('categories.products');
+
+// Static pages
+Route::get('/', 'PagesController@index')->name('root');
+Route::get('/home', 'PagesController@index');
+Route::get('/about', 'PagesController@whyUs')->name('about');
+Route::get('/manuals', 'PagesController@guides')->name('manuals');
+Route::get('/contact', 'PagesController@contact')->name('contact');

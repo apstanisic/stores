@@ -15,19 +15,13 @@
 		{{-- Uraditi dinamicki --}}
 		<ul class="navbar-nav mr-auto mt-2 mt-md-0">
 			<li class="nav-item border-bottom-lightgrey py-2 py-sm-0">
-				<a class="nav-link" href="{{ url('/zasto_mi') }}">Zasto mi</a>
+				<a class="nav-link" href="{{ route('about') }}">Zasto mi</a>
 			</li>
 			<li class="nav-item border-bottom-lightgrey py-2 py-sm-0">
-				<a class="nav-link" href="{{ url('/korisnici') }}">Nasi korisnici</a>
+				<a class="nav-link" href="{{ route('manuals') }}">Upustva</a>
 			</li>
 			<li class="nav-item border-bottom-lightgrey py-2 py-sm-0">
-				<a class="nav-link" href="{{ url('/upustva') }}">Upustva</a>
-			</li>
-			{{-- <li class="nav-item border-bottom-lightgrey py-2 py-sm-0">
-				<a class="nav-link" href="{{ url('/kontakt') }}">Kontakt</a>
-			</li> --}}
-			<li class="nav-item border-bottom-lightgrey py-2 py-sm-0">
-				<a class="nav-link" href="{{ url('/cenovnik') }}">Cenovnik</a>
+				<a class="nav-link" href="{{ route('contact') }}">Kontakt</a>
 			</li>
 			{{-- <li class="nav-item border-bottom-lightgrey py-2 py-sm-0">
 				<a class="nav-link" href="{{ route('stores.create') }}">Napravi prodavnicu</a>
