@@ -5,7 +5,7 @@
 
 <div class="container">
 	<div class="row">
-		<div class="col-lg mt-4">
+		<div class="col-lg mt-4 d-flex justify-content-center align-items-stretch flex-column border-1 mx-2">
 			<p class="h2 text-center">Izmenite podatke</p>
 
 			<form action="{{ route('user.update') }}" method="post">
@@ -30,7 +30,7 @@
 
 		</div>
 
-		<div class="col-lg mt-4">
+		<div class="col-lg mt-4 border-1 mx-2 py-3">
 			<p class="h2 text-center">Izmenite lozinku</p>
 
 			<form action="{{ route('user.updatePassword') }}" method="post">
@@ -60,12 +60,20 @@
 
 		</div>
 
-		<div class="col-12 mt-4">
+		<div class="col-12 mt-4 border-1 p-3">
 			<form action="{{ route('user.destroy') }}" method="post">
 				{{ csrf_field() }}
 				<input type="hidden" name="_method" value="delete">
-				<button type="submit" class="btn btn-danger btn-block" id="profileDelete" disabled>Izbrisi profil</button>
-				<button type="button" class="btn btn-danger btn-block" id="enableProfileDelete">Dupli klik da omogucite brisanje</button>
+				<div class="form-group">
+					<button type="submit" class="btn btn-danger btn-block" id="profileDelete" disabled>Izbrisi profil</button>
+				</div>
+				<div class="form-group">
+					<button type="button" class="btn btn-danger btn-block" id="enableProfileDelete">Dupli klik da omogucite brisanje</button>
+				</div>
+				<div  class="form-group" id="usernameProfileDeleteDiv" style="display: none;">
+					<label for="usernameProfileDelete">Ukucajte vas username, da biste obrisali profil</label>
+					<input type="text" class="form-control" name="username" placeholder="Username" id="usernameProfileDelete">
+				</div>
 			</form>
 		</div>
 

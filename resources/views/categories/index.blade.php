@@ -9,7 +9,7 @@
 		<div class="h1 text-center my-5">
 			<h2>Nemate nijednu kategoriju</h2>
 			<p class="h3">Morate imati makar jednu kategoriju da bi napravili proizvod</p>
-			<a href="{{ route('stores.categories.create') }}" class="">Napravite kategoriju</a>
+			<a href="{{ route('stores.categories.create', [$store->id]) }}" class="">Napravite kategoriju</a>
 		</div>
 	@else
 		<div class="container">

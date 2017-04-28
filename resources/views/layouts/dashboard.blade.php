@@ -80,7 +80,7 @@
 
 
 
-			<a href="#" class="text-lightgrey">
+			<a href="{{ route('user.index') }}" class="text-lightgrey">
 				<div class="sidebar-block">
 					<div class="sidebar-icon">
 						<i class="fa fa-user" aria-hidden="true"></i>

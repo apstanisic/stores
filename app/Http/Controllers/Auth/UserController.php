@@ -70,9 +70,15 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy()
+    public function destroy(Request $request)
     {
-        return 'Nije omoguceno brisanje korisnika, uskoro!';
+        // Korisnik mora da unese svoje korisnicko ime da bi izbrisao profil,
+        // Da ne bi doslo do slucajnog brisanja
+        $this->validate($request, [
+            'username' => 'required|in:' . auth()->user()->username
+        ]);
+
+        return 'TODO: soft delete! Casscade prodavnica';
 
         auth()->user()->delete();
 

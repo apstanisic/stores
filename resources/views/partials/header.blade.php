@@ -7,7 +7,7 @@
 	<a class="navbar-brand" href="{{ url('/') }}">
 		<h1 class="h3 my-0 p-0 ">
 			<img src="{{ asset('img/logo.png') }}" style="height: 32px;"/>
-			Oglasi
+			MyStore
 		</h1>
 	</a>
 

@@ -12,7 +12,7 @@
 
 <div class="form-group">
 	<label for="productPrice" class="d-block text-center h5">Cena u dinarima</label>
-	<input type="number" name="price" class="form-control" id="productPrice" min="0" value="{{ $product->price or old('name') }}" required>
+	<input type="number" name="price" class="form-control" id="productPrice" min="0" value="{{ $product->price or old('price') }}" required>
 </div>
 
 @if ($method ?? false)

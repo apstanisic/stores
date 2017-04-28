@@ -21,6 +21,11 @@ body {
 	align-items: center;
 }
 
+.border-1 {
+  border: 1px solid #ccc;
+  border-radius: .7em;
+}
+
 /* Sidebar */
 
 .sidebar {
