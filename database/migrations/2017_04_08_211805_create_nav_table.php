@@ -14,11 +14,13 @@ class CreateNavTable extends Migration
     public function up()
     {
         Schema::create('navigation', function(Blueprint $table) {
-        	
+
         	$table->increments('id');
         	$table->string('name');
         	$table->text('path');
-        	$table->text('icon');
+            $table->string('route');
+            $table->integer('type');
+        	$table->text('icon')->nullable();
         	$table->timestamps();
 
         });

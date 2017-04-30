@@ -12,6 +12,6 @@
 <script src="{{ asset('js/script.js') }}"></script>
 <!-- Additional javascript -->
 @stack('javascript')
-	
+
 <!-- End additional javascript -->
 <!-- End custom javascript -->

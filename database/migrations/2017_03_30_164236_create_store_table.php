@@ -16,12 +16,15 @@ class CreateStoreTable extends Migration
         Schema::create('stores', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->text('description')->nullable();
             $table->integer('user_id')->unsigned()->index();
             $table->timestamps();
 
             $table->foreign('user_id')
                   ->references('id')
                   ->on('users');
+
+            $table->unique(['name', 'user_id']);
         });
     }
 

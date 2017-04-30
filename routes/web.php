@@ -27,18 +27,18 @@ Route::patch('/profile/password', 'Auth\UserController@updatePassword')->name('u
 Route::delete('/profile', 'Auth\UserController@destroy')->name('user.destroy');
 
 
-// For buyers
-
-/*
-	How to call stores for shopping and products??
-	Maybe FrontStores, BuyerStores, BuyerProducts
-*/
-
-// Route::get('users.stores.placeholder', 'PlaceholderController@index');
-// Route::get('users.stores.placeholder/item', 'PlaceholderController@index');
+// For shopping
+Route::get('shop/{user}/{store}', 'ShoppingController@index')->name('shopping.index');
+Route::get('shop/{user}/{store}/about', 'ShoppingController@about')->name('shopping.about');
+Route::get('shop/{user}/{store}/categories', 'ShoppingController@categories')->name('shopping.categories');
+Route::get('shop/{user}/{store}/{product}', 'ShoppingController@product')->name('shopping.product');
+Route::get('shop/{user}/{store}/{category}', 'ShoppingController@category')->name('shopping.category');
 
 
+Route::post('shop/{user}/{store}/cart/{product}', 'CartController@store')->name('cart.store');
+Route::delete('shop/{user}/{store}/cart/{product}', 'CartController@destroy');
 
+// Make orders controller and cart controller
 
 
 

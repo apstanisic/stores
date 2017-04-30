@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="{{ config('app.locale') }}">
 	<head>
-		@include('partials.head')
+		@include('layouts.partials.head')
 	</head>
 	<body>
 		@yield('body')
-
-		@include('partials.bottom')
+		@include('layouts.partials.bottom')
 	</body>
 </html>

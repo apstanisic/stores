@@ -12,22 +12,15 @@
 	</a>
 
 	<div class="collapse navbar-collapse text-center" id="navbarTogglerDemo02">
-		{{-- Uraditi dinamicki --}}
+
 		<ul class="navbar-nav mr-auto mt-2 mt-md-0">
-			<li class="nav-item border-bottom-lightgrey py-2 py-sm-0">
-				<a class="nav-link" href="{{ route('about') }}">Zasto mi</a>
-			</li>
-			<li class="nav-item border-bottom-lightgrey py-2 py-sm-0">
-				<a class="nav-link" href="{{ route('manuals') }}">Upustva</a>
-			</li>
-			<li class="nav-item border-bottom-lightgrey py-2 py-sm-0">
-				<a class="nav-link" href="{{ route('contact') }}">Kontakt</a>
-			</li>
-			{{-- <li class="nav-item border-bottom-lightgrey py-2 py-sm-0">
-				<a class="nav-link" href="{{ route('stores.create') }}">Napravi prodavnicu</a>
-			</li> --}}
+
+			@foreach($links as $link)
+				<li class="nav-item border-bottom-lightgrey py-2 py-sm-0">
+					<a class="nav-link" href="{{ route($link->route) }}">{{ $link->name }}</a>
+				</li>
+			@endforeach
 		</ul>
-		{{-- @end --}}
 
 		<div>
 		 	@if (Auth::check())
@@ -43,6 +36,7 @@
 		      	<a href="{{ route('register') }}" class="btn btn-outline-secondary my-3 my-md-0 mx-1" >Sign Up</a>
 	      	@endif
 		</div>
+
 	</div>
 
 </nav>

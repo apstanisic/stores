@@ -4,8 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Cart extends Model
+class CartItems extends Model
 {
+	protected $table = 'cart';
+
 	public function buyer()
 	{
 		$this->belongsTo(Buyer::class);
