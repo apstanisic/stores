@@ -11,9 +11,16 @@ use App\Product;
 class CartController extends Controller
 {
 
-    public function index()
+    public function index(User $user, Store $store)
     {
-        //
+        // $products =
+        $tmpSessions = session('cart_' . $user->id . '/' . $store->id);
+        $products = [];
+        foreach ($tmpSessions as $key => $value) {
+            $products[] = Product::where('name', $key)->first();
+        }
+        dd($products);
+        return view('shopping.cart');
     }
 
     public function store(Request $request, User $user, Store $store, Product $product)
@@ -22,7 +29,6 @@ class CartController extends Controller
         $this->validate(request(), [
             'amount' => 'required'
         ]);
-        // if(auth()->guest()):
         // Session name is based on user and store
         $session_name = 'cart_' . $user->id . '/' . $store->id;
         // Get all sessions with the name in to array
@@ -34,10 +40,9 @@ class CartController extends Controller
         } else {
             $tmpSessions[$product->name] = intval(request('amount'));
         }
-        // $tmpSessions[$product->name] = request('amount') ?? 1;
         // Put array back into sessions
         session()->put($session_name, $tmpSessions);
-        // dd(session()->all());
+        Session::flash('flash_success', 'Proizvod "' . $product->name . '" uspesno dodat u korpu.');
         return redirect()->back();
     }
 

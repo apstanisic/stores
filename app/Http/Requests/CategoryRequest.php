@@ -28,7 +28,7 @@ class CategoryRequest extends FormRequest
     {
 
         return [
-            'name' => 'required|min:3',
+            'name' => 'required|min:2',
             'parent_id' => [
             	// parent_id moze da bude null
             	'nullable',
@@ -39,7 +39,7 @@ class CategoryRequest extends FormRequest
 
             		// Roditelj mora da nema svog roditelja
             		//$query->where('parent_id', null);
-            		
+
             	}),
             ]
         ];

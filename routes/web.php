@@ -26,20 +26,18 @@ Route::patch('/profile', 'Auth\UserController@update')->name('user.update');
 Route::patch('/profile/password', 'Auth\UserController@updatePassword')->name('user.updatePassword');
 Route::delete('/profile', 'Auth\UserController@destroy')->name('user.destroy');
 
+// Cart
+Route::get('shop/{user}/{store}/cart', 'CartController@index')->name('cart.index');
+Route::post('shop/{user}/{store}/cart/{product}', 'CartController@store')->name('cart.store');
+Route::delete('shop/{user}/{store}/cart/{product}', 'CartController@destroy')->name('cart.destroy');
+
 
 // For shopping
 Route::get('shop/{user}/{store}', 'ShoppingController@index')->name('shopping.index');
 Route::get('shop/{user}/{store}/about', 'ShoppingController@about')->name('shopping.about');
 Route::get('shop/{user}/{store}/categories', 'ShoppingController@categories')->name('shopping.categories');
+Route::get('shop/{user}/{store}/category/{category}', 'ShoppingController@category')->name('shopping.category');
 Route::get('shop/{user}/{store}/{product}', 'ShoppingController@product')->name('shopping.product');
-Route::get('shop/{user}/{store}/{category}', 'ShoppingController@category')->name('shopping.category');
-
-
-Route::post('shop/{user}/{store}/cart/{product}', 'CartController@store')->name('cart.store');
-Route::delete('shop/{user}/{store}/cart/{product}', 'CartController@destroy');
-
-// Make orders controller and cart controller
-
 
 
 // Static pages

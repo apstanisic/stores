@@ -69,4 +69,9 @@ class User extends Authenticatable
         return true;
 
     }
+
+    public static function url()
+    {
+        return \Route::input('user');
+    }
 }

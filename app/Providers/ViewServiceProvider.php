@@ -20,6 +20,7 @@ class ViewServiceProvider extends ServiceProvider
     {
     	$this->getStoreFromRoute();
         $this->getNav();
+        $this->shoppingData();
     }
 
     /**
@@ -61,24 +62,41 @@ class ViewServiceProvider extends ServiceProvider
 
     }
 
+    private function shoppingData()
+    {
+        $views = [
+            'layouts.shopping',
+            'shopping.*'
+        ];
+        view()->composer($views, function($view){
+            $view->with('user', User::url())->with('store', Store::url());
+        });
+    }
+
 
     // TODO: FIXME !!!!!!!! It's ugly!
     private function tmpShoppingNav()
     {
-        view()->composer('layouts.shopping', function($view) {
-            $link = new Nav;
-            $link->name = 'Kategorije';
-            $link->route = 'shopping.categories';
-            $link->params = [Route::input('user')->id, Store::url()->id];
+        view()->composer(['layouts.shopping', 'shopping.*'], function($view) {
+            $link1 = new Nav;
+            $link1->name = 'Pocetna';
+            $link1->route = 'shopping.index';
+            $link1->params = [User::url()->id, Store::url()->id];
 
             $link2 = new Nav;
             $link2->name = 'O nama';
             $link2->route = 'shopping.about';
-            $link2->params = [Route::input('user')->id, Store::url()->id];
+            $link2->params = [User::url()->id, Store::url()->id];
+
+            $link3 = new Nav;
+            $link3->name = 'Kategorije';
+            $link3->route = 'shopping.categories';
+            $link3->params = [User::url()->id, Store::url()->id];
 
             // $paramLinks =[];
-            $paramLinks[0] = $link;
+            $paramLinks[0] = $link1;
             $paramLinks[1] = $link2;
+            $paramLinks[2] = $link3;
             $view->with('paramLinks', $paramLinks);
         });
     }
