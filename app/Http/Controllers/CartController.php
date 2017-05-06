@@ -14,13 +14,16 @@ class CartController extends Controller
     public function index(User $user, Store $store)
     {
         // $products =
-        $tmpSessions = session('cart_' . $user->id . '/' . $store->id);
+        $tmpSessions = session('cart_' . $user->id . '/' . $store->id) ?? [];
         $products = [];
+        // if(isset())
         foreach ($tmpSessions as $key => $value) {
-            $products[] = Product::where('name', $key)->first();
+            $product = Product::where('name', $key)->first();
+            $product->amount = $value;
+            $products[] = $product;
         }
-        dd($products);
-        return view('shopping.cart');
+        //dd($products);
+        return view('shopping.cart', compact('products'));
     }
 
     public function store(Request $request, User $user, Store $store, Product $product)

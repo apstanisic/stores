@@ -9,7 +9,7 @@ class Store extends Model
 {
 
 	protected $fillable = [
-		'name'
+		'name', 'description'
 	];
 
 /* Route model binding sa name a ne sa id
@@ -19,16 +19,16 @@ class Store extends Model
 	}
 */
 	// Prodavnica pripada user-u
-	public function user () {
+	public function user() {
 		// return $this->belongsTo('App\User');
-		$this->belongsTo(User::class);
+		return $this->belongsTo(User::class);
 	}
 
-	public function categories () {
+	public function categories() {
 		return $this->hasMany(Category::class);
 	}
 
-	public function products () {
+	public function products() {
 		return $this->hasMany(Product::class);
 	}
 

@@ -97,12 +97,10 @@ class StoresController extends Controller
     {
     	// Ako se prosledjuje id, a ne objekat
         //$store = Store::findOrFail($id);
-
         $store->update($request->all());
 
         Session::flash('flash_success', 'Uspesno izmenjena prodavnica');
-
-        return redirect()->route('stores.show', [$id]);
+        return redirect()->route('stores.show', [$store->id]);
     }
 
     /**

@@ -21,11 +21,15 @@ class CreateBuyersTable extends Migration
             $table->string('username');
             $table->string('email');
             $table->string('password');
+            $table->rememberToken();
             $table->timestamps();
 
             $table->foreign('store_id')
                   ->references('id')
                   ->on('stores');
+
+            $table->unique(['username', 'store_id']);
+            $table->unique(['email', 'store_id']);
         });
         //*/
     }

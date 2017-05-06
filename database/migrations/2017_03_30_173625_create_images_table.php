@@ -24,6 +24,7 @@ class CreateImagesTable extends Migration
                   ->references('id')
                   ->on('products');
         });
+
     }
 
     /**

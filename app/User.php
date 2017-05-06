@@ -35,7 +35,7 @@ class User extends Authenticatable
     /**
     * Korisnik moze da ima vise prodavnica
     */
-    public function stores () {
+    public function stores() {
         return $this->hasMany(Store::class);
     }
 

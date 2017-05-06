@@ -22,15 +22,20 @@ class Product extends Model
 		return $this->belongsTo(Category::class);
 	}
 
-	public function store ()
+	public function store()
 	{
 		return $this->belongsTo(Store::class);
 	}
 
 
-	public function images ()
+	public function images()
 	{
 		return $this->hasMany(Image::class);
+	}
+
+	public function inCart()
+	{
+		return session('cart_' . $this->store->user->id . '/' . $this->store->id)[$this->name] ?? 0;
 	}
 
 }

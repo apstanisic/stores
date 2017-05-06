@@ -16,8 +16,8 @@
 							<button type="submit" class="btn btn-outline-secondary my-3 my-md-0 mx-1">Logout</button>
 						</form>
 		 		@else
-					<a href="{{ route('login') }}" class="btn btn-outline-secondary my-3 my-md-0 mx-1" >Login</a>
-			      	<a href="{{ route('register') }}" class="btn btn-outline-secondary my-3 my-md-0 mx-1" >Sign Up</a>
+					<a href="{{ route('shopping.login') }}" class="btn btn-outline-secondary my-3 my-md-0 mx-1" >Login</a>
+			      	<a href="{{ route('shopping.register') }}" class="btn btn-outline-secondary my-3 my-md-0 mx-1" >Sign Up</a>
 		      	@endif
 
 		@endslot
