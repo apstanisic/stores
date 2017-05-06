@@ -22,6 +22,7 @@ class CartController extends Controller
 
     public function store(CartRequest $request, User $user, Store $store, Product $product)
     {
+        // dd(request('amount'));
         Cart::add([$product->name => request('amount')]);
 
         Session::flash('flash_success', 'Proizvod "' . $product->name . '" uspesno dodat u korpu.');
@@ -32,14 +33,14 @@ class CartController extends Controller
 
     public function destroy(Request $request, User $user, Store $store, Product $product)
     {
-        Cart::removeItem($product, $store);
+        Cart::removeItem($product);
 
         return redirect()->back();
     }
 
     public function destroyAll(Request $request, User $user, Store $store, Product $product)
     {
-        Cart::emptyCart($store);
+        Cart::emptyCart();
 
         return redirect()->back();
     }

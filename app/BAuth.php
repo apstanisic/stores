@@ -13,7 +13,9 @@ class BAuth extends Model
 
     public static function buyer()
     {
-    	return session('buyer_' . Store::url()->user->id . '/' . Store::url()->id);
+    	$buyer_id = session('buyer_' . Store::url()->user->id . '/' . Store::url()->id);
+        return Buyer::find($buyer_id);
+
     }
 
 
@@ -42,7 +44,7 @@ class BAuth extends Model
         if (!Hash::check($data['password'], $buyer->password)) return false;
 
 
-		session()->put('buyer_' . Store::url()->user->id . '/' . Store::url()->id, $buyer);
+		session()->put('buyer_' . Store::url()->user->id . '/' . Store::url()->id, $buyer->id);
         static::cartFromSessionToDb($buyer);
 
         return true;
@@ -67,6 +69,11 @@ class BAuth extends Model
         $products = Cart::fromSession();
         foreach ($products as $product) {
             //$product = Product::where('name', $name)->first();
+            $currentProduct = $buyer->cart->products->where('id', $product->id)->first();
+            if ($currentProduct) {
+                $product->pivot->amount = max($product->pivot->amount, $currentProduct->pivot->amount);
+            }
+            $buyer->cart->products()->detach($product);
             $buyer->cart->products()->attach($product, ['amount' => $product->pivot->amount]);
         }
         Cart::emptyFromSession();

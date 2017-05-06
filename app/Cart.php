@@ -21,8 +21,8 @@ class Cart extends Model
         if(BAuth::guest()) {
             return static::fromSession();
         }
-        // return $this->belongsToMany(Product::class)->withPivot('amount')->withTimestamps()->get();
-        return BAuth::buyer()->cart->products;
+        // dd(BAuth::buyer()->cart->products()->get());
+        return BAuth::buyer()->cart->products()->get();
     }
 
 
@@ -33,6 +33,7 @@ class Cart extends Model
 
     public static function add(array $data)
     {
+        //dd($data);
     	if (BAuth::guest()) {
 			static::addToSession($data);
     	} else {
@@ -79,9 +80,8 @@ class Cart extends Model
 
         foreach ($sessionProducts as $name => $amount) {
             $product = Product::where('name', $name)->first();
-            // $product->pivot->amount = $amount;
+            // Ima bolji nacin, trenutno ne mogu da trazim
             $product->pivot = (object)['amount' => $amount];
-            // $product->pivot->amount = $amount;
             $products[] = $product;
         }
 
@@ -121,11 +121,25 @@ class Cart extends Model
 
     private static function addToDb(array $data)
     {
-    	$product = Product::where('name', key($data))->first();
+        $productName = key($data);
+        $amount = current($data);
 
+    	$product = Product::where('name', $productName)->first();
+
+
+        if($amount === '+1') {
+            $currentAmount = BAuth::buyer()->cart->products->where('id', $product->id)->first() ?? 0;
+            // dd($currentAmount);
+            // $currentAmount = BAuth::buyer()->cart->products;
+            // $currentAmount = \App\Buyer::find(1);
+            // dd($currentAmount, BAuth::buyer());
+            // $amount = BAuth::buyer()->cart->products()->where('name', $productName)->get();
+            $amount = ++$currentAmount;
+            // dd($amount);
+        }
         // dd($product);
-        BAuth::buyer()->cart->products()->detach($product);
-		BAuth::buyer()->cart->products()->attach($product, ['amount' => current($data)]);
+        BAuth::buyer()->cart->products()->detach($product->id);
+		BAuth::buyer()->cart->products()->attach($product->id, ['amount' => $amount]);
     }
 
 
