@@ -56,8 +56,12 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        // Mine
         'owner' => \App\Http\Middleware\RedirectIfNotTheOwner::class,
         'categoryInStore' => \App\Http\Middleware\RedirectIfCategoryNotInStore::class,
-        'productInStore' => \App\Http\Middleware\RedirectIfProductNotInStore::class
+        'productInStore' => \App\Http\Middleware\RedirectIfProductNotInStore::class,
+        // Buyers
+        'buyer.auth' => \App\Http\Middleware\RedirectIfBuyerNotLoged::class,
+        'buyer.guest' => \App\Http\Middleware\RedirectIfBuyerLoged::class
     ];
 }

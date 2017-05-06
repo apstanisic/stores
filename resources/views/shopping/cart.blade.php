@@ -23,7 +23,7 @@
 
 								<div class="col-6 col-sm-3">
 									<div class="mx-4">
-										{{ $product->price * $product->amount }} din.
+										{{ $product->price * $product->pivot->amount }} din.
 									</div>
 								</div>
 
@@ -34,7 +34,7 @@
 											<select name="amount" class="custom-select">
 
 												@for($i = 1; $i <= 20; $i++)
-													<option value="{{ $i }}" {{ ($i === $product->amount) ? 'selected' : '' }}>{{ $i }}</option>
+													<option value="{{ $i }}" {{ ($i === $product->pivot->amount) ? 'selected' : '' }}>{{ $i }}</option>
 												@endfor
 
 											</select>

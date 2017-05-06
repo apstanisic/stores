@@ -20,5 +20,8 @@ class Buyer extends Model
     protected $dates = ['deleted_at'];
 
 
-    // session()->put('buyer_user/store')
+    public function cart()
+    {
+    	return $this->hasOne(Cart::class);
+    }
 }

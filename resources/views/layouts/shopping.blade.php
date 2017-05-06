@@ -9,15 +9,17 @@
 		@slot('right')
 
 				<a href="{{ route('cart.index', [$user->id, $store->id]) }}" class="btn btn-outline-secondary my-3 my-md-0 mx-1" >Cart</a>
-			 	@if (Auth::check())
-				 		<a href="{{ route('user.index') }}" class="btn btn-outline-secondary my-3 my-md-0 mx-1">{{ auth()->user()->username }}</a>
-						<form action="{{ route('logout') }}" method="post">
-							{{ csrf_field() }}
-							<button type="submit" class="btn btn-outline-secondary my-3 my-md-0 mx-1">Logout</button>
-						</form>
+			 	@if($BAuth::check())
+			 		<a href="{{ route('buyer.index', [$user->id, $store->id]) }}" class="btn btn-outline-secondary my-3 my-md-0 mx-1">
+			 			{{ $BAuth::buyer()->username }}
+			 		</a>
+					<form action="{{ route('buyer.logout', [$user->id, $store->id]) }}" method="post">
+						{{ csrf_field() }}
+						<button type="submit" class="btn btn-outline-secondary my-3 my-md-0 mx-1">Logout</button>
+					</form>
 		 		@else
-					<a href="{{ route('shopping.login') }}" class="btn btn-outline-secondary my-3 my-md-0 mx-1" >Login</a>
-			      	<a href="{{ route('shopping.register') }}" class="btn btn-outline-secondary my-3 my-md-0 mx-1" >Sign Up</a>
+					<a href="{{ route('buyer.login', [$user->id, $store->id]) }}" class="btn btn-outline-secondary my-3 my-md-0 mx-1" >Login</a>
+			      	<a href="{{ route('buyer.register', [$user->id, $store->id]) }}" class="btn btn-outline-secondary my-3 my-md-0 mx-1" >Sign Up</a>
 		      	@endif
 
 		@endslot

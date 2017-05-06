@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Store;
 use App\Nav;
+use App\BAuth;
 use App\User;
 use Route;
 
@@ -66,10 +67,12 @@ class ViewServiceProvider extends ServiceProvider
     {
         $views = [
             'layouts.shopping',
-            'shopping.*'
+            'shopping.*',
+            'buyer.*'
         ];
         view()->composer($views, function($view){
             $view->with('user', User::url())->with('store', Store::url());
+            $view->with('BAuth', BAuth::class);
         });
     }
 

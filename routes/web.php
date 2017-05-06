@@ -37,7 +37,16 @@ Route::get('shop/{user}/{store}', 'ShoppingController@index')->name('shopping.in
 Route::get('shop/{user}/{store}/about', 'ShoppingController@about')->name('shopping.about');
 Route::get('shop/{user}/{store}/categories', 'ShoppingController@categories')->name('shopping.categories');
 Route::get('shop/{user}/{store}/category/{category}', 'ShoppingController@category')->name('shopping.category');
-Route::get('shop/{user}/{store}/{product}', 'ShoppingController@product')->name('shopping.product');
+Route::get('shop/{user}/{store}/product/{product}', 'ShoppingController@product')->name('shopping.product');
+
+// Buyer
+Route::get('shop/{user}/{store}/profile', 'BuyerController@index')->name('buyer.index');
+Route::get('shop/{user}/{store}/login', 'BuyerController@showLoginForm')->name('buyer.login.show');
+Route::post('shop/{user}/{store}/login', 'BuyerController@login')->name('buyer.login');
+Route::get('shop/{user}/{store}/register', 'BuyerController@showRegistrationForm')->name('buyer.register.show');
+Route::post('shop/{user}/{store}/register', 'BuyerController@register')->name('buyer.register');
+Route::post('shop/{user}/{store}/logout', 'BuyerController@logout')->name('buyer.logout');
+
 
 
 // Static pages
