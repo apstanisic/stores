@@ -1,6 +1,6 @@
-<form method="post"  action="{{ route('register') }}" class="mx-auto max-500">
+<form method="post"  action="{{ route('buyer.register', [$store->id, $user->id]) }}" class="mx-auto max-500">
 	{{ csrf_field() }}
-	
+
 	<div class="form-group mb-3">
 		{!! (!isset($format['hideLabel'])) ? '<label for="signUpUsername">Username</label>' : '' !!}
 
@@ -18,7 +18,7 @@
 	</div>
 
     <div class="form-group mb-3">
-		{!! (!isset($format['hideLabel'])) ? '<label for="signUpPassword">Password</label>' : '' !!} 
+		{!! (!isset($format['hideLabel'])) ? '<label for="signUpPassword">Password</label>' : '' !!}
 
 		<input type="password" name="password" class="form-control{!! (isset($format['large'])) ? ' form-control-lg' : '' !!}"
 		 id="loginPassword"  {!! (isset($format['placeholder'])) ? 'placeholder="Password"' : '' !!} required>

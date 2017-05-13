@@ -1,0 +1,1 @@
+{{ ($order->status->name === 'u_pripremi' || $order->status->name === 'poslato') ? 'info' : ''}}{{ ($order->status->name === 'odbijeno' || $order->status->name === 'nije_poslato') ? 'danger' : '' }}{{ ($order->status->name === 'primljeno') ? 'success' : '' }}

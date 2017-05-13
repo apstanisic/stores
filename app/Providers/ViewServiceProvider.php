@@ -22,6 +22,7 @@ class ViewServiceProvider extends ServiceProvider
     	$this->getStoreFromRoute();
         $this->getNav();
         $this->shoppingData();
+        $this->getCurrency();
     }
 
     /**
@@ -102,5 +103,13 @@ class ViewServiceProvider extends ServiceProvider
             $paramLinks[2] = $link3;
             $view->with('paramLinks', $paramLinks);
         });
+    }
+
+    private function getCurrency()
+    {
+        // TODO: omoguciti biranje valute
+        // view()->composer('*', function($view) {
+        //     $view->with('currency', Store::url()->currency);
+        // });
     }
 }

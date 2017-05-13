@@ -3,27 +3,29 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
+    use SoftDeletes;
 
     public function products()
     {
-    	$this->belongsToMany(Product::class)->withTimestamps();
+    	return $this->belongsToMany(Product::class)->withPivot('amount')->withTimestamps();
     }
 
     public function buyer()
     {
-    	$this->belongsTo(Buyer::class);
+    	return $this->belongsTo(Buyer::class);
     }
 
     public function store()
     {
-    	$this->belognsTo(Store::class);
+    	return $this->belongsTo(Store::class);
     }
 
     public function status()
     {
-    	$this->belognsTo(Status::class);
+    	return $this->belongsTo(Status::class);
     }
 }

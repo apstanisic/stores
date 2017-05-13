@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Store;
 
 class Product extends Model
 {
@@ -13,7 +14,6 @@ class Product extends Model
 		'price',
 		'remaining',
 		'category_id'
-		// 'store_id', // Ovo ne treba da bude fillable, jer ide store->product->create()
 	];
 
 
@@ -35,7 +35,7 @@ class Product extends Model
 
 	public function inCart()
 	{
-		return session('cart_' . $this->store->user->id . '/' . $this->store->id)[$this->name] ?? 0;
+		return Cart::items()->where('id', $this->id)->first()->pivot->amount ?? 0;
 	}
 
 }

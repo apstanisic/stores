@@ -18,8 +18,9 @@ class CreateOrdersTable extends Migration
             $table->integer('price');
             $table->integer('buyer_id')->unsigned()->index();
             $table->integer('store_id')->unsigned()->index();
-            $table->integer('status_id')->unsigned()->index();
+            $table->integer('status_id')->unsigned()->index()->default(1);
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('buyer_id')
                   ->references('id')
@@ -37,6 +38,7 @@ class CreateOrdersTable extends Migration
 
         Schema::create('order_product', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('amount');
             $table->integer('order_id')->unsigned()->index();
             $table->integer('product_id')->unsigned()->index();
             $table->timestamps();

@@ -24,7 +24,7 @@ class CartRequest extends FormRequest
     public function rules()
     {
         return [
-            'amount' => 'required'
+            'amount' => 'required|integer|min:1'
         ];
     }
 }

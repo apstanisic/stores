@@ -9,13 +9,41 @@ use App\BAuth;
 
 class Cart extends Model
 {
-    // For database
+    // Dohvata sve proizvode iz baze
     public function products()
     {
     	return $this->belongsToMany(Product::class)->withPivot('amount')->withTimestamps();
     }
 
+    // Kupac
+    public function buyer()
+    {
+        return $this->hasOne(Buyer::class);
+    }
+
+    public static function price()
+    {
+        $price = 0;
+
+        foreach (static::items() as $product) {
+            $price += $product->price * $product->pivot->amount;
+        }
+
+        return $price;
+    }
+
+    public static function isEmpty()
+    {
+        $productsCount = count(static::items());
+
+        if($productsCount < 0) {
+            return false;
+        }
+        return true;
+    }
     // To get content of cart
+    // Ako je guest vraca iz sesije, ako nije vraca
+    // iz baze preko products metode
     public static function items()
     {
         if(BAuth::guest()) {
@@ -25,22 +53,30 @@ class Cart extends Model
         return BAuth::buyer()->cart->products()->get();
     }
 
-
-    public function buyer()
+    public static function amount(Product $product)
     {
-    	return $this->hasOne(Buyer::class);
+        if (BAuth::guest()) {
+            return('cart_' . Store::url()->user->id . '/' . Store::url()->id)[$product->name] ?? 0;
+        } else {
+            return BAuth::buyer()->cart->products->find($product->id)->pivot->amount ?? 0;
+        }
     }
 
-    public static function add(array $data)
+
+    // Dodaje u korpu
+    // public static function add(array $data) // Stari nacin
+    public static function add(Product $product, $amount)
     {
-        //dd($data);
+        $amount = intval($amount);
+
     	if (BAuth::guest()) {
-			static::addToSession($data);
+            static::addToSession($product->name, $amount);
     	} else {
-    		static::addToDb($data);
+            static::addToDb($product->name, $amount);
     	}
     }
 
+    // Izpraznjuje korpu
     public static function emptyCart()
     {
     	if (BAuth::guest()) {
@@ -50,7 +86,8 @@ class Cart extends Model
     	}
     }
 
-    public function removeItem(Product $product)
+    // Brise proizvod iz korpe
+    public static function removeItem(Product $product)
     {
     	if (BAuth::guest()) {
     		static::removeFromSession($product);
@@ -59,11 +96,13 @@ class Cart extends Model
     	}
     }
 
+    // Izbacuje proizvod iz baze
     public static function removeFromDb(Product $product)
     {
-    	BAuth::buyer()->cart->products->destroy($product->id);
+    	BAuth::buyer()->cart->products()->detach($product->id);
     }
 
+    // Izbacuje proizvod iz sesije
     private static function removeFromSession(Product $product)
     {
     	$session_name = 'cart_' . Store::url()->user->id . '/' . Store::url()->id;
@@ -72,7 +111,8 @@ class Cart extends Model
         session()->put($session_name, $tmpSessions);
     }
 
-
+    // Vraca sve proizvode iz sesije
+    // Ne postoji ekvivalenta metoda za bazu
 	public static function fromSession()
     {
         $sessionProducts = session('cart_' . Store::url()->user->id . '/' . Store::url()->id) ?? [];
@@ -89,12 +129,13 @@ class Cart extends Model
     }
 
 
-
-    private function emptyFromDB()
+    // Izpraznjuje celu korpu iz baze
+    private static function emptyFromDB()
     {
-    	BAuth::buyer()->cart->products->delete();
+    	BAuth::buyer()->cart->products()->detach();
     }
 
+    // Izpraznjuje celu korpu iz sesije
 	public static function emptyFromSession()
     {
         session()->forget('cart_' . Store::url()->user->id . '/' . Store::url()->id);
@@ -102,42 +143,31 @@ class Cart extends Model
 
 
 
-
-    private static function addToSession(array $data)
+    // Add new product to session cart
+    private static function addToSession($productName, $amount)
     {
     	$session_name = 'cart_' . Store::url()->user->id . '/' . Store::url()->id;
-        // Get all sessions with the name in to array
         $sessionProducts = session($session_name);
-        // Add to array new item, or replace existing, where
-        // key is product name and value is amount
-        if(current($data) === '+1'){
-            $sessionProducts[key($data)] = isset($sessionProducts[key($data)]) ? ++$sessionProducts[key($data)] : 1;
+
+        if($amount === '+1'){
+            $sessionProducts[$productName] = isset($sessionProducts[$productName]) ? ++$sessionProducts[$productName] : 1;
         } else {
-            $sessionProducts[key($data)] = intval(current($data));
+            $sessionProducts[$productName] = intval($amount);
         }
-        // Put array back into sessions
+
         session()->put($session_name, $sessionProducts);
     }
 
-    private static function addToDb(array $data)
+    // Add new product to database cart
+    private static function addToDb($productName, $amount)
     {
-        $productName = key($data);
-        $amount = current($data);
-
-    	$product = Product::where('name', $productName)->first();
-
+        $product = Product::where('name', $productName)->first();
 
         if($amount === '+1') {
-            $currentAmount = BAuth::buyer()->cart->products->where('id', $product->id)->first() ?? 0;
-            // dd($currentAmount);
-            // $currentAmount = BAuth::buyer()->cart->products;
-            // $currentAmount = \App\Buyer::find(1);
-            // dd($currentAmount, BAuth::buyer());
-            // $amount = BAuth::buyer()->cart->products()->where('name', $productName)->get();
+            $currentAmount = BAuth::buyer()->cart->products->where('id', $product->id)->first()->pivot->amount ?? 0;
             $amount = ++$currentAmount;
-            // dd($amount);
         }
-        // dd($product);
+
         BAuth::buyer()->cart->products()->detach($product->id);
 		BAuth::buyer()->cart->products()->attach($product->id, ['amount' => $amount]);
     }

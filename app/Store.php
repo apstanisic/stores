@@ -32,6 +32,11 @@ class Store extends Model
 		return $this->hasMany(Product::class);
 	}
 
+	public function buyers()
+	{
+		return $this->hasMany(Buyer::class);
+	}
+
 
 	// Sve prodavnice ciji je vlasnik ulogovani korisnik
 	public function scopeIsOwner($query) {

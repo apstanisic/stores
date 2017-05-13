@@ -48,15 +48,18 @@
 					</div>
 				@endforeach
 			</ul>
+
+			{{-- <form action="{{ route('order.store') }}" method="post"> --}}
+			<form action="{{ route('buyer.orders.store', [$store->user->id, $store->id]) }}" method="post">
+				{{ csrf_field() }}
+				<button type="submit" class="btn btn-warning btn-block btn-lg">Naruci</button>
+			</form>
+
 		@else
 			<h3>Korpa je prazna</h3>
 
 		@endif
 
-		{{-- <form action="{{ route('order.store') }}" method="post"> --}}
-		<form action="">
-			<button type="submit" class="btn btn-warning btn-block btn-lg">Naruci</button>
-		</form>
 	</div>
 
 

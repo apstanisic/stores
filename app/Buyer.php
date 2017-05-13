@@ -10,11 +10,11 @@ class Buyer extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'username', 'email', 'password',
+        'username', 'email', 'password'
     ];
 
 	protected $hidden = [
-        'password'//, 'remember_token',
+        'password', 'remember_token',
     ];
 
     protected $dates = ['deleted_at'];
@@ -23,5 +23,15 @@ class Buyer extends Model
     public function cart()
     {
     	return $this->hasOne(Cart::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function store()
+    {
+        return $this->belongsTo(Store::class);
     }
 }

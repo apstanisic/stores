@@ -23,7 +23,7 @@ class OrdersController extends Controller
      */
     public function create()
     {
-        //
+        // Ne treba? Mozda ako ima neki problem
     }
 
     /**
@@ -34,7 +34,7 @@ class OrdersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Ne treba?
     }
 
     /**
@@ -56,7 +56,7 @@ class OrdersController extends Controller
      */
     public function edit($id)
     {
-        //
+        // Da izmeni status, ili porudzbinu
     }
 
     /**

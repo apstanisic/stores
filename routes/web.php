@@ -32,6 +32,40 @@ Route::post('shop/{user}/{store}/cart/{product}', 'CartController@store')->name(
 Route::delete('shop/{user}/{store}/cart/{product}', 'CartController@destroy')->name('cart.destroy');
 
 
+// Order
+
+/// Vlasnik prodavnice
+// Vidi sve
+// Vidi detalje
+// Sve sem pravljenja.
+
+///
+// stores/1/orders get
+// stores/1/orders/1 get
+// stores/1/orders/1/edit // get
+// stores/1/orders/1/patch
+Route::resource('stores.orders', 'OrdersController', ['except' => ['create', 'store']]);
+Route::resource('shop/{user}/{store}/orders', 'BuyerOrdersController', [
+																			'as' => 'buyer',
+																			'except' => ['create', 'update', 'edit']
+																		]);
+Route::patch('shop/{user}/{store}/orders/{order}/pause', 'BuyerOrdersController@togglePause')->name('buyer.orders.pause');
+
+
+/// Kupac
+// // shop/1/1/orders post
+// // shop/1/1/orders post
+// // shop/1/1/orders get
+// // shop/1/1/orders/1 get
+// if status == preparing
+	// // shop/1/1/orders/1 patch
+	// // shop/1/1/orders/1 delete
+// endif
+// // shop/1/1/orders/1/edit get
+// Pravi
+// Menja ako nije poslata
+// Odustaje ako nije poslata
+
 // For shopping
 Route::get('shop/{user}/{store}', 'ShoppingController@index')->name('shopping.index');
 Route::get('shop/{user}/{store}/about', 'ShoppingController@about')->name('shopping.about');
