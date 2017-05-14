@@ -120,6 +120,9 @@ class OrdersController extends Controller
      */
     public function destroy(Store $store, Order $order)
     {
-        //
+        $order->fullDelete();
+        session()->flash('flash_success', 'Uspesno ste izbrisali porudzbinu');
+
+        return redirect()->route('stores.orders.index', [$store->id]);
     }
 }

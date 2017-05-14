@@ -134,10 +134,11 @@ class BuyerOrdersController extends Controller
     public function destroy(User $user,Store $store, Order $order)
     {
         // if ($order->status->name == 'u_pripremi' || $order->status->name == 'pauzirano') {
-            $order->products()->detach();
-            $order->status_id = 7;
-            $order->save();
-            $order->delete();
+            // $order->products()->detach();
+            // $order->status_id = 7;
+            // $order->save();
+            // $order->delete();
+            $order->fullDelete();
             session()->flash('flash_success', 'Uspesno ste odustali od porudzbine');
         // } else {
         //     session()->flash('flash_danger', 'Nije moguce odustati od porudzbine');

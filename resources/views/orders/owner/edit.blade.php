@@ -17,7 +17,7 @@
 		  			{{ csrf_field() }}
 		  			<input type="hidden" name="_method" value="patch">
 				  	<select name="status_id" class="form-control" id="changeStatus">
-			  			@foreach(\App\Status::all() as $status)
+			  			@foreach(\App\Status::where('id', '!=', 7)->get() as $status)
 							<option value="{{ $status->id }}" {{ ($status->id === $order->status->id) ? 'selected' : '' }}>{{ $status->description }}</option>
 			  			@endforeach
 			  		</select>
@@ -37,9 +37,16 @@
 			  		@endforeach
 			  	</ul>
 			  	<div class="card-block">
-		  			<button type="submit" class="btn btn-warning btn-block mx-2">Izmeni narudzbinu</button>
+		  			<button type="submit" class="btn btn-warning btn-block">Izmeni narudzbinu</button>
 		  		</div>
 	  		</form>
+	  		<div class="card-block pt-0">
+		  		<form action="{{ route('stores.orders.destroy', [$store->id, $order->id]) }}" method="post" class="text-right">
+		  			{{ csrf_field() }}
+		  			<input type="hidden" name="_method" value="delete">
+		  			<button class="btn btn-danger">Izbrisi porudzbinu</button>
+		  		</form>
+	  		</div>
 		</div>
 	</div>
 @endsection

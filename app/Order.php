@@ -29,6 +29,14 @@ class Order extends Model
     	return $this->belongsTo(Status::class);
     }
 
+    public function fullDelete()
+    {
+        $this->products()->detach();
+        $this->status_id = 7;
+        $this->save();
+        $this->delete();
+    }
+
     public function canEdit()
     {
         if ($this->status->name !== 'u_pripremi' && $this->status->name !== 'pauzirano') {
