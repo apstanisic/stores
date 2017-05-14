@@ -45,10 +45,8 @@ Route::delete('shop/{user}/{store}/cart/{product}', 'CartController@destroy')->n
 // stores/1/orders/1/edit // get
 // stores/1/orders/1/patch
 Route::resource('stores.orders', 'OrdersController', ['except' => ['create', 'store']]);
-Route::resource('shop/{user}/{store}/orders', 'BuyerOrdersController', [
-																			'as' => 'buyer',
-																			'except' => ['create', 'update', 'edit']
-																		]);
+Route::patch('stores/{store}/orders/{order}/updateStatus', 'OrdersController@updateStatus')->name('stores.orders.updateStatus');
+Route::resource('shop/{user}/{store}/orders', 'BuyerOrdersController', [ 'as' => 'buyer', 'except' => ['create']]);
 Route::patch('shop/{user}/{store}/orders/{order}/pause', 'BuyerOrdersController@togglePause')->name('buyer.orders.pause');
 
 

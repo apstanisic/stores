@@ -16,6 +16,9 @@
 						<h4 class="card-title">{{ $i++ . '. ' . $order->created_at->diffForHumans() }}</h4>
 						<p>Cena je: <strong>{{ $order->price }} dinara</strong>, i sadrzi {{ count($order->products) }} proizvod/a.</p>
 						<a href="{{ route('buyer.orders.show', [$store->user->id, $store->id, $order->id]) }}" class="btn btn-primary">Detaljnije</a>
+						@if($order->canEdit())
+							<a href="{{ route('buyer.orders.edit', [$store->user->id, $store->id, $order->id]) }}" class="btn btn-primary">Izmeni</a>
+						@endif
 					</div>
 				</div>
 			@endforeach

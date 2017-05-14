@@ -3,11 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Route;
-use Auth;
-use App\Store;
 
-class RedirectIfNotTheOwner
+class RedirectIfOrderProcessed
 {
     /**
      * Handle an incoming request.
@@ -18,10 +15,11 @@ class RedirectIfNotTheOwner
      */
     public function handle($request, Closure $next)
     {
+        $order = $request->order;
 
-        // Ako nije vlasnik prodavnice vrati ga na sve prodavnice
-        if(!$request->user()->isStoreOwner($request->store)){
-            return redirect()->route('stores.index');
+        if (!$order->canEdit()) {
+            session()->flash('flash_danger', 'Nisu moguce izmene na porudzbini');
+            return redirect()->back();
         }
 
         return $next($request);

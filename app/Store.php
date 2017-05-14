@@ -37,6 +37,10 @@ class Store extends Model
 		return $this->hasMany(Buyer::class);
 	}
 
+	public function orders()
+	{
+		return $this->hasMany(Order::class)->withTrashed();
+	}
 
 	// Sve prodavnice ciji je vlasnik ulogovani korisnik
 	public function scopeIsOwner($query) {
@@ -59,6 +63,17 @@ class Store extends Model
 		$product = $this->products()->find($product);
 
 		if (!$product) {
+			return false;
+		}
+
+		return true;
+	}
+
+	public function hasOrder($order)
+	{
+		$order = $this->orders()->find($order);
+
+		if (!$order) {
 			return false;
 		}
 

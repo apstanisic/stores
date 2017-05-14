@@ -18,7 +18,7 @@
 					<li class="list-group-item h5">{{ $product->name }}<span class="ml-auto">{{ $product->pivot->amount }}</span></li>
 		  		@endforeach
 		  	</ul>
-		  	@if ($order->status->name === 'u_pripremi' || $order->status->name === 'pauzirano')
+		  	@if ($order->canEdit())
 		  		<div class="card-block d-flex justify-content-around">
 					<form action="{{ route('buyer.orders.destroy', [$user->id, $store->id, $order->id]) }}" method="post">
 						{{ csrf_field() }}
@@ -27,6 +27,7 @@
 							Odustani
 						</button>
 					</form>
+					<a href="{{ route('buyer.orders.edit', [$user->id, $store->id, $order->id]) }}" class="btn btn-warning">Izmeni porudzbinu</a>
 					<form action="{{ route('buyer.orders.pause', [$user->id, $store->id, $order->id]) }}" method="post">
 						{{ csrf_field() }}
 						<input type="hidden" name="_method" value="patch">

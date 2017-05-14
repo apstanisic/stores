@@ -28,4 +28,12 @@ class Order extends Model
     {
     	return $this->belongsTo(Status::class);
     }
+
+    public function canEdit()
+    {
+        if ($this->status->name !== 'u_pripremi' && $this->status->name !== 'pauzirano') {
+            return false;
+        }
+        return true;
+    }
 }

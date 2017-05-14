@@ -58,12 +58,14 @@ class User extends Authenticatable
 
         // Dohvata prodavnicu kojoj je vlasnik i ima
         // id koji je prosledjen u url-u
-        $store = Store::isOwner()->find($store);
-
-        // Ako nema prodavnice vraca false
-        if(!$store) {
+        // $store = Store::isOwner()->find($store);
+        if (!$store->isOwner()) {
             return false;
         }
+        // Ako nema prodavnice vraca false
+        // if(!$store) {
+        //     return false;
+        // }
 
         // Ako je vlasnik vraca true
         return true;

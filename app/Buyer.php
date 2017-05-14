@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\BAuth;
 
 class Buyer extends Model
 {
@@ -33,5 +34,14 @@ class Buyer extends Model
     public function store()
     {
         return $this->belongsTo(Store::class);
+    }
+
+    public function hasOrder($order)
+    {
+        if (BAuth::buyer()->orders()->where('id', $order->id)->count()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -8,13 +8,16 @@ use App\Store;
 use App\Order;
 use App\Cart;
 use App\BAuth;
+use App\Product;
 
 class BuyerOrdersController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('buyer.auth');
+        $this->middleware('bauth');
+        $this->middleware('buyer.order.owner')->except(['index', 'store']);
+        $this->middleware('buyer.order.canEdit')->only(['destroy', 'edit', 'update', 'togglePause']);
     }
     /**
      * Display a listing of the resource.
@@ -87,9 +90,9 @@ class BuyerOrdersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user, Store $store, $id)
+    public function edit(User $user, Store $store, Order $order)
     {
-        //
+        return view('buyer.orders.edit', compact('order'));
     }
 
     /**
@@ -99,13 +102,27 @@ class BuyerOrdersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(User $user, Store $store,Request $request, $id)
+    public function update(Request $request, User $user, Store $store, Order $order)
     {
-        // da li je poslata
-        // izbaci sve prozivode
-        // Vidi dal ima proizvoda
-        // ako nema izbrisi
-        // ako ima update
+        $order->products()->detach();
+        $price = 0;
+        foreach (request()->all() as $product_id => $amount) {
+            $product = Product::find($product_id);
+            if ($amount > 0 && $product->store->id == $store->id) {
+                $order->products()->attach($product_id, ['amount' => intval($amount)]);
+                $price += $product->price * $amount;
+            }
+        }
+
+        if (!count($order->products)) {
+            $order->delete();
+            session()->flash('flash_success', 'Izbrisali ste sve proizvode iz porudzbine, porudzbina je obrisana');
+        } else {
+            $order->price = $price;
+            $order->save();
+            session()->flash('flash_success', 'Porudzbina je uspesno izmenjena');
+        }
+        return redirect()->route('buyer.orders.index', [$user->id, $store->id]);
     }
 
     /**
@@ -116,13 +133,15 @@ class BuyerOrdersController extends Controller
      */
     public function destroy(User $user,Store $store, Order $order)
     {
-        if ($order->status->name == 'u_pripremi' || $order->status->name == 'pauzirano') {
+        // if ($order->status->name == 'u_pripremi' || $order->status->name == 'pauzirano') {
             $order->products()->detach();
+            $order->status_id = 7;
+            $order->save();
             $order->delete();
             session()->flash('flash_success', 'Uspesno ste odustali od porudzbine');
-        } else {
-            session()->flash('flash_danger', 'Nije moguce odustati od porudzbine');
-        }
+        // } else {
+        //     session()->flash('flash_danger', 'Nije moguce odustati od porudzbine');
+        // }
         return redirect()->route('buyer.orders.index', [$user->id, $store->id]);
     }
 

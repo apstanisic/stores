@@ -35,6 +35,16 @@
 			</a>
 
 
+			<a href="{{ route('stores.orders.index', [$store->id]) }}" class="text-lightgrey">
+				<div class="sidebar-block">
+					<div class="sidebar-icon">
+						<i class="fa fa-files-o" aria-hidden="true"></i>
+					</div>
+					<span class="sidebar-text">Porudzbine</span>
+				</div>
+			</a>
+
+
 			<a href="{{ route('stores.products.index', [$store->id]) }}" class="text-lightgrey">
 				<div class="sidebar-block">
 					<div class="sidebar-icon">

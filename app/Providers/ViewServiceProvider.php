@@ -44,7 +44,9 @@ class ViewServiceProvider extends ServiceProvider
     	$views = [
     		'layouts.dashboard',
     		'categories.*',
-    		'products.*'
+    		'products.*',
+            'partials.orders.*',
+            'orders.*'
     	];
 
 		// Ako se prosledjuje id
