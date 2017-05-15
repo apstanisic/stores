@@ -26,9 +26,26 @@ class CategoryRequest extends FormRequest
      */
     public function rules()
     {
+        //dd(request(['parent_id']));
 
         return [
-            'name' => 'required|min:2',
+            //'name' => 'required|min:2',
+            'name' => [
+                'required',
+                'min:2',
+                Rule::unique('categories', 'name')
+                    ->ignore(Category::url()->id ?? null, 'id')
+                    ->where(function($query) {
+                        //$query->where('parent_id', request(['parent_id']));
+                        // dd(is_null(request()->input('parent_id')));
+                        if (is_null(request()->input('parent_id'))) {
+                            $query->whereNull('parent_id');
+                            $query->where('store_id', Store::url()->id);
+                        } else {
+                            $query->where('parent_id', request(['parent_id']));
+                        }
+                    })
+            ],
             'parent_id' => [
             	// parent_id moze da bude null
             	'nullable',

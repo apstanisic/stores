@@ -46,19 +46,13 @@ class StoresController extends Controller
      */
     public function store(StoreRequest $request)
     {
-    	/* Isto kao nacin ispod, neka sluzi kao podsetnik
-    	*  Kako sve moze
-        $store = new Store($request->all());
-        Auth::user()->stores()->save($store);
-		*/
         $store = Auth::user()->stores()->create($request->all());
-
-        // Pravi default kategoriju koji korisnik moze da brise
+        // Default category
         $store->categories()->create(['name' => 'Nesvrstano']);
 
         Session::flash('flash_success', 'Uspesno napravljena prodavnica');
 
-        return redirect()->route('stores.show', [$store->id]);
+        return redirect()->route('stores.show', [$store->slug]);
     }
 
     /**
@@ -69,8 +63,6 @@ class StoresController extends Controller
      */
     public function show(Store $store)
     {
-    	// Ako se prosledjuje id, a ne objekat
-        // $store = Store::findOrFail($id);
         return view('stores.show', compact('store'));
     }
 
@@ -82,8 +74,6 @@ class StoresController extends Controller
      */
     public function edit(Store $store)
     {
-    	// Ako se prosledjuje id, a ne objekat
-        //$store = Store::findOrFail($id);
         return view('stores.edit', compact('store'));
     }
 
@@ -95,12 +85,11 @@ class StoresController extends Controller
      */
     public function update(StoreRequest $request, Store $store)
     {
-    	// Ako se prosledjuje id, a ne objekat
-        //$store = Store::findOrFail($id);
         $store->update($request->all());
 
         Session::flash('flash_success', 'Uspesno izmenjena prodavnica');
-        return redirect()->route('stores.show', [$store->id]);
+
+        return redirect()->route('stores.show', [$store->slug]);
     }
 
     /**
@@ -111,8 +100,6 @@ class StoresController extends Controller
      */
     public function destroy(Store $store)
     {
-    	// Ako se prosledjuje id, a ne objekat
-        // Store::destroy($id);
     	$store->delete();
 
         Session::flash('flash_success', 'Uspesno izbrisana prodavnica');

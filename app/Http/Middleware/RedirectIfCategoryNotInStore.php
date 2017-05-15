@@ -24,8 +24,12 @@ class RedirectIfCategoryNotInStore
 		$store = Store::url();
 
     	// Ako prodavnica nema kategoriju iz url-a
+        dd(request()->category);
+        dd('stop');
+        dd(\App\Category::url());
+        dd($request->category);
 		if(!$store->hasCategory($request->category)){
-
+            dd('problem');
 			// Vrati na sve kategorije iz prodavnice
 			return redirect()->route('stores.categories.index', [$store->id]);
 

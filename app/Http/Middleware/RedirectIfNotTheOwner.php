@@ -3,9 +3,6 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Route;
-use Auth;
-use App\Store;
 
 class RedirectIfNotTheOwner
 {
@@ -18,9 +15,8 @@ class RedirectIfNotTheOwner
      */
     public function handle($request, Closure $next)
     {
-
-        // Ako nije vlasnik prodavnice vrati ga na sve prodavnice
-        if(!$request->user()->isStoreOwner($request->store)){
+        // if auth user is not the owner redirect to all stores
+        if (!$request->user()->isStoreOwner($request->store)) {
             return redirect()->route('stores.index');
         }
 

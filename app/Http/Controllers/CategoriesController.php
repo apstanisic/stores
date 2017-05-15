@@ -12,24 +12,14 @@ use Session;
 class CategoriesController extends Controller
 {
 
-	//private $store;
-
-	// Mozda bolje ovo negu u dve metode da se dohvataju kategorije
-	//private $parents = $this->store->categories;
-
-
     public function __construct(Request $request)
     {
         $this->middleware(['auth', 'owner']);
         $this->middleware('categoryInStore')->except('index', 'create', 'store');
-
-
         // Treba ako se prosledjuje id store, a ne objekat
         // if ($request->route()) {
         //     $this->store = Store::findOrFail(Route::input('store'));
         // }
-
-
         // Ovako se deli var sa svim view-ima
         // view()->share('store', $store);
     }
@@ -76,7 +66,7 @@ class CategoriesController extends Controller
 
         Session::flash('flash_success', 'Uspesno napravljena kategorija');
 
-        return redirect()->route('stores.categories.index', [$store->id]);
+        return redirect()->route('stores.categories.index', [$store->slug]);
     }
 
     /**
@@ -87,8 +77,6 @@ class CategoriesController extends Controller
      */
     public function show(Store $store, Category $category)
     {
-        //$category = Category::findOrFail($id);
-
         return view('categories.show', compact('category'));
     }
 
@@ -102,9 +90,7 @@ class CategoriesController extends Controller
     {
         $parents = $store->categories;
 
-        //$category = Category::findOrFail($id);
-
-        return view('categories.edit', compact('parents', 'category'));
+        return view('categories.edit', compact('category', 'parents'));
     }
 
     /**
@@ -121,8 +107,7 @@ class CategoriesController extends Controller
         $category->update($request->all());
 
         Session::flash('flash_success', 'Uspesno izmenjena kategorija');
-
-        return redirect()->route('stores.categories.show', [$store->id, $category->id]);
+        return redirect()->route('stores.categories.show', [$store->slug, $category->slug]);
     }
 
     /**
@@ -133,21 +118,18 @@ class CategoriesController extends Controller
      */
     public function destroy(Store $store, Category $category)
     {
-        // Category::destroy($id);
-
-    	$category->delete();
+        $category->delete();
 
         Session::flash('flash_success', 'Uspesno izbrisana kategorija');
 
-        return redirect()->route('stores.categories.index', [$store->id]);
+        return redirect()->route('stores.categories.index', [$store->slug]);
     }
 
 
     public function products(Store $store, Category $category)
     {
-        $products = \App\Product::all()->where('category_id', $category->id);
+        $products = $store->products()->where('category_id', $category->id)->get();
+
         return view('products.index', compact('products'));
-        dd($products);
-    	// Lists all products from selected category
     }
 }

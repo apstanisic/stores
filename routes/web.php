@@ -10,6 +10,23 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+// app()->bind(App\Category::class, function() {
+// 	//return (new \App\Category)->where('store_id', \App\Store::url()->id)->get();
+// 	// dd(request()->store);
+// 	// dd(request()->category);
+// 	// dd(request()->store->categories->where('slug', request()->category)->first());
+// 	return request()->store->categories->where('slug', request()->category)->first();
+// 	// return new \App\Category;
+// });
+
+Route::bind('category', function($value) {
+	// dd(\Auth::user()->stores->where('slug', request()->store)->first()->categories->where('slug', $value)->first());
+	return \Auth::user()->stores->where('slug', request()->store)->first()->categories->where('slug', $value)->first();
+	// dd(\App\Store::url()->id);
+	// dd(request()->store->categories->firsh());
+	// dd($value);
+	// return request()->store->categories->where('slug', $value)->first();
+});
 
 // For store owners
 Route::resource('stores', 'StoresController');

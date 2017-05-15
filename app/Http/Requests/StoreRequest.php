@@ -3,6 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use App\Store;
+
 
 class StoreRequest extends FormRequest
 {
@@ -25,8 +28,15 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            // Treba da se vidi i da li postoji vec prodavnica sa tim imenom
-            'name' => 'required|min:3'
+            'name' => [
+                'required',
+                'min:3',
+                Rule::unique('stores', 'name')
+                    ->ignore(Store::url()->id ?? null, 'id')
+                    ->where(function($query) {
+                        $query->where('user_id', auth()->id());
+                })
+            ]
         ];
     }
 }

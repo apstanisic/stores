@@ -5,12 +5,28 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Auth;
 
 class User extends Authenticatable
 {
     use Notifiable;
     use SoftDeletes;
+    use Sluggable;
+
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => 'username'
+            ]
+        ];
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -18,7 +34,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'username', 'email', 'password',
+        'username', 'email', 'password'
     ];
 
     /**
@@ -32,9 +48,6 @@ class User extends Authenticatable
 
     protected $dates = ['deleted_at'];
 
-    /**
-    * Korisnik moze da ima vise prodavnica
-    */
     public function stores() {
         return $this->hasMany(Store::class);
     }
@@ -53,23 +66,14 @@ class User extends Authenticatable
         // Bolje za bazu nego da se dohvataju svi pa da se onda broji
         return $this->products()->count();
     }
-
-    public function isStoreOwner ($store) {
-
-        // Dohvata prodavnicu kojoj je vlasnik i ima
-        // id koji je prosledjen u url-u
-        // $store = Store::isOwner()->find($store);
-        if (!$store->isOwner()) {
+    // Check if passed store belongs to user
+    public function isStoreOwner (Store $store) {
+        // $store = Store::isOwner()->find($store->id);
+        if ($store->user->id !== $this->id) {
             return false;
         }
-        // Ako nema prodavnice vraca false
-        // if(!$store) {
-        //     return false;
-        // }
 
-        // Ako je vlasnik vraca true
         return true;
-
     }
 
     public static function url()

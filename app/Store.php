@@ -3,24 +3,37 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Auth;
+use App\Category;
+use App\Product;
+use App\Order;
 
 class Store extends Model
 {
+	use Sluggable;
 
 	protected $fillable = [
 		'name', 'description'
 	];
 
-/* Route model binding sa name a ne sa id
-	public function getRouteKeyName()
-	{
-		return 'name';
-	}
-*/
-	// Prodavnica pripada user-u
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => 'name',
+                'unique' => 'false'
+            ]
+        ];
+    }
+
+    // Route model binding sa slugom, a ne sa id
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
 	public function user() {
-		// return $this->belongsTo('App\User');
 		return $this->belongsTo(User::class);
 	}
 
@@ -42,14 +55,14 @@ class Store extends Model
 		return $this->hasMany(Order::class)->withTrashed();
 	}
 
-	// Sve prodavnice ciji je vlasnik ulogovani korisnik
+	// All store where owner is currently logged user
 	public function scopeIsOwner($query) {
 		$query->where('user_id', Auth::id());
 	}
 
-	public function hasCategory($category) {
+	public function hasCategory(Category $category) {
 
-		$category = $this->categories()->find($category);
+		$category = $this->categories()->find($category->id);
 
 		if (!$category) {
 			return false;
@@ -58,9 +71,9 @@ class Store extends Model
 		return true;
 	}
 
-	public function hasProduct($product)
+	public function hasProduct(Product $product)
 	{
-		$product = $this->products()->find($product);
+		$product = $this->products()->find($product->id);
 
 		if (!$product) {
 			return false;
@@ -69,9 +82,9 @@ class Store extends Model
 		return true;
 	}
 
-	public function hasOrder($order)
+	public function hasOrder(Order $order)
 	{
-		$order = $this->orders()->find($order);
+		$order = $this->orders()->find($order->id);
 
 		if (!$order) {
 			return false;
