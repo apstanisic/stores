@@ -7,6 +7,7 @@ use App\Http\Requests\BuyerRegisterRequest;
 use App\Buyer;
 use App\Store;
 use App\User;
+use App\Cart;
 use Hash;
 
 class BAuth extends Model
@@ -38,7 +39,7 @@ class BAuth extends Model
     	session()->forget('buyer_' . Store::url()->user->id . '/' . Store::url()->id);
     }
 
-
+    // $data = array with email and password
     public static function attempt(array $data)
     {
     	$buyer = Buyer::where('email', $data['email'])->where('store_id', Store::url()->id)->first();
@@ -58,7 +59,11 @@ class BAuth extends Model
     public static function register($data)
     {
         $data['password'] = bcrypt($data['password']);
-        Store::url()->buyers()->create($data);
+        $buyer = Store::url()->buyers()->create($data);
+        $cart = new Cart;
+        $cart->store_id = Store::url()->id;
+        $buyer->cart()->save($cart);
+        static::cartFromSessionToDb($buyer);
     }
 
 

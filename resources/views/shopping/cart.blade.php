@@ -15,7 +15,7 @@
 								<div class="col-12 col-sm-6 col-md-6 d-flex">
 									<img class="d-flex align-self-center mr-3" src="{{ $product->images()->first() ?? 'https://placehold.it/65x65' }}" alt="">
 									<div class="media-body">
-										<a href="{{ route('shopping.product', [$user->id, $store->id, $product->id]) }}">
+										<a href="{{ route('shopping.product', [$user->slug, $store->slug, $product->slug]) }}">
 											<h5 class="mt-0">{{ $product->name }}</h5>
 										</a>
 									</div>
@@ -29,7 +29,7 @@
 
 								<div class="col-6 col-sm-3">
 									<div>
-										<form action="{{ route('cart.store', [$user->id, $store->id, $product->id]) }}" method="post" class="form-inline">
+										<form action="{{ route('cart.store', [$user->slug, $store->slug, $product->slug]) }}" method="post" class="form-inline">
 											{{ csrf_field() }}
 											<select name="amount" class="custom-select">
 
@@ -50,7 +50,7 @@
 			</ul>
 
 			{{-- <form action="{{ route('order.store') }}" method="post"> --}}
-			<form action="{{ route('buyer.orders.store', [$store->user->id, $store->id]) }}" method="post">
+			<form action="{{ route('buyer.orders.store', [$store->user->slug, $store->slug]) }}" method="post">
 				{{ csrf_field() }}
 				<button type="submit" class="btn btn-warning btn-block btn-lg">Naruci</button>
 			</form>

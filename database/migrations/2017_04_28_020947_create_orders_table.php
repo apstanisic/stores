@@ -16,10 +16,10 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('price');
+            $table->string('slug');
             $table->integer('buyer_id')->unsigned()->index();
             $table->integer('store_id')->unsigned()->index();
             $table->integer('status_id')->unsigned()->index()->default(1);
-            $table->string('slug');
             $table->timestamps();
             $table->softDeletes();
 

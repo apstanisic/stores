@@ -1,5 +1,4 @@
 <?php
-
 // Route::group([], function() {
 	// Browsing
 	Route::get('{user}/{store}', 'ShoppingController@index')->name('shopping.index');

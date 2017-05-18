@@ -30,7 +30,7 @@ class BuyerController extends Controller
     		return redirect()->back();
     	}
 
-    	return redirect()->route('shopping.index', [$user->id, $store->id]);
+    	return redirect()->route('shopping.index', [$user->slug, $store->slug]);
     }
 
     public function showRegistrationForm(User $user, Store $store)
@@ -43,13 +43,13 @@ class BuyerController extends Controller
         BAuth::register($request->all());
         BAuth::attempt($request->all());
 
-        return redirect()->route('shopping.index');
+        return redirect()->route('shopping.index', [$user->slug, $store->slug]);
     }
 
     public function logout(User $user, Store $store)
     {
 		BAuth::logout();
 
-		return redirect()->route('shopping.index', [$user->id, $store->id]);
+		return redirect()->route('shopping.index', [$user->slug, $store->slug]);
     }
 }

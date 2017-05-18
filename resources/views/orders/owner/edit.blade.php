@@ -4,7 +4,7 @@
 	<div class="container">
 		<div class="card my-5">
 		  	<div class="card-block card-inverse card-@include('partials.status_color')">
-			    <h4 class="card-title text-center h2">Porudzbina {{ $order->id }}</h4>
+			    <h4 class="card-title text-center h2">Porudzbina {{ $order->slug }}</h4>
 			    <hr>
 			    <p>{{ $order->status->description }}</p>
 			    <div class="d-flex flex-wrap justify-content-between">
@@ -13,19 +13,19 @@
 			    </div>
 		  	</div>
 		  	<div class="card-block">
-		  		<form action="{{ route('stores.orders.updateStatus', [$store->id, $order->id]) }}" method="post">
+		  		<form action="{{ route('stores.orders.updateStatus', [$store->slug, $order->slug]) }}" method="post">
 		  			{{ csrf_field() }}
 		  			{{ method_field('patch') }}
 		  			{{-- <input type="hidden" name="_method" value="patch"> --}}
 				  	<select name="status_id" class="form-control" id="changeStatus">
 			  			@foreach(\App\Status::where('id', '!=', 7)->get() as $status)
-							<option value="{{ $status->id }}" {{ ($status->id === $order->status->id) ? 'selected' : '' }}>{{ $status->description }}</option>
+							<option value="{{ $status->slug }}" {{ ($status->slug === $order->status->slug) ? 'selected' : '' }}>{{ $status->description }}</option>
 			  			@endforeach
 			  		</select>
 			  		<button type="submit" class="btn btn-primary btn-block mt-2">Izmeni status</button>
 		  		</form>
 		  	</div>
-		  	<form action="{{ route('stores.orders.update', [$store->id, $order->id]) }}" method="post">
+		  	<form action="{{ route('stores.orders.update', [$store->slug, $order->slug]) }}" method="post">
 		  		{{ csrf_field() }}
 		  		{{ method_field('patch') }}
 		  		{{-- <input type="hidden" name="_method" value="patch"> --}}
@@ -35,7 +35,7 @@
 			  		<li class="list-group-item text-muted">Proizvodi<span class="ml-auto">Kolicina</span></li>
 
 			  		@foreach($order->products as $product)
-						<li class="list-group-item h5">{{ $product->name }}<span class="ml-auto"><input type="number" name="{{ $product->id }}" min="0" max="100" class="form-control" value="{{ $product->pivot->amount }}"></span></li>
+						<li class="list-group-item h5">{{ $product->name }}<span class="ml-auto"><input type="number" name="{{ $product->slug }}" min="0" max="100" class="form-control" value="{{ $product->pivot->amount }}"></span></li>
 			  		@endforeach
 			  	</ul>
 			  	<div class="card-block">
@@ -43,7 +43,7 @@
 		  		</div>
 	  		</form>
 	  		<div class="card-block pt-0">
-		  		<form action="{{ route('stores.orders.destroy', [$store->id, $order->id]) }}" method="post" class="text-right">
+		  		<form action="{{ route('stores.orders.destroy', [$store->slug, $order->slug]) }}" method="post" class="text-right">
 		  			{{ csrf_field() }}
 		  			{{-- <input type="hidden" name="_method" value="delete"> --}}
 		  			{{ method_field('delete') }}

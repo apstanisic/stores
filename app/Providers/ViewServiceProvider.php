@@ -87,17 +87,17 @@ class ViewServiceProvider extends ServiceProvider
             $link1 = new Nav;
             $link1->name = 'Pocetna';
             $link1->route = 'shopping.index';
-            $link1->params = [User::url()->id, Store::url()->id];
+            $link1->params = [User::url()->slug, Store::url()->slug];
 
             $link2 = new Nav;
             $link2->name = 'O nama';
             $link2->route = 'shopping.about';
-            $link2->params = [User::url()->id, Store::url()->id];
+            $link2->params = [User::url()->slug, Store::url()->slug];
 
             $link3 = new Nav;
             $link3->name = 'Kategorije';
             $link3->route = 'shopping.categories';
-            $link3->params = [User::url()->id, Store::url()->id];
+            $link3->params = [User::url()->slug, Store::url()->slug];
 
             // $paramLinks =[];
             $paramLinks[0] = $link1;

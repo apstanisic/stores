@@ -3,10 +3,23 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\Sluggable;
 use App\Store;
 
 class Product extends Model
 {
+    use Sluggable;
+
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => 'name',
+                'unique' => false
+            ]
+        ];
+    }
+
 
 	protected $fillable = [
 		'name',
@@ -15,6 +28,11 @@ class Product extends Model
 		'remaining',
 		'category_id'
 	];
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 
 
 	public function category()

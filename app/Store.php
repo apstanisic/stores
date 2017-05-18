@@ -27,7 +27,6 @@ class Store extends Model
         ];
     }
 
-    // Route model binding sa slugom, a ne sa id
     public function getRouteKeyName()
     {
         return 'slug';
@@ -56,6 +55,8 @@ class Store extends Model
 	}
 
 	// All store where owner is currently logged user
+	// TODO:: Rename to AuthOwner();
+	// Store::authOwner();
 	public function scopeIsOwner($query) {
 		$query->where('user_id', Auth::id());
 	}
@@ -66,9 +67,9 @@ class Store extends Model
 
 		if (!$category) {
 			return false;
+		} else {
+			return true;
 		}
-
-		return true;
 	}
 
 	public function hasProduct(Product $product)
@@ -77,9 +78,9 @@ class Store extends Model
 
 		if (!$product) {
 			return false;
+		} else {
+			return true;
 		}
-
-		return true;
 	}
 
 	public function hasOrder(Order $order)
@@ -88,9 +89,9 @@ class Store extends Model
 
 		if (!$order) {
 			return false;
+		} else {
+			return true;
 		}
-
-		return true;
 	}
 
 	// Dohvata prodavnicu preko url-a

@@ -70,9 +70,9 @@ class Cart extends Model
         $amount = intval($amount);
 
     	if (BAuth::guest()) {
-            static::addToSession($product->name, $amount);
+            static::addToSession($product, $amount);
     	} else {
-            static::addToDb($product->name, $amount);
+            static::addToDb($product, $amount);
     	}
     }
 
@@ -144,8 +144,9 @@ class Cart extends Model
 
 
     // Add new product to session cart
-    private static function addToSession($productName, $amount)
+    private static function addToSession(Product $product, $amount)
     {
+        $productName = $product->name;
     	$session_name = 'cart_' . Store::url()->user->id . '/' . Store::url()->id;
         $sessionProducts = session($session_name);
 
@@ -159,12 +160,13 @@ class Cart extends Model
     }
 
     // Add new product to database cart
-    private static function addToDb($productName, $amount)
+    private static function addToDb(Product $product, $amount)
     {
-        $product = Product::where('name', $productName)->first();
+        // $product = Product::where('name', $productName)->first();
 
         if($amount === '+1') {
             $currentAmount = BAuth::buyer()->cart->products->where('id', $product->id)->first()->pivot->amount ?? 0;
+            //$currentAmount = $product->pivot->amount ?? 0;
             $amount = ++$currentAmount;
         }
 

@@ -34,7 +34,7 @@
 						@if(count($user->stores))
 							@foreach($user->stores as $store)
 								<li class="list-group-item mx-auto">
-									<a href="{{ route('stores.show', [$store->id]) }}">{{ $store->name }}</a>
+									<a href="{{ route('stores.show', [$store->slug]) }}">{{ $store->name }}</a>
 								</li>
 							@endforeach
 						@else

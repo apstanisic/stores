@@ -67,7 +67,7 @@ class BuyerOrdersController extends Controller
             $order->products()->attach($product->id, ['amount' => $product->pivot->amount]);
         }
         Cart::emptyCart();
-        return redirect()->route('buyer.orders.index', [$user->id, $store->id]);
+        return redirect()->route('buyer.orders.index', [$user->slug, $store->slug]);
 
         //Order::store
     }
@@ -122,7 +122,7 @@ class BuyerOrdersController extends Controller
             $order->save();
             session()->flash('flash_success', 'Porudzbina je uspesno izmenjena');
         }
-        return redirect()->route('buyer.orders.index', [$user->id, $store->id]);
+        return redirect()->route('buyer.orders.index', [$user->slug, $store->slug]);
     }
 
     /**
@@ -143,7 +143,7 @@ class BuyerOrdersController extends Controller
         // } else {
         //     session()->flash('flash_danger', 'Nije moguce odustati od porudzbine');
         // }
-        return redirect()->route('buyer.orders.index', [$user->id, $store->id]);
+        return redirect()->route('buyer.orders.index', [$user->slug, $store->slug]);
     }
 
     // If order isn't sent it will be paused

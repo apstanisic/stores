@@ -18,7 +18,7 @@ class RedirectIfBuyerLoged
     public function handle($request, Closure $next)
     {
         if (BAuth::check(Store::url())) {
-            return redirect()->route('shopping.index', [Store::url()->user->id, Store::url()->id]);
+            return redirect()->route('shopping.index', [$request->store->user->slug, $request->store->slug]);
         }
         return $next($request);
     }

@@ -70,7 +70,7 @@ class ProductsController extends Controller
 
         Session::flash('flash_success', 'Uspesno dodat proizvod');
 
-        return redirect()->route('stores.products.index', [$store->id]);
+        return redirect()->route('stores.products.index', [$store->slug]);
     }
 
     /**
@@ -110,7 +110,7 @@ class ProductsController extends Controller
 
         Session::flash('flash_success', 'Uspesno izmenjen proizvod');
 
-        return redirect()->route('stores.products.show', [$store->id, $product->id]);
+        return redirect()->route('stores.products.show', [$store->slug, $product->slug]);
     }
 
     /**
@@ -125,6 +125,6 @@ class ProductsController extends Controller
 
         Session::flash('flash_success', 'Uspesno izbrisan proizvod');
 
-        return redirect()->route('stores.products.index', [$store->id]);
+        return redirect()->route('stores.products.index', [$store->slug]);
     }
 }

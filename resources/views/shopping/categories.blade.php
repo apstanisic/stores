@@ -5,7 +5,7 @@
 		<ul class="list-group mt-4">
 			@foreach($categories as $category)
 				<li class="list-group-item">
-					<a href="{{ route('shopping.category', [$user->id, $store->id, $category->id]) }}">
+					<a href="{{ route('shopping.category', [$user->slug, $store->slug, $category->slug]) }}">
 						{{ $category->name }}
 					</a>
 				</li>

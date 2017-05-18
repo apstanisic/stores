@@ -61,19 +61,19 @@ class User extends Authenticatable
         return $this->hasManyThrough(Product::class, Store::class);
     }
 
+    // Bolje za bazu nego da se dohvataju svi pa da se onda broji
     public function productsCount()
     {
-        // Bolje za bazu nego da se dohvataju svi pa da se onda broji
         return $this->products()->count();
     }
+
     // Check if passed store belongs to user
     public function isStoreOwner (Store $store) {
-        // $store = Store::isOwner()->find($store->id);
         if ($store->user->id !== $this->id) {
             return false;
+        } else {
+            return true;
         }
-
-        return true;
     }
 
     public static function url()

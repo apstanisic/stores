@@ -10,8 +10,8 @@
 		<div class="card-block">
 			<h4 class="card-title">{{ $i++ . '. ' . $order->created_at->diffForHumans() }}</h4>
 			<p>Cena je: <strong>{{ $order->price }} dinara</strong>, i sadrzi {{ count($order->products) }} proizvod/a.</p>
-			<a href="{{ route('stores.orders.show', [$store->id, $order->id]) }}" class="btn btn-primary">Detaljnije</a>
-			<a href="{{ route('stores.orders.edit', [$store->id, $order->id]) }}" class="btn btn-primary">Izmeni</a>
+			<a href="{{ route('stores.orders.show', [$store->slug, $order->slug]) }}" class="btn btn-primary">Detaljnije</a>
+			<a href="{{ route('stores.orders.edit', [$store->slug, $order->slug]) }}" class="btn btn-primary">Izmeni</a>
 		</div>
 	</div>
 @endforeach

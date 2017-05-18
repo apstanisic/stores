@@ -37,7 +37,7 @@ class BindCorrectData
                 $request->route()->setParameter('store', $store);
 
                 if ($request->route()->hasParameter('category')) {
-                    $category = $store->orders->where('slug', $request->route('category')->slug)->first();
+                    $category = $store->categories->where('slug', $request->route('category')->slug)->first();
                     $request->route()->setParameter('category', $category);
                 }
 
@@ -57,9 +57,25 @@ class BindCorrectData
 
     private function shopBinding($request)
     {
+
         $user = $request->route('user');
 
         $store = $user->stores->where('slug', $request->route('store')->slug)->first();
+
+        if ($request->route()->hasParameter('category')) {
+            $category = $store->orders->where('slug', $request->route('category')->slug)->first();
+            $request->route()->setParameter('category', $category);
+        }
+
+        if ($request->route()->hasParameter('product')) {
+            $product = $store->products->where('slug', $request->route('product')->slug)->first();
+            $request->route()->setParameter('product', $product);
+        }
+
+        if ($request->route()->hasParameter('order')) {
+            $order = $store->orders->where('slug', $request->route('order')->slug)->first();
+            $request->route()->setParameter('order', $order);
+        }
 
         $request->route()->setParameter('store', $store);
     }

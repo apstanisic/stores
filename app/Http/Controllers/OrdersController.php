@@ -97,7 +97,7 @@ class OrdersController extends Controller
             $order->save();
             session()->flash('flash_success', 'Porudzbina je uspesno izmenjena');
         }
-        return redirect()->route('stores.orders.show', [$store->id, $order->id]);
+        return redirect()->route('stores.orders.show', [$store->slug, $order->slug]);
     }
 
     public function updateStatus(Request $request, Store $store, Order $order)
@@ -109,7 +109,7 @@ class OrdersController extends Controller
         $order->status_id = request('status_id');
         $order->save();
         session()->flash('flash_success', 'Uspesno izmenjen status');
-        return redirect()->route('stores.orders.show', [$store->id, $order->id]);
+        return redirect()->route('stores.orders.show', [$store->slug, $order->slug]);
     }
 
     /**
@@ -123,6 +123,6 @@ class OrdersController extends Controller
         $order->fullDelete();
         session()->flash('flash_success', 'Uspesno ste izbrisali porudzbinu');
 
-        return redirect()->route('stores.orders.index', [$store->id]);
+        return redirect()->route('stores.orders.index', [$store->slug]);
     }
 }

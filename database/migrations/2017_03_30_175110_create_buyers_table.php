@@ -23,6 +23,7 @@ class CreateBuyersTable extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('store_id')
                   ->references('id')

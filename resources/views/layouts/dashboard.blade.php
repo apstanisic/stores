@@ -25,7 +25,7 @@
 			</a>
 
 
-			<a href="{{ route('stores.show', [$store->id]) }}" class="text-lightgrey">
+			<a href="{{ route('stores.show', [$store->slug]) }}" class="text-lightgrey">
 				<div class="sidebar-block">
 					<div class="sidebar-icon">
 						<i class="fa fa-shopping-basket" aria-hidden="true"></i>
@@ -35,7 +35,7 @@
 			</a>
 
 
-			<a href="{{ route('stores.orders.index', [$store->id]) }}" class="text-lightgrey">
+			<a href="{{ route('stores.orders.index', [$store->slug]) }}" class="text-lightgrey">
 				<div class="sidebar-block">
 					<div class="sidebar-icon">
 						<i class="fa fa-files-o" aria-hidden="true"></i>
@@ -45,7 +45,7 @@
 			</a>
 
 
-			<a href="{{ route('stores.products.index', [$store->id]) }}" class="text-lightgrey">
+			<a href="{{ route('stores.products.index', [$store->slug]) }}" class="text-lightgrey">
 				<div class="sidebar-block">
 					<div class="sidebar-icon">
 						<i class="fa fa-archive" aria-hidden="true"></i>
@@ -54,7 +54,7 @@
 				</div>
 			</a>
 
-			<a href="{{ route('stores.categories.index', [$store->id]) }}" class="text-lightgrey">
+			<a href="{{ route('stores.categories.index', [$store->slug]) }}" class="text-lightgrey">
 				<div class="sidebar-block">
 					<div class="sidebar-icon">
 						<i class="fa fa-list-alt" aria-hidden="true"></i>
@@ -65,7 +65,7 @@
 
 
 
-			<a href="{{ route('stores.edit', [$store->id]) }}" class="text-lightgrey">
+			<a href="{{ route('stores.edit', [$store->slug]) }}" class="text-lightgrey">
 				<div class="sidebar-block">
 					<div class="sidebar-icon">
 						<i class="fa fa-pencil" aria-hidden="true"></i>
@@ -75,7 +75,7 @@
 			</a>
 
 
-			<form action="{{ route('stores.destroy', [$store->id]) }}" method="post">
+			<form action="{{ route('stores.destroy', [$store->slug]) }}" method="post">
 				{{ csrf_field() }}
 				{{-- <input type="hidden" name="_method" value="delete"> --}}
 				{{ method_field('delete') }}

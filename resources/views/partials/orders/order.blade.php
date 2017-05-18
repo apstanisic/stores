@@ -1,7 +1,7 @@
 <div class="container">
 		<div class="card my-5">
 		  	<div class="card-block card-inverse card-@include('partials.status_color')">
-			    <h4 class="card-title text-center h2">Porudzbina {{ $order->id }}</h4>
+			    <h4 class="card-title text-center h2">Porudzbina {{ $order->slug }}</h4>
 			    <hr>
 			    <p>{{ $order->status->description }}</p>
 			    <div class="d-flex flex-wrap justify-content-between">
@@ -16,7 +16,7 @@
 		  		@endforeach
 		  	</ul>
 		  		<div class="card-block d-flex justify-content-around">
-					<a href="{{ route('stores.orders.edit', [$store->id, $order->id]) }}" class="btn btn-warning">Izmeni porudzbinu</a>
+					<a href="{{ route('stores.orders.edit', [$store->slug, $order->slug]) }}" class="btn btn-warning">Izmeni porudzbinu</a>
 	  			</div>
 		</div>
 	</div>

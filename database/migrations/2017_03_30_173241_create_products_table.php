@@ -19,6 +19,7 @@ class CreateProductsTable extends Migration
             $table->text('description');
             $table->integer('price');
             $table->integer('remaining');
+            $table->string('slug');
             $table->integer('store_id')->unsigned()->index();
             $table->integer('category_id')->unsigned()->index();
             $table->timestamps();
