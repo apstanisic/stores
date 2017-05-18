@@ -29,7 +29,8 @@
 						<a href="{{ route('stores.products.edit', [$store->id, $product->id]) }}" class="btn btn-primary">Izmeni</a>
 						<form action="{{ route('stores.products.destroy', [$store->id, $product->id]) }}" method="post">
 							{{ csrf_field() }}
-							<input type="hidden" name="_method" value="delete">
+							{{ method_field('delete') }}
+							{{-- <input type="hidden" name="_method" value="delete"> --}}
 							<button type="submit" class="btn btn-danger">Izbrisi</button>
 						</form>
 					@endslot

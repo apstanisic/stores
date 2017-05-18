@@ -23,8 +23,6 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-
         parent::boot();
     }
 
@@ -38,8 +36,11 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapApiRoutes();
 
         $this->mapWebRoutes();
+        // Mine
+        $this->mapShoppingRoutes();
+        // Bind correctly by slug
+        // $this->bindCorrectData();
 
-        //
     }
 
     /**
@@ -70,4 +71,13 @@ class RouteServiceProvider extends ServiceProvider
              ->namespace($this->namespace)
              ->group(base_path('routes/api.php'));
     }
+
+    protected function mapShoppingRoutes()
+    {
+        Route::prefix('shop')
+             ->middleware('web')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/shopping.php'));
+    }
+
 }

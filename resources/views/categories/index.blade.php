@@ -59,7 +59,8 @@
 							<td class="text-center">
 								<form method="post" action="{{ route('stores.categories.destroy', [$store->id, $category->id]) }}" >
 									{{ csrf_field() }}
-									<input type="hidden" name="_method" value="delete">
+									{{-- <input type="hidden" name="_method" value="delete"> --}}
+									{{ method_field('delete') }}
 									<button type="submit" class="btn btn-danger">
 										<i class="fa fa-trash" aria-hidden="true"></i>
 									</button>

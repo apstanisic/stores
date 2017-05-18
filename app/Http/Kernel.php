@@ -34,12 +34,15 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            // Mine
+            'bindCorrectData',
         ],
 
         'api' => [
             'throttle:60,1',
             'bindings',
         ],
+
     ];
 
     /**
@@ -66,5 +69,7 @@ class Kernel extends HttpKernel
         'bauth.guest' => \App\Http\Middleware\RedirectIfBuyerLoged::class,
         'buyer.order.canEdit' => \App\Http\Middleware\RedirectIfOrderProcessed::class,
         'buyer.order.owner' => \App\Http\Middleware\RedirectIfNotBuyersOrder::class,
+        // Correct route model binding for slug
+        'bindCorrectData' => \App\Http\Middleware\BindCorrectData::class,
     ];
 }

@@ -10,7 +10,8 @@
 
 			<form action="{{ route('user.update') }}" method="post">
 				{{ csrf_field() }}
-				<input type="hidden" name="_method" value="patch">
+				{{-- <input type="hidden" name="_method" value="patch"> --}}
+				{{ method_field('put') }}
 
 				<div class="form-group">
 					<label for="changeUsername">Username</label>
@@ -34,7 +35,8 @@
 			<p class="h2 text-center">Izmenite lozinku</p>
 
 			<form action="{{ route('user.updatePassword') }}" method="post">
-				<input type="hidden" name="_method" value="patch">
+				{{-- <input type="hidden" name="_method" value="patch"> --}}
+				{{ method_field('patch') }}
 				{{ csrf_field() }}
 
 				<div class="form-group">
@@ -63,7 +65,8 @@
 		<div class="col-12 mt-4 border-1 p-3">
 			<form action="{{ route('user.destroy') }}" method="post">
 				{{ csrf_field() }}
-				<input type="hidden" name="_method" value="delete">
+				{{-- <input type="hidden" name="_method" value="delete"> --}}
+				{{ method_field('delete') }}
 				<div class="form-group">
 					<button type="submit" class="btn btn-danger btn-block" id="profileDelete" disabled>Izbrisi profil</button>
 				</div>

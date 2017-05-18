@@ -19,6 +19,7 @@ class CreateOrdersTable extends Migration
             $table->integer('buyer_id')->unsigned()->index();
             $table->integer('store_id')->unsigned()->index();
             $table->integer('status_id')->unsigned()->index()->default(1);
+            $table->string('slug');
             $table->timestamps();
             $table->softDeletes();
 

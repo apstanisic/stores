@@ -77,7 +77,8 @@
 
 			<form action="{{ route('stores.destroy', [$store->id]) }}" method="post">
 				{{ csrf_field() }}
-				<input type="hidden" name="_method" value="delete">
+				{{-- <input type="hidden" name="_method" value="delete"> --}}
+				{{ method_field('delete') }}
 				<button type="submit" class="btn-transparent text-lightgrey">
 					<div class="sidebar-block">
 						<div class="sidebar-icon">

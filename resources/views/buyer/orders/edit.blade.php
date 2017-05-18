@@ -14,7 +14,8 @@
 		  	</div>
 		  	<form action="{{ route('buyer.orders.update', [$user->id, $store->id, $order->id]) }}" method="post">
 		  		{{ csrf_field() }}
-		  		<input type="hidden" name="_method" value="patch">
+		  		{{-- <input type="hidden" name="_method" value="patch"> --}}
+		  		{{ method_field('patch') }}
 			  	<ul class="list-group list-group-flush">
 			  		{{-- Dodati jos proizvoda u porudzbinu --}}
 			  		{{-- <li class="list-group-item bg-primary"><a href="#" class="text-white">Dodaj proizvod</a></li> --}}

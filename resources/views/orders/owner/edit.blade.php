@@ -15,7 +15,8 @@
 		  	<div class="card-block">
 		  		<form action="{{ route('stores.orders.updateStatus', [$store->id, $order->id]) }}" method="post">
 		  			{{ csrf_field() }}
-		  			<input type="hidden" name="_method" value="patch">
+		  			{{ method_field('patch') }}
+		  			{{-- <input type="hidden" name="_method" value="patch"> --}}
 				  	<select name="status_id" class="form-control" id="changeStatus">
 			  			@foreach(\App\Status::where('id', '!=', 7)->get() as $status)
 							<option value="{{ $status->id }}" {{ ($status->id === $order->status->id) ? 'selected' : '' }}>{{ $status->description }}</option>
@@ -26,7 +27,8 @@
 		  	</div>
 		  	<form action="{{ route('stores.orders.update', [$store->id, $order->id]) }}" method="post">
 		  		{{ csrf_field() }}
-		  		<input type="hidden" name="_method" value="patch">
+		  		{{ method_field('patch') }}
+		  		{{-- <input type="hidden" name="_method" value="patch"> --}}
 			  	<ul class="list-group list-group-flush">
 			  		{{-- Dodati jos proizvoda u porudzbinu --}}
 			  		{{-- <li class="list-group-item bg-primary"><a href="#" class="text-white">Dodaj proizvod</a></li> --}}
@@ -43,7 +45,8 @@
 	  		<div class="card-block pt-0">
 		  		<form action="{{ route('stores.orders.destroy', [$store->id, $order->id]) }}" method="post" class="text-right">
 		  			{{ csrf_field() }}
-		  			<input type="hidden" name="_method" value="delete">
+		  			{{-- <input type="hidden" name="_method" value="delete"> --}}
+		  			{{ method_field('delete') }}
 		  			<button class="btn btn-danger">Izbrisi porudzbinu</button>
 		  		</form>
 	  		</div>

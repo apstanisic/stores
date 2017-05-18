@@ -22,7 +22,8 @@
 		  		<div class="card-block d-flex justify-content-around">
 					<form action="{{ route('buyer.orders.destroy', [$user->id, $store->id, $order->id]) }}" method="post">
 						{{ csrf_field() }}
-						<input type="hidden" name="_method" value="delete">
+						{{-- <input type="hidden" name="_method" value="delete"> --}}
+						{{ method_field('delete') }}
 						<button type="submit" class="btn btn-danger">
 							Odustani
 						</button>
@@ -30,7 +31,8 @@
 					<a href="{{ route('buyer.orders.edit', [$user->id, $store->id, $order->id]) }}" class="btn btn-warning">Izmeni porudzbinu</a>
 					<form action="{{ route('buyer.orders.pause', [$user->id, $store->id, $order->id]) }}" method="post">
 						{{ csrf_field() }}
-						<input type="hidden" name="_method" value="patch">
+						{{-- <input type="hidden" name="_method" value="patch"> --}}
+						{{ method_field('patch') }}
 						<button type="submit" class="btn btn-warning">
 							{{ ($order->status->name === 'pauzirano') ? 'Odpauziraj' : 'Pauziraj' }} slanje
 						</button>

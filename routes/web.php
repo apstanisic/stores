@@ -18,89 +18,67 @@
 // 	return request()->store->categories->where('slug', request()->category)->first();
 // 	// return new \App\Category;
 // });
+// Route::get('/stores/{bla}', function() {
+// 	dd(Route::current());
+// 	dd(Route::currentRouteAction());
+// });
 
-Route::bind('category', function($value) {
+//Route::bind('category', function($value) {
 	// dd(\Auth::user()->stores->where('slug', request()->store)->first()->categories->where('slug', $value)->first());
-	return \Auth::user()->stores->where('slug', request()->store)->first()->categories->where('slug', $value)->first();
+	//return \Auth::user()->stores->where('slug', request()->store)->first()->categories->where('slug', $value)->first();
 	// dd(\App\Store::url()->id);
 	// dd(request()->store->categories->firsh());
 	// dd($value);
 	// return request()->store->categories->where('slug', $value)->first();
-});
+// });
+// Route::group(['middleware' => 'bindCorrectStore'], function() {
+
 
 // For store owners
 Route::resource('stores', 'StoresController');
+
 Route::resource('stores.products', 'ProductsController');
+
 Route::resource('stores.categories', 'CategoriesController');
 Route::get('stores/{store}/categories/{category}/products', 'CategoriesController@products')->name('stores.categories.products');
 
+Route::resource('stores.orders', 'OrdersController', ['except' => ['create', 'store']]);
+Route::patch('stores/{store}/orders/{order}/updateStatus', 'OrdersController@updateStatus')->name('stores.orders.updateStatus');
 
 // Auth and user profile
 Auth::routes();
-Route::get('/profile', 'Auth\UserController@index')->name('user.index');
-Route::get('/profile/edit', 'Auth\UserController@edit')->name('user.edit');
-Route::patch('/profile', 'Auth\UserController@update')->name('user.update');
-Route::patch('/profile/password', 'Auth\UserController@updatePassword')->name('user.updatePassword');
-Route::delete('/profile', 'Auth\UserController@destroy')->name('user.destroy');
 
-// Cart
-Route::get('shop/{user}/{store}/cart', 'CartController@index')->name('cart.index');
-Route::post('shop/{user}/{store}/cart/{product}', 'CartController@store')->name('cart.store');
-Route::delete('shop/{user}/{store}/cart/{product}', 'CartController@destroy')->name('cart.destroy');
+Route::group(['prefix' => 'profile'], function() {
+	Route::get('/', 'Auth\UserController@index')->name('user.index');
+	Route::get('/edit', 'Auth\UserController@edit')->name('user.edit');
+	Route::patch('/', 'Auth\UserController@update')->name('user.update');
+	Route::patch('/password', 'Auth\UserController@updatePassword')->name('user.updatePassword');
+	Route::delete('/', 'Auth\UserController@destroy')->name('user.destroy');
+});
 
 
-// Order
-
-/// Vlasnik prodavnice
-// Vidi sve
-// Vidi detalje
-// Sve sem pravljenja.
-
-///
-// stores/1/orders get
-// stores/1/orders/1 get
-// stores/1/orders/1/edit // get
-// stores/1/orders/1/patch
-Route::resource('stores.orders', 'OrdersController', ['except' => ['create', 'store']]);
-Route::patch('stores/{store}/orders/{order}/updateStatus', 'OrdersController@updateStatus')->name('stores.orders.updateStatus');
-Route::resource('shop/{user}/{store}/orders', 'BuyerOrdersController', [ 'as' => 'buyer', 'except' => ['create']]);
-Route::patch('shop/{user}/{store}/orders/{order}/pause', 'BuyerOrdersController@togglePause')->name('buyer.orders.pause');
 
 
-/// Kupac
-// // shop/1/1/orders post
-// // shop/1/1/orders post
-// // shop/1/1/orders get
-// // shop/1/1/orders/1 get
-// if status == preparing
-	// // shop/1/1/orders/1 patch
-	// // shop/1/1/orders/1 delete
-// endif
-// // shop/1/1/orders/1/edit get
-// Pravi
-// Menja ako nije poslata
-// Odustaje ako nije poslata
+
+
 
 // For shopping
-Route::get('shop/{user}/{store}', 'ShoppingController@index')->name('shopping.index');
-Route::get('shop/{user}/{store}/about', 'ShoppingController@about')->name('shopping.about');
-Route::get('shop/{user}/{store}/categories', 'ShoppingController@categories')->name('shopping.categories');
-Route::get('shop/{user}/{store}/category/{category}', 'ShoppingController@category')->name('shopping.category');
-Route::get('shop/{user}/{store}/product/{product}', 'ShoppingController@product')->name('shopping.product');
-
-// Buyer
-Route::get('shop/{user}/{store}/profile', 'BuyerController@index')->name('buyer.index');
-Route::get('shop/{user}/{store}/login', 'BuyerController@showLoginForm')->name('buyer.login.show');
-Route::post('shop/{user}/{store}/login', 'BuyerController@login')->name('buyer.login');
-Route::get('shop/{user}/{store}/register', 'BuyerController@showRegistrationForm')->name('buyer.register.show');
-Route::post('shop/{user}/{store}/register', 'BuyerController@register')->name('buyer.register');
-Route::post('shop/{user}/{store}/logout', 'BuyerController@logout')->name('buyer.logout');
-
-
+Route::group(['prefix' => 'shop'], function() {
+	// dd('1234');
+	// Route::bind('store', function($value) {
+	// 	$user = \App\User::where('slug', Route::input('user'))->first();
+	// 	return $user->stores->where('slug', $value)->first();
+	// });
+});
 
 // Static pages
-Route::get('/', 'PagesController@index')->name('root');
-Route::get('/home', 'PagesController@index');
-Route::get('/about', 'PagesController@whyUs')->name('about');
-Route::get('/manuals', 'PagesController@guides')->name('manuals');
-Route::get('/contact', 'PagesController@contact')->name('contact');
+Route::group([], function() {
+	Route::get('/', 'PagesController@index')->name('root');
+	Route::get('/home', 'PagesController@index');
+	Route::get('/about', 'PagesController@whyUs')->name('about');
+	Route::get('/manuals', 'PagesController@guides')->name('manuals');
+	Route::get('/contact', 'PagesController@contact')->name('contact');
+});
+
+
+// });

@@ -22,7 +22,7 @@ class Store extends Model
         return [
             'slug' => [
                 'source' => 'name',
-                'unique' => 'false'
+                'unique' => false
             ]
         ];
     }
