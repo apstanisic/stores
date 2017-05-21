@@ -12,8 +12,10 @@ use Auth;
 class StoresController extends Controller
 {
 
+    // private $stores;
 	public function __construct()
     {
+        // $this->stores = $stores;
         $this->middleware('auth');
         $this->middleware('owner')->except('index', 'create', 'store');
     }
@@ -24,8 +26,9 @@ class StoresController extends Controller
      */
     public function index()
     {
-        // $stores = Store::isOwner()->get();
-        $stores = Auth::user()->stores;
+        // dd((new \App\Repositories\Stores)->all(auth()->user()));
+        // dd($this->stores->all());
+        $stores = auth()->user()->stores;
         return view('stores.index', compact('stores'));
     }
 

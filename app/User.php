@@ -61,6 +61,11 @@ class User extends Authenticatable
         return $this->hasManyThrough(Product::class, Store::class);
     }
 
+    public function updatePassword($password)
+    {
+        $this->update(['password' => bcrypt($password)]);
+    }
+
     // Bolje za bazu nego da se dohvataju svi pa da se onda broji
     public function productsCount()
     {

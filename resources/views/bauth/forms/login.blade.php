@@ -1,4 +1,4 @@
-<form method="post" action="{{ route('buyer.login', [$user->slug, $store->slug]) }}" class="mx-auto p-3">
+<form method="post" action="{{ route('buyer.login', [$store->user->slug, $store->slug]) }}" class="mx-auto p-3">
 	{{ csrf_field() }}
 
 	<div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }}">

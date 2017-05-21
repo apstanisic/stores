@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\UpdateProfileRequest;
 use App\Http\Requests\UpdatePasswordRequest;
+use App\Http\Requests\DeleteProfileRequest;
 use Session;
 
 class UserController extends Controller
@@ -51,17 +52,16 @@ class UserController extends Controller
         // Kada se pravi profil moze da se napravi sa space-om
         auth()->user()->update(request(['username', 'email']));
 
-        Session::flash('flash_success', 'Uspesno izmenjen profil');
+        session()->flash('flash_success', 'Uspesno izmenjen profil');
 
         return redirect()->route('user.index')->with('user', auth()->user());
     }
 
     public function updatePassword(updatePasswordRequest $request)
     {
-        $password = bcrypt(request('password'));
-        auth()->user()->update(compact('password'));
+        auth()->user()->updatePassworrd(request('password'));
 
-        Session::flash('flash_success', 'Uspesno izmenjena sifra');
+        session()->flash('flash_success', 'Uspesno izmenjena sifra');
 
         return redirect()->route('user.index')->with('user', auth()->user());
     }
@@ -71,21 +71,13 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy(DeleteProfileRequest $request)
     {
-        // Korisnik mora da unese svoje korisnicko ime da bi izbrisao profil,
-        // Da ne bi doslo do slucajnog brisanja
-        $this->validate($request, [
-            'username' => 'required|in:' . auth()->user()->username
-        ]);
-
-        // return 'TODO: soft delete! Casscade prodavnica';
-
         auth()->user()->delete();
 
-        Session::flash('flash_success', 'Uspesno izbrisan profil');
+        session()->flash('flash_success', 'Uspesno izbrisan profil');
 
-        return redirect('/');//->url('/');
+        return redirect('/');
     }
 
 }

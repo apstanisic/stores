@@ -15,6 +15,11 @@ use Illuminate\Http\Request;
 Route::get('/user', function (Request $request)
 {
 	// dd($request->user());
+	// dd('hello');
+	// dd($request->all()[1]);
+
+	dd(is_numeric('a'));
+	dd(5 > 'g');
 });
 
 // Route::middleware('auth:api')->get('/user', function (Request $request) {

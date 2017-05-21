@@ -33,7 +33,6 @@ class ShoppingController extends Controller
 
     public function categories(User $user, Store $store)
     {
-        $categories = $store->categories;
-        return view('shopping.categories', compact('categories'));
+        return view('shopping.categories', ['categories' => $store->categories]);
     }
 }

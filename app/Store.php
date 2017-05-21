@@ -96,7 +96,8 @@ class Store extends Model
 	}
 
 	// Dohvata prodavnicu preko url-a
-	public static function url() {
+	public static function url()
+	{
 		return \Route::input('store');
 	}
 }

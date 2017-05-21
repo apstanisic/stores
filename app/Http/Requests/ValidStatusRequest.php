@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdatePasswordRequest extends FormRequest
+class ValidStatusRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class UpdatePasswordRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->check();
+        return true;
     }
 
     /**
@@ -24,9 +24,7 @@ class UpdatePasswordRequest extends FormRequest
     public function rules()
     {
         return [
-            // Custom validation rule: check_password: AppServiceProvider
-            'old_password' => 'check_password:' . auth()->user()->password,
-            'password' => 'required|min:6|confirmed'
+            'status_id' => 'exists:status,id'
         ];
     }
 }

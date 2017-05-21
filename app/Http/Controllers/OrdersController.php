@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\ValidStatusRequest;
 use App\Store;
 use App\Order;
 use App\Product;
@@ -26,26 +27,10 @@ class OrdersController extends Controller
         return view('orders.index', compact('orders'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // Owner doens't create order, he just edits it and deletes it
     // public function create()
-    // {
-    //     // Ne treba? Mozda ako ima neki problem
-    // }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     // public function store(Request $request)
-    // {
-    //     // Ne treba?
-    // }
+
 
     /**
      * Display the specified resource.
@@ -80,36 +65,21 @@ class OrdersController extends Controller
      */
     public function update(Request $request, Store $store, Order $order)
     {
-        $order->products()->detach();
-        $price = 0;
-        foreach (request()->all() as $product_id => $amount) {
-            $product = Product::find($product_id);
-            if ($amount > 0 && $product->store->id == $store->id) {
-                $order->products()->attach($product_id, ['amount' => intval($amount)]);
-                $price += $product->price * $amount;
-            }
-        }
+        $status = $order->fullUpdate($request->except(['_token', '_method']));
 
-        if (!count($order->products)) {
-            $order->delete();
-            session()->flash('flash_success', 'Izbrisali ste sve proizvode iz porudzbine, porudzbina je obrisana');
-        } else {
-            $order->price = $price;
-            $order->save();
-            session()->flash('flash_success', 'Porudzbina je uspesno izmenjena');
-        }
+        if ($status) session()->flash('flash_success', 'Uspesno izmenjena porudzbina');
+
         return redirect()->route('stores.orders.show', [$store->slug, $order->slug]);
     }
 
-    public function updateStatus(Request $request, Store $store, Order $order)
-    {
-        $this->validate($request, [
-            'status_id' => 'exists:status,id'
-        ]);
 
-        $order->status_id = request('status_id');
-        $order->save();
+
+    public function updateStatus(ValidStatusRequest $request, Store $store, Order $order)
+    {
+        $order->update($request->all());
+
         session()->flash('flash_success', 'Uspesno izmenjen status');
+
         return redirect()->route('stores.orders.show', [$store->slug, $order->slug]);
     }
 

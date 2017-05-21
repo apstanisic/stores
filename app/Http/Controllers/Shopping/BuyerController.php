@@ -21,7 +21,7 @@ class BuyerController extends Controller
     public function showLoginForm(User $user, Store $store)
     {
     	//dd(BA::check($store));
-    	return view('buyer.login');
+    	return view('bauth.login');
     }
 
     public function login(Request $request, User $user, Store $store)
@@ -36,12 +36,13 @@ class BuyerController extends Controller
 
     public function showRegistrationForm(User $user, Store $store)
     {
-    	return view('buyer.register');
+    	return view('bauth.register');
     }
 
     public function register(BuyerRegisterRequest $request, User $user, Store $store)
     {
         $buyer = BAuth::register($request->all(), $store);
+
         BAuth::login($buyer);
 
         return redirect()->route('shopping.index', [$user->slug, $store->slug]);

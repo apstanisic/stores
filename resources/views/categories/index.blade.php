@@ -36,10 +36,18 @@
 						<tr>
 							<td>{{ $i++ }}</td>
 
-							<td class="text-center h3"><a href="{{ route('stores.categories.show', [$store->slug, $category->slug]) }}">{{ $category->name }}</a></td>
+							<td class="text-center h3">
+								<a href="{{ route('stores.categories.show', [$store->slug, $category->slug]) }}">
+									{{ $category->name }}
+								</a>
+							</td>
 
 							@if($category->parent)
-								<td class="text-center h4"><a href="{{ route('stores.categories.show', [$store->slug, $category->parent->slug]) }}">{{ $category->parent->name or '' }}</a></td>
+								<td class="text-center h4">
+									<a href="{{ route('stores.categories.show', [$store->slug, $category->parent->slug]) }}">
+										{{ $category->parent->name or '' }}
+									</a>
+								</td>
 							@else
 								<td class="text-center h4"><i class="fa fa-ban" aria-hidden="true"></i></td>
 							@endif
@@ -59,7 +67,6 @@
 							<td class="text-center">
 								<form method="post" action="{{ route('stores.categories.destroy', [$store->slug, $category->slug]) }}" >
 									{{ csrf_field() }}
-									{{-- <input type="hidden" name="_method" value="delete"> --}}
 									{{ method_field('delete') }}
 									<button type="submit" class="btn btn-danger">
 										<i class="fa fa-trash" aria-hidden="true"></i>

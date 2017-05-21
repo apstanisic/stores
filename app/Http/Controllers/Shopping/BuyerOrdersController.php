@@ -41,28 +41,14 @@ class BuyerOrdersController extends Controller
      */
     public function store(User $user, Store $store, Request $request)
     {
-        // snimi narudzbinu
-        //dd(Cart::price());
-        // dd(Orde)
-        if (!Cart::isEmpty($store)) {
-            //dd(Cart::isEmpty());
+        if (Cart::isEmpty($store)) {
             session()->flash('flash_danger', 'Korpa je prazna');
             return redirect()->back();
         }
-        $order = new Order;
-        $order->buyer_id = BAuth::buyer($store)->id;
-        $order->store_id = $store->id;
-        $order->price = Cart::price($store);
-        $order->save();
 
-        foreach (Cart::items($store) as $product) {
-            // BAuth::buyer()->cart->products()->attach($product->id, ['amount' => $amount]);
-            $order->products()->attach($product->id, ['amount' => $product->pivot->amount]);
-        }
-        Cart::emptyCart($store);
+        Order::fullCreate(BAuth($store)->user);
+
         return redirect()->route('buyer.orders.index', [$user->slug, $store->slug]);
-
-        //Order::store
     }
 
     /**
@@ -74,7 +60,6 @@ class BuyerOrdersController extends Controller
     public function show(User $user, Store $store, Order $order)
     {
         return view('buyer.orders.show', compact('order'));
-        // Prikazi narudzbinu
     }
 
     /**
@@ -97,24 +82,14 @@ class BuyerOrdersController extends Controller
      */
     public function update(Request $request, User $user, Store $store, Order $order)
     {
-        $order->products()->detach();
-        $price = 0;
-        foreach (request()->all() as $product_id => $amount) {
-            $product = Product::find($product_id);
-            if ($amount > 0 && $product->store->id == $store->id) {
-                $order->products()->attach($product_id, ['amount' => intval($amount)]);
-                $price += $product->price * $amount;
-            }
+        $success = $order->fullUpdate($request->except(['_token', '_method']));
+
+        if (!$success) {
+            session()->flash('flash_danger', 'Nije izmenjena porudzbina');
+        } else {
+            session()->flash('flash_success', 'Uspesno izmenjena porudzbina');
         }
 
-        if (!count($order->products)) {
-            $order->delete();
-            session()->flash('flash_success', 'Izbrisali ste sve proizvode iz porudzbine, porudzbina je obrisana');
-        } else {
-            $order->price = $price;
-            $order->save();
-            session()->flash('flash_success', 'Porudzbina je uspesno izmenjena');
-        }
         return redirect()->route('buyer.orders.index', [$user->slug, $store->slug]);
     }
 
@@ -126,16 +101,10 @@ class BuyerOrdersController extends Controller
      */
     public function destroy(User $user,Store $store, Order $order)
     {
-        // if ($order->status->name == 'u_pripremi' || $order->status->name == 'pauzirano') {
-            // $order->products()->detach();
-            // $order->status_id = 7;
-            // $order->save();
-            // $order->delete();
-            $order->fullDelete();
-            session()->flash('flash_success', 'Uspesno ste odustali od porudzbine');
-        // } else {
-        //     session()->flash('flash_danger', 'Nije moguce odustati od porudzbine');
-        // }
+        $order->fullDelete();
+
+        session()->flash('flash_success', 'Uspesno ste odustali od porudzbine');
+
         return redirect()->route('buyer.orders.index', [$user->slug, $store->slug]);
     }
 
@@ -144,16 +113,14 @@ class BuyerOrdersController extends Controller
     // and set in preparation
     public function togglePause(User $user,Store $store, Order $order)
     {
-        if ($order->status->name == 'u_pripremi') {
-            $order->status_id = 6;
-            $order->save();
-            session()->flash('flash_success', 'Uspesno pauzirano');
+        $success = $order->togglePause();
+
+        if (!$success) {
+            session()->flash('flash_danger', 'Nije moguce status');
+        } else {
+            session()->flash('flash_success', 'Uspesno izmenjen status');
         }
-        if ($order->status->name == 'pauzirano') {
-            $order->status_id = 1;
-            $order->save();
-            session()->flash('flash_success', 'Uspesno ste zaustavili pauzu, posiljka je opet u pripremi');
-        }
+
         return redirect()->back();
     }
 }

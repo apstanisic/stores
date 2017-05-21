@@ -24,7 +24,7 @@
 				<div class="sidebar-icon">
 					<i class="fa fa-shopping-basket" aria-hidden="true"></i>
 				</div>
-				<span class="sidebar-text">Prodavnica - "{{ $store->name }}"</span>
+				<span class="sidebar-text">Prodavnica{{--  - "{{ $store->name }}" --}}</span>
 			</div>
 		</a>
 
@@ -71,7 +71,6 @@
 
 		<form action="{{ route('stores.destroy', [$store->slug]) }}" method="post">
 			{{ csrf_field() }}
-			{{-- <input type="hidden" name="_method" value="delete"> --}}
 			{{ method_field('delete') }}
 			<button type="submit" class="btn-transparent text-lightgrey">
 				<div class="sidebar-block">

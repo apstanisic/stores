@@ -24,7 +24,7 @@
 
 			@include('orders.form_status')
 
-	  		<form action="{{ route('stores.orders.destroy', [$store->slug, $order->slug]) }}" method="post" class="text-right mt-3">
+	  		<form action="{{ route('stores.orders.destroy', [$order->store->slug, $order->slug]) }}" method="post" class="text-right mt-3">
 	  			{{ csrf_field() }}
 	  			{{ method_field('delete') }}
 	  			<button class="btn btn-danger">Izbrisi porudzbinu</button>

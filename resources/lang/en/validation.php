@@ -101,6 +101,9 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'old_password' => [
+            'check_password' => 'You :attribute is invalid.'
+        ]
     ],
 
     /*

@@ -17,12 +17,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // TODO // Skinuti kada se stavi nova verzija mysql-a
-        // Schema::defaultStringLength(191);
-
         Validator::extend('check_password', function($attribute, $value, $parameters, $validator) {
             return \Hash::check($value, current($parameters));
-        }, 'Old password is invalid');
+        });
 
     }
 

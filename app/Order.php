@@ -11,12 +11,18 @@ class Order extends Model
     use SoftDeletes;
     use Sluggable;
 
+
+    protected $fillable = ['status_id']
+    protected $dates = ['deleted_at'];
+
+
     public function sluggable()
     {
         return [
             'slug' => [
                 'source' => 'generateSlug',
-                'unique' => true
+                'unique' => true,
+                'onUpdate' => false,
             ]
         ];
     }
@@ -25,8 +31,6 @@ class Order extends Model
     {
         return 'slug';
     }
-
-    protected $dates = ['deleted_at'];
 
     public function products()
     {
@@ -59,6 +63,59 @@ class Order extends Model
         $this->delete();
     }
 
+    public static function fullCreate(Buyer $buyer)
+    {
+        $order = Order::create([
+            'buyer_id' => $buyer->id,
+            'store_id' => $buyer->store->id,
+            'price' => Cart::price($buyer->store)
+        ]);
+
+        foreach (Cart::items($buyer->store) as $product) {
+            $order->products()->attach($product->id, ['amount' => $product->pivot->amount]);
+        }
+
+        Cart::emptyCart($store);
+    }
+
+    public function fullUpdate(array $products)
+    {
+        $this->price = 0;
+        $items = [];
+
+        foreach ($products as $slug => $amount) {
+
+            if (!is_numeric($amount)) return false;
+
+            $amount = intval($amount);
+            if ($amount < 0 || $amount > 1000) {
+                return false;
+            } elseif ($amount === 0) {
+                break;
+            }
+
+            $product = $this->store->products()->where('slug', $slug)->first();
+            if (!$product) return false;
+
+            $items[] = compact('product', 'amount');
+        }
+
+        $this->products()->detach();
+
+        foreach ($items as $item) {
+            $this->products()->attach($item['product']->id, ['amount' => $item['amount']]);
+            $this->price += $item['product']->price * $item['amount'];
+        }
+
+        if (!count($items)) {
+            $this->delete();
+        } else {
+            $this->save();
+        }
+
+        return true;
+    }
+
     // Can buyer edit orders
     public function canEdit()
     {
@@ -67,6 +124,19 @@ class Order extends Model
         } else {
             return true;
         }
+    }
+
+    public function togglePause()
+    {
+        if ($this->status->name === 'recieved'){
+            $this->update(['status_id' => 6]);
+        } elseif ($this->status->name == 'paused') {
+            $this->update(['status_id' => 1]);
+        } else {
+            return false;
+        }
+
+        return true;
     }
 
     // Used for creating random slug for order

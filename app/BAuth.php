@@ -122,6 +122,6 @@ class BAuth extends Model
             $buyer->cart->products()->detach($product);
             $buyer->cart->products()->attach($product, ['amount' => intval($product->pivot->amount)]);
         }
-        Cart::emptyFromSession($buyer->store);
+        Cart::removeAllFromSession($buyer->store);
     }
 }

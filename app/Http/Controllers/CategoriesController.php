@@ -16,12 +16,6 @@ class CategoriesController extends Controller
     {
         $this->middleware(['auth', 'owner']);
         $this->middleware('store.haveCategory')->except('index', 'create', 'store');
-        // Treba ako se prosledjuje id store, a ne objekat
-        // if ($request->route()) {
-        //     $this->store = Store::findOrFail(Route::input('store'));
-        // }
-        // Ovako se deli var sa svim view-ima
-        // view()->share('store', $store);
     }
     /**
      * Display a listing of the resource.
@@ -81,9 +75,9 @@ class CategoriesController extends Controller
      */
     public function edit(Store $store, Category $category)
     {
-        $parents = $store->categories;
+        $parentCategories = $store->categories;
 
-        return view('categories.edit', compact('category', 'parents'));
+        return view('categories.edit', compact('category', 'parentCategories'));
     }
 
     /**
@@ -98,6 +92,7 @@ class CategoriesController extends Controller
         $category->update($request->all());
 
         Session::flash('flash_success', 'Uspesno izmenjena kategorija');
+
         return redirect()->route('stores.categories.show', [$store->slug, $category->slug]);
     }
 

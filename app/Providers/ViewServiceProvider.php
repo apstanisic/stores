@@ -21,8 +21,7 @@ class ViewServiceProvider extends ServiceProvider
     {
     	$this->getStoreFromRoute();
         $this->getNav();
-        $this->shoppingData();
-        $this->getCurrency();
+        $this->getBAuth();
     }
 
     /**
@@ -36,22 +35,17 @@ class ViewServiceProvider extends ServiceProvider
     }
 
     // All routes that needs store object should be listed here.
-    // That way you don't have to send store object with view
-    // every time you call that view, just add needed views.
     private function getStoreFromRoute()
     {
-    	// Witch views should be able to access the store
     	$views = [
     		'layouts.dashboard',
-    		'categories.*',
-    		'products.*',
-            'partials.orders.*',
-            'orders.*',
-            '*'
+            'layouts.shopping',
+
+    		'categories.create',
+            'categories.index',
+    		'products.create',
     	];
 
-		// Ako se prosledjuje id
-		// Store::findOrFail(Route::input('store'))
         view()->composer($views, function($view) {
         	$view->with('store', Store::url());
         });
@@ -67,16 +61,13 @@ class ViewServiceProvider extends ServiceProvider
 
     }
 
-    private function shoppingData()
+    private function getBAuth()
     {
         $views = [
-            'layouts.shopping',
-            'shopping.*',
-            'buyer.*',
             '*'
         ];
+
         view()->composer($views, function($view){
-            //$view->with('user', User::url())->with('store', Store::url());
             $view->with('BAuth', BAuth::class);
         });
     }
@@ -109,11 +100,4 @@ class ViewServiceProvider extends ServiceProvider
         });
     }
 
-    private function getCurrency()
-    {
-        // TODO: omoguciti biranje valute
-        // view()->composer('*', function($view) {
-        //     $view->with('currency', Store::url()->currency);
-        // });
-    }
 }
