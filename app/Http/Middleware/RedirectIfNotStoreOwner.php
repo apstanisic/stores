@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class RedirectIfNotTheOwner
+class RedirectIfNotStoreOwner
 {
     /**
      * Handle an incoming request.

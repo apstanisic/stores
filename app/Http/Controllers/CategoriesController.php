@@ -15,7 +15,7 @@ class CategoriesController extends Controller
     public function __construct(Request $request)
     {
         $this->middleware(['auth', 'owner']);
-        $this->middleware('categoryInStore')->except('index', 'create', 'store');
+        $this->middleware('store.haveCategory')->except('index', 'create', 'store');
         // Treba ako se prosledjuje id store, a ne objekat
         // if ($request->route()) {
         //     $this->store = Store::findOrFail(Route::input('store'));
@@ -40,18 +40,11 @@ class CategoriesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // Should user be able to nest indefinetly?
+    // If not ->where('parent_id', null);
     public function create(Store $store)
     {
-    	/*
-    	Ako hocu samo glavne kategorije
-    	where('parent_id', null);
-		*/
-
-		// Sve kategorije koje mogu da budu roditelji
-		// Napravljene kategorije
-    	$parents = $store->categories;
-
-        return view('categories.create', compact('parents'));
+        return view('categories.create', ['parents' => $store->categories]);
     }
 
     /**
@@ -102,8 +95,6 @@ class CategoriesController extends Controller
      */
     public function update(CategoryRequest $request, Store $store, Category $category)
     {
-        //$category = Category::findOrFail($id);
-
         $category->update($request->all());
 
         Session::flash('flash_success', 'Uspesno izmenjena kategorija');

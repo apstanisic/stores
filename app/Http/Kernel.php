@@ -60,16 +60,18 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         // Mine
-        'owner' => \App\Http\Middleware\RedirectIfNotTheOwner::class,
-        'categoryInStore' => \App\Http\Middleware\RedirectIfCategoryNotInStore::class,
-        'productInStore' => \App\Http\Middleware\RedirectIfProductNotInStore::class,
-        'orderInStore' => \App\Http\Middleware\RedirectIfOrderNotInStore::class,
-        // Buyers
+        // Correct route model binding for slug
+        'bindCorrectData' => \App\Http\Middleware\BindCorrectData::class,
+
+        'owner' => \App\Http\Middleware\RedirectIfNotStoreOwner::class,
+        'store.haveCategory' => \App\Http\Middleware\RedirectIfCategoryNotInStore::class,
+        'store.haveProduct' => \App\Http\Middleware\RedirectIfProductNotInStore::class,
+        'store.haveOrder' => \App\Http\Middleware\RedirectIfOrderNotInStore::class,
+        // Buyer auth
         'bauth' => \App\Http\Middleware\RedirectIfBuyerNotLoged::class,
         'bauth.guest' => \App\Http\Middleware\RedirectIfBuyerLoged::class,
         'buyer.order.canEdit' => \App\Http\Middleware\RedirectIfOrderProcessed::class,
         'buyer.order.owner' => \App\Http\Middleware\RedirectIfNotBuyersOrder::class,
-        // Correct route model binding for slug
-        'bindCorrectData' => \App\Http\Middleware\BindCorrectData::class,
+
     ];
 }

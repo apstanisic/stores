@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\BAuth;
+use App\Store;
 use Illuminate\Validation\Rule;
 
 class BuyerRegisterRequest extends FormRequest
@@ -29,15 +30,21 @@ class BuyerRegisterRequest extends FormRequest
             'username' => [
                 'required',
                 'min:6',
-                'max:50',
+                'max:60',
                 'alpha_dash',
                 Rule::unique('buyers')
+                    ->where(function($query) {
+                        $query->where('store_id', Store::url());
+                })
             ],
             'email' => [
                 'required',
                 'email',
-                'max:255',
+                'max:240',
                 Rule::unique('buyers')
+                    ->where(function($query) {
+                        $query->where('store_id', Store::url())
+                    })
             ],
             'password' =>
                 'required|min:6'

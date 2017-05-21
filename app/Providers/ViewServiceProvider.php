@@ -46,7 +46,8 @@ class ViewServiceProvider extends ServiceProvider
     		'categories.*',
     		'products.*',
             'partials.orders.*',
-            'orders.*'
+            'orders.*',
+            '*'
     	];
 
 		// Ako se prosledjuje id
@@ -71,10 +72,11 @@ class ViewServiceProvider extends ServiceProvider
         $views = [
             'layouts.shopping',
             'shopping.*',
-            'buyer.*'
+            'buyer.*',
+            '*'
         ];
         view()->composer($views, function($view){
-            $view->with('user', User::url())->with('store', Store::url());
+            //$view->with('user', User::url())->with('store', Store::url());
             $view->with('BAuth', BAuth::class);
         });
     }
@@ -96,7 +98,7 @@ class ViewServiceProvider extends ServiceProvider
 
             $link3 = new Nav;
             $link3->name = 'Kategorije';
-            $link3->route = 'shopping.categories';
+            $link3->route = 'shopping.categories.index';
             $link3->params = [User::url()->slug, Store::url()->slug];
 
             // $paramLinks =[];

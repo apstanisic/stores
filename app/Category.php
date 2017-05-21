@@ -45,6 +45,11 @@ class Category extends Model
         return $this->hasMany(Product::class);
     }
 
+    public function store()
+    {
+        return $this->belongsTo(Store::class);
+    }
+
     public function parent() {
         return $this->belongsTo(Category::class);
     }

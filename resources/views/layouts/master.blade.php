@@ -27,7 +27,9 @@
 	@endcomponent
 
 	<div class="content">
-		@include('partials.flash')
+		<div class="container">
+			@include('partials.flash')
+		</div>
 		@yield('content')
 	</div>
 

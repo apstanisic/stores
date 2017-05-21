@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Shopping;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\BuyerRegisterRequest;
 use App\BAuth;
 use App\User;
@@ -26,7 +27,7 @@ class BuyerController extends Controller
     public function login(Request $request, User $user, Store $store)
     {
     	//dd(request(['email', 'password']));
-    	if (!BAuth::attempt(request(['email', 'password']))) {
+    	if (!BAuth::attempt(request(['email', 'password']), $store)) {
     		return redirect()->back();
     	}
 
@@ -40,15 +41,15 @@ class BuyerController extends Controller
 
     public function register(BuyerRegisterRequest $request, User $user, Store $store)
     {
-        BAuth::register($request->all());
-        BAuth::attempt($request->all());
+        $buyer = BAuth::register($request->all(), $store);
+        BAuth::login($buyer);
 
         return redirect()->route('shopping.index', [$user->slug, $store->slug]);
     }
 
     public function logout(User $user, Store $store)
     {
-		BAuth::logout();
+		BAuth::logout($store);
 
 		return redirect()->route('shopping.index', [$user->slug, $store->slug]);
     }

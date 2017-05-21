@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Shopping;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\CartRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\AddToCartRequest;
 use Session;
 use App\User;
 use App\Store;
@@ -16,11 +17,10 @@ class CartController extends Controller
 
     public function index(User $user, Store $store)
     {
-        $products = Cart::items();
-        return view('shopping.cart', compact('products'));
+        return view('shopping.cart', ['products' => Cart::items($store)]);
     }
 
-    public function store(CartRequest $request, User $user, Store $store, Product $product)
+    public function store(AddToCartRequest $request, User $user, Store $store, Product $product)
     {
         Cart::add($product, request('amount'));
 
@@ -39,7 +39,7 @@ class CartController extends Controller
 
     public function destroyAll(Request $request, User $user, Store $store)
     {
-        Cart::emptyCart();
+        Cart::removeAll($store);
 
         return redirect()->back();
     }

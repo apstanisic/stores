@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Store;
 use App\Order;
+use App\Product;
 
 class OrdersController extends Controller
 {
     public function __construct()
     {
         $this->middleware(['auth', 'owner']);
-        $this->middleware('orderInStore')->except(['index']);
+        $this->middleware('store.haveOrder')->except(['index']);
     }
 
     /**
@@ -22,7 +23,7 @@ class OrdersController extends Controller
     public function index(Store $store)
     {
         $orders = $store->orders()->latest()->get();
-        return view('orders.owner.index', compact('orders'));
+        return view('orders.index', compact('orders'));
     }
 
     /**
@@ -55,7 +56,7 @@ class OrdersController extends Controller
     public function show(Store $store, Order $order)
     {
         //
-        return view('orders.owner.show', compact('order'));
+        return view('orders.show', compact('order'));
     }
 
     /**
@@ -67,7 +68,7 @@ class OrdersController extends Controller
     public function edit(Store $store, Order $order)
     {
         // Da izmeni status, ili porudzbinu
-        return view('orders.owner.edit', compact('order'));
+        return view('orders.edit', compact('order'));
     }
 
     /**
@@ -121,6 +122,7 @@ class OrdersController extends Controller
     public function destroy(Store $store, Order $order)
     {
         $order->fullDelete();
+
         session()->flash('flash_success', 'Uspesno ste izbrisali porudzbinu');
 
         return redirect()->route('stores.orders.index', [$store->slug]);

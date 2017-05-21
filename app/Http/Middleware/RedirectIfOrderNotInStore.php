@@ -15,10 +15,9 @@ class RedirectIfOrderNotInStore
      */
     public function handle($request, Closure $next)
     {
-        // if(!$request->store->hasOrder($request->order->id)){
-        //     return 'Radi!';
-        //     return redirect()->back();
-        // }
+        if (!$request->store->hasOrder($request->order)) {
+            return redirect()->back();
+        }
 
         return $next($request);
     }

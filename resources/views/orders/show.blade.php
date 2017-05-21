@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
 
 @section('content')
-	@include('partials.orders.order', compact('order'))
+	@include('partials.orders.ownerOne', compact('order'))
 @endsection

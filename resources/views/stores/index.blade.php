@@ -1,6 +1,5 @@
 @extends('layouts.master')
 
-
 @php
 	$i = 1; // Sluzi kao inkrement za redni broj radnje
 @endphp
@@ -18,7 +17,7 @@
 			<table class="table table-hover">
 				<thead class="thead-default">
 					<tr>
-						<th colspan="3" class="text-center">
+						<th colspan="4" class="text-center">
 							<a href="{{ route('stores.create') }}">Napravi prodavnicu</a>
 						</th>
 					</tr>
@@ -27,7 +26,7 @@
 						<th class="text-center">Prodavnica</th>
 						<th class="text-center w-100p">Proizvodi</th>
 						{{-- <th class="text-center">Kategorije</th> --}}
-						{{-- <th class="text-center w-100p">Izbrisi</th> --}}
+						<th class="text-center w-100p">Izmeni</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -43,22 +42,11 @@
 								</a>
 							</td>
 
-							{{-- <td class="text-center">
+							<td class="text-center">
 								<a href="{{ route('stores.edit', [$store->slug]) }}" class="btn btn-primary">
 									<i class="fa fa-pencil" aria-hidden="true"></i>
 								</a>
-							</td> --}}
-{{--
-							<td class="text-center">
-								<form method="post" action="{{ route('stores.destroy', [$store->slug]) }}" >
-									{{ csrf_field() }}
-									<input type="hidden" name="_method" value="delete">
-									<button type="submit" class="btn btn-danger">
-										<i class="fa fa-trash" aria-hidden="true"></i>
-									</button>
-								</form>
-							</td> --}}
-
+							</td>
 						</tr>
 					@endforeach
 				</tbody>

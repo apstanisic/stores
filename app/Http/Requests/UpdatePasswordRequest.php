@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CartRequest extends FormRequest
+class UpdatePasswordRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class CartRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return auth()->check();
     }
 
     /**
@@ -24,7 +24,9 @@ class CartRequest extends FormRequest
     public function rules()
     {
         return [
-            'amount' => 'required|integer|min:1'
+            // Custom validation rule: check_password: AppServiceProvider
+            'old_password' => 'check_password:' . $user->password,
+            'password' => 'required|min:6|confirmed'
         ];
     }
 }

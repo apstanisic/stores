@@ -9,56 +9,58 @@ use App\BAuth;
 
 class Cart extends Model
 {
+    protected $fillable = ['store_id'];
+
     // Dohvata sve proizvode iz baze
     public function products()
     {
     	return $this->belongsToMany(Product::class)->withPivot('amount')->withTimestamps();
     }
 
-    // Kupac
     public function buyer()
     {
         return $this->hasOne(Buyer::class);
     }
 
-    public static function price()
+    public static function price(Store $store)
     {
         $price = 0;
 
-        foreach (static::items() as $product) {
+        foreach (static::items($store) as $product) {
             $price += $product->price * $product->pivot->amount;
         }
 
         return $price;
     }
 
-    public static function isEmpty()
+    public static function isEmpty(Store $store)
     {
-        $productsCount = count(static::items());
+        $productsCount = count(static::items($store));
 
-        if($productsCount < 0) {
+        if($productsCount > 0) {
             return false;
+        } else {
+            return true;
         }
-        return true;
     }
     // To get content of cart
     // Ako je guest vraca iz sesije, ako nije vraca
     // iz baze preko products metode
-    public static function items()
+    public static function items(Store $store)
     {
-        if(BAuth::guest()) {
-            return static::fromSession();
+        if(BAuth::guest($store)) {
+            return static::fromSession($store);
+        } else {
+            return BAuth::buyer($store)->cart->products()->get();
         }
-        // dd(BAuth::buyer()->cart->products()->get());
-        return BAuth::buyer()->cart->products()->get();
     }
 
     public static function amount(Product $product)
     {
-        if (BAuth::guest()) {
-            return('cart_' . Store::url()->user->id . '/' . Store::url()->id)[$product->name] ?? 0;
+        if (BAuth::guest($product->store)) {
+            return('cart_' . $product->store_id)[$product->slug] ?? 0;
         } else {
-            return BAuth::buyer()->cart->products->find($product->id)->pivot->amount ?? 0;
+            return BAuth::buyer($product->store)->cart->products->find($product->id)->pivot->amount ?? 0;
         }
     }
 
@@ -67,9 +69,7 @@ class Cart extends Model
     // public static function add(array $data) // Stari nacin
     public static function add(Product $product, $amount)
     {
-        $amount = intval($amount);
-
-    	if (BAuth::guest()) {
+    	if (BAuth::guest($product->store)) {
             static::addToSession($product, $amount);
     	} else {
             static::addToDb($product, $amount);
@@ -77,19 +77,19 @@ class Cart extends Model
     }
 
     // Izpraznjuje korpu
-    public static function emptyCart()
+    public static function removeAll(Store $store)
     {
-    	if (BAuth::guest()) {
-			static::emptyFromSession();
+    	if (BAuth::guest($store)) {
+			static::removeAllFromSession($store);
     	} else {
-    		static::emptyFromDB();
+    		static::removeAllFromDb($store);
     	}
     }
 
     // Brise proizvod iz korpe
     public static function removeItem(Product $product)
     {
-    	if (BAuth::guest()) {
+    	if (BAuth::guest($product->store)) {
     		static::removeFromSession($product);
     	} else {
     		static::removeFromDb($product);
@@ -99,46 +99,47 @@ class Cart extends Model
     // Izbacuje proizvod iz baze
     public static function removeFromDb(Product $product)
     {
-    	BAuth::buyer()->cart->products()->detach($product->id);
+    	BAuth::buyer($product->store)->cart->products()->detach($product->id);
     }
 
     // Izbacuje proizvod iz sesije
     private static function removeFromSession(Product $product)
     {
-    	$session_name = 'cart_' . Store::url()->user->id . '/' . Store::url()->id;
-        $tmpSessions = session($session_name);
-        unset($tmpSessions[$product->name]);
-        session()->put($session_name, $tmpSessions);
+    	$session_name = 'cart_' . $product->store_id;
+        $sessions = session($session_name);
+        unset($sessions[$product->slug]);
+        session()->put($session_name, $sessions);
     }
 
     // Vraca sve proizvode iz sesije
     // Ne postoji ekvivalenta metoda za bazu
-	public static function fromSession()
+	public static function fromSession(Store $store)
     {
-        $sessionProducts = session('cart_' . Store::url()->user->id . '/' . Store::url()->id) ?? [];
+        $sessionProducts = session('cart_' . $store->id) ?? [];
         $products = [];
 
-        foreach ($sessionProducts as $name => $amount) {
-            $product = Product::where('name', $name)->first();
-            // Ima bolji nacin, trenutno ne mogu da trazim
+        foreach ($sessionProducts as $slug => $amount) {
+            $product = Product::where('store_id', $store->id)
+                              ->where('slug', $slug)->first();
+            // TODO:: there has to be better way
             $product->pivot = (object)['amount' => $amount];
             $products[] = $product;
         }
 
-        return $products;
+        return collect($products);
     }
 
 
     // Izpraznjuje celu korpu iz baze
-    private static function emptyFromDB()
+    private static function removeAllFromDb(Store $store)
     {
-    	BAuth::buyer()->cart->products()->detach();
+    	BAuth::buyer($store)->cart->products()->detach();
     }
 
     // Izpraznjuje celu korpu iz sesije
-	public static function emptyFromSession()
+	public static function removeAllFromSession(Store $store)
     {
-        session()->forget('cart_' . Store::url()->user->id . '/' . Store::url()->id);
+        session()->forget('cart_' . $store->id);
     }
 
 
@@ -146,32 +147,29 @@ class Cart extends Model
     // Add new product to session cart
     private static function addToSession(Product $product, $amount)
     {
-        $productName = $product->name;
-    	$session_name = 'cart_' . Store::url()->user->id . '/' . Store::url()->id;
-        $sessionProducts = session($session_name);
+    	$session_name = 'cart_' . $product->store_id;
+        // Key is product slug, value is product amount
+        $products = session($session_name);
 
         if($amount === '+1'){
-            $sessionProducts[$productName] = isset($sessionProducts[$productName]) ? ++$sessionProducts[$productName] : 1;
+            $products[$product->slug] = isset($products[$product->slug]) ? ++$products[$product->slug] : 1;
         } else {
-            $sessionProducts[$productName] = intval($amount);
+            $products[$product->slug] = intval($amount);
         }
 
-        session()->put($session_name, $sessionProducts);
+        session()->put($session_name, $products);
     }
 
     // Add new product to database cart
     private static function addToDb(Product $product, $amount)
     {
-        // $product = Product::where('name', $productName)->first();
-
         if($amount === '+1') {
-            $currentAmount = BAuth::buyer()->cart->products->where('id', $product->id)->first()->pivot->amount ?? 0;
-            //$currentAmount = $product->pivot->amount ?? 0;
+            $currentAmount = BAuth::buyer($product->store)->cart->products->where('id', $product->id)->first()->pivot->amount ?? 0;
             $amount = ++$currentAmount;
         }
 
-        BAuth::buyer()->cart->products()->detach($product->id);
-		BAuth::buyer()->cart->products()->attach($product->id, ['amount' => $amount]);
+        BAuth::buyer($product->store)->cart->products()->detach($product->id);
+		BAuth::buyer($product->store)->cart->products()->attach($product->id, ['amount' => intval($amount)]);
     }
 
 

@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Shopping;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\User;
 use App\Store;
 use App\Order;
@@ -26,19 +27,11 @@ class BuyerOrdersController extends Controller
      */
     public function index(User $user, Store $store)
     {
-        $orders = BAuth::buyer()->orders()->latest()->get();
+        $orders = BAuth::buyer($store)->orders()->latest()->get();
         return view('buyer.orders.index', compact('orders'));
     }
     /* Ne treba da postoji stranica, vec u korpi postoji link koji pravi order */
-    // /**
-    //  * Show the form for creating a new resource.
-    //  *
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function create(User $user, Store $store)
-    // {
-    //     // Dati sadrzaj cart-a da korisnik potvrdi
-    // }
+    // create()
 
     /**
      * Store a newly created resource in storage.
@@ -51,22 +44,22 @@ class BuyerOrdersController extends Controller
         // snimi narudzbinu
         //dd(Cart::price());
         // dd(Orde)
-        if (!Cart::isEmpty()) {
+        if (!Cart::isEmpty($store)) {
             //dd(Cart::isEmpty());
             session()->flash('flash_danger', 'Korpa je prazna');
             return redirect()->back();
         }
         $order = new Order;
-        $order->buyer_id = BAuth::buyer()->id;
+        $order->buyer_id = BAuth::buyer($store)->id;
         $order->store_id = $store->id;
-        $order->price = Cart::price();
+        $order->price = Cart::price($store);
         $order->save();
 
-        foreach (Cart::items() as $product) {
+        foreach (Cart::items($store) as $product) {
             // BAuth::buyer()->cart->products()->attach($product->id, ['amount' => $amount]);
             $order->products()->attach($product->id, ['amount' => $product->pivot->amount]);
         }
-        Cart::emptyCart();
+        Cart::emptyCart($store);
         return redirect()->route('buyer.orders.index', [$user->slug, $store->slug]);
 
         //Order::store

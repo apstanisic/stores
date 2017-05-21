@@ -15,9 +15,7 @@ class RedirectIfOrderProcessed
      */
     public function handle($request, Closure $next)
     {
-        $order = $request->order;
-
-        if (!$order->canEdit()) {
+        if (!$request->order->canEdit()) {
             session()->flash('flash_danger', 'Nisu moguce izmene na porudzbini');
             return redirect()->back();
         }

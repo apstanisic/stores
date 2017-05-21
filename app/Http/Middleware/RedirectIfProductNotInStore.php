@@ -16,14 +16,8 @@ class RedirectIfProductNotInStore
      */
     public function handle($request, Closure $next)
     {
-
-        $store = Store::url();
-
-        if(!$store->hasProduct($request->product)){
-
-            // Vrati na sve kategorije iz prodavnice
-            return redirect()->route('stores.index');
-
+        if(!$request->store->hasProduct($request->product)){
+            return redirect()->route('stores.products.index', [$store->slug]);
         }
 
         return $next($request);

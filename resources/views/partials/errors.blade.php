@@ -1,9 +1,14 @@
 @if ($errors->any())
-	<div class="container">
-		<div class="alert alert-danger mt-2 text-center">
-			@foreach ($errors->all() as $error)
-				<p class="mb-0">{{ $error }}</p>
-			@endforeach
-		</div>
-	</div>
+	@component('partials.alert')
+		@slot('type')
+			danger
+		@endslot
+		@slot('message')
+			<ul class="my-0 list-unstyled">
+				@foreach ($errors->all() as $error)
+					<li>{{ $error }}</li>
+				@endforeach
+			</ul>
+		@endslot
+	@endcomponent
 @endif

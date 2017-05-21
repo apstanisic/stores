@@ -1,25 +1,23 @@
 @include('partials.errors')
-@if (Session::has('flash_danger'))
-	<div class="container">
-		<div class="alert alert-danger my-2  alert-dismissible fade show text-center" role="alert">
-		  	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-		    	<span aria-hidden="true">&times;</span>
-		  	</button>
-		  	<p class="alert-message m-0 p-0">
-		  		{{ session('flash_danger') }}
-		  	</p>
-		</div>
-	</div>
+
+@if (session()->has('flash_danger'))
+	@component('partials.alert')
+		@slot('type')
+			danger
+		@endslot
+		@slot('message')
+			{{ session('flash_danger') }}
+		@endslot
+	@endcomponent
 @endif
-@if (Session::has('flash_success'))
-	<div class="container">
-		<div class="alert alert-success my-2  alert-dismissible fade show text-center" role="alert">
-		  	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-		    	<span aria-hidden="true">&times;</span>
-		  	</button>
-		  	<p class="alert-message m-0 p-0">
-		  		{{ session('flash_success') }}
-		  	</p>
-		</div>
-	</div>
+
+@if (session()->has('flash_success'))
+	@component('partials.alert')
+		@slot('type')
+			success
+		@endslot
+		@slot('message')
+			{{ session('flash_success') }}
+		@endslot
+	@endcomponent
 @endif

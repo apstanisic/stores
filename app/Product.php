@@ -53,7 +53,12 @@ class Product extends Model
 
 	public function inCart()
 	{
-		return Cart::items()->where('id', $this->id)->first()->pivot->amount ?? 0;
+		return Cart::items($this->store)->where('id', $this->id)->first()->pivot->amount ?? 0;
+	}
+
+	public static function url()
+	{
+		return \Route::input('product');
 	}
 
 }

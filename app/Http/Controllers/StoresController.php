@@ -24,7 +24,8 @@ class StoresController extends Controller
      */
     public function index()
     {
-        $stores = Store::isOwner()->get();
+        // $stores = Store::isOwner()->get();
+        $stores = Auth::user()->stores;
         return view('stores.index', compact('stores'));
     }
 

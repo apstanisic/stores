@@ -10,7 +10,7 @@
 </div>
 
 <div class="form-group">
-	<label for="storeCurrency" class="d-block text-center h5">Valuta (Ovo polje trenutno nicemu ne sluzi)</label>
+	<label for="storeCurrency" class="d-block text-center h5">Valuta{{-- (Ovo polje trenutno nicemu ne sluzi) --}}</label>
 	<select name="currency" id="storeCurrency" class="form-control">
 		<option value="">din</option>
 		<option value="">euro</option>

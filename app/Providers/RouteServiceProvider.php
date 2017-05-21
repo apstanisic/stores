@@ -38,9 +38,6 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapWebRoutes();
         // Mine
         $this->mapShoppingRoutes();
-        // Bind correctly by slug
-        // $this->bindCorrectData();
-
     }
 
     /**
@@ -76,7 +73,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::prefix('shop')
              ->middleware('web')
-             ->namespace($this->namespace)
+             ->namespace($this->namespace . '\Shopping')
              ->group(base_path('routes/shopping.php'));
     }
 

@@ -14,6 +14,7 @@
 				</div>
 				<div class="card-block py-0">
 					<ul class="list-group list-group-flush">
+						{{-- {{dd(auth()->user())}} --}}
 						<li class="list-group-item mx-auto">{{ $user->username }}</li>
 						<li class="list-group-item mx-auto">{{ $user->email }}</li>
 						<li class="list-group-item mx-auto">

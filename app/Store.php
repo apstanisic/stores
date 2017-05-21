@@ -56,6 +56,7 @@ class Store extends Model
 
 	// All store where owner is currently logged user
 	// TODO:: Rename to AuthOwner();
+	// TODO:: maybe to remove this function
 	// Store::authOwner();
 	public function scopeIsOwner($query) {
 		$query->where('user_id', Auth::id());

@@ -36,8 +36,6 @@ class CategoryRequest extends FormRequest
                 Rule::unique('categories', 'name')
                     ->ignore(Category::url()->id ?? null, 'id')
                     ->where(function($query) {
-                        //$query->where('parent_id', request(['parent_id']));
-                        // dd(is_null(request()->input('parent_id')));
                         if (is_null(request()->input('parent_id'))) {
                             $query->whereNull('parent_id');
                             $query->where('store_id', Store::url()->id);
@@ -53,10 +51,8 @@ class CategoryRequest extends FormRequest
             	Rule::exists('categories', 'id')->where(function($query) {
             		// I prodavnica iz url-a mora da bude prodavnica iz tabele
             		$query->where('store_id', Store::url()->id);
-
-            		// Roditelj mora da nema svog roditelja
+            		// Ako roditelj mora da nema svog roditelja
             		//$query->where('parent_id', null);
-
             	}),
             ]
         ];

@@ -31,7 +31,7 @@ class StoreRequest extends FormRequest
             'name' => [
                 'required',
                 'min:3',
-                Rule::unique('stores', 'name')
+                Rule::unique('stores')
                     ->ignore(Store::url()->id ?? null, 'id')
                     ->where(function($query) {
                         $query->where('user_id', auth()->id());

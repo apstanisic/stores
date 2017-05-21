@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Shopping;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\User;
 use App\Store;
 use App\Product;
@@ -12,7 +13,7 @@ class ShoppingController extends Controller
 {
     public function index(User $user, Store $store)
     {
-    	return view('shopping.index')->with('products', $store->products);
+    	return view('shopping.index')->with('products', $store->products()->paginate());
     }
 
     public function about(User $user, Store $store)
@@ -27,8 +28,7 @@ class ShoppingController extends Controller
 
     public function category(User $user, Store $store, Category $category)
     {
-        $products = $category->products;
-        return view('shopping.category', compact('products'));
+        return view('shopping.category', ['products' => $category->products()->paginate()]);
     }
 
     public function categories(User $user, Store $store)

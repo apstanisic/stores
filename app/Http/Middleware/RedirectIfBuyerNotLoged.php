@@ -17,9 +17,9 @@ class RedirectIfBuyerNotLoged
      */
     public function handle($request, Closure $next)
     {
-        if (BAuth::guest()) {
+        if (BAuth::guest($request->store)) {
             session()->flash('flash_danger', 'Morate biti ulogovani');
-            return redirect()->route('buyer.login.show', [$request->store->user->slug, $request->store->slug]);
+            return redirect()->route('buyer.login.show', [$request->user->slug, $request->store->slug]);
         }
 
         return $next($request);

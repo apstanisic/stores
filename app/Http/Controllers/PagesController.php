@@ -32,10 +32,4 @@ class PagesController extends Controller
     	return view('layouts.master');
     }
 
-    // public function users ()
-    // {
-    // 	return view('layouts.master');
-    // }
-
-
 }

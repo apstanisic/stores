@@ -15,23 +15,7 @@ class ProductsController extends Controller
     public function __construct(Request $request)
     {
         $this->middleware(['auth', 'owner']);
-        $this->middleware('productInStore')->except('index', 'create', 'store');
-
-        /*
-			Uradjen route model binding
-        */
-
-        /**
-         * DONE : napravi nadkontroler za sve kontrolere koje imaju store u url
-         * Dohvata store jer svaka metoda ime store, dohvata iz url-a.
-         * Proverava se $request->route() jer prilikom route:list
-         * ne Route::input, tako da mora prvo da se proveri
-         */
-
-        //
-        // if ($request->route()) {
-        //     $this->store = Store::findOrFail(Route::input('store'));
-        // }
+        $this->middleware('store.haveProduct')->except('index', 'create', 'store');
     }
 
 
@@ -43,7 +27,7 @@ class ProductsController extends Controller
     public function index(Store $store)
     {
 
-        $products = $store->products()->latest()->get();
+        $products = $store->products()->latest()->paginate(10);
         return view('products.index', compact('products'));
     }
 
@@ -54,8 +38,7 @@ class ProductsController extends Controller
      */
     public function create(Store $store)
     {
-        $categories = $store->categories;
-        return view('products.create', compact('categories'));
+        return view('products.create', ['categories' => $store->categories]);
     }
 
     /**
@@ -92,9 +75,8 @@ class ProductsController extends Controller
      */
     public function edit(Store $store, Product $product)
     {
-        $categories = $store->categories;
-
-        return view('products.edit', compact('product', 'categories'));
+        return view('products.edit')->with('categories', $store->categories)
+                                    ->with('products', $products);
     }
 
     /**

@@ -29,25 +29,24 @@ class BindCorrectData
 
     private function ownerBinding($request)
     {
-        // dd('ove');
         if ($request->route()->hasParameter('store')) {
-            // dd($request->user());
+
             if ($request->user()) {
-                $store = $request->user()->stores->where('slug', $request->route('store')->slug)->first();
+                $store = $request->user()->stores()->where('slug', $request->route('store')->slug)->firstOrFail();
                 $request->route()->setParameter('store', $store);
 
                 if ($request->route()->hasParameter('category')) {
-                    $category = $store->categories->where('slug', $request->route('category')->slug)->first();
+                    $category = $store->categories()->where('slug', $request->route('category')->slug)->firstOrFail();
                     $request->route()->setParameter('category', $category);
                 }
 
                 if ($request->route()->hasParameter('product')) {
-                    $product = $store->products->where('slug', $request->route('product')->slug)->first();
+                    $product = $store->products()->where('slug', $request->route('product')->slug)->firstOrFail();
                     $request->route()->setParameter('product', $product);
                 }
 
                 if ($request->route()->hasParameter('order')) {
-                    $order = $store->orders->where('slug', $request->route('order')->slug)->first();
+                    $order = $store->orders()->where('slug', $request->route('order')->slug)->firstOrFail();
                     $request->route()->setParameter('order', $order);
                 }
             }
@@ -57,26 +56,24 @@ class BindCorrectData
 
     private function shopBinding($request)
     {
-
         $user = $request->route('user');
 
-        $store = $user->stores->where('slug', $request->route('store')->slug)->first();
+        $store = $user->stores()->where('slug', $request->route('store')->slug)->firstOrFail();
+        $request->route()->setParameter('store', $store);
 
         if ($request->route()->hasParameter('category')) {
-            $category = $store->orders->where('slug', $request->route('category')->slug)->first();
+            $category = $store->categories()->where('slug', $request->route('category')->slug)->firstOrFail();
             $request->route()->setParameter('category', $category);
         }
 
         if ($request->route()->hasParameter('product')) {
-            $product = $store->products->where('slug', $request->route('product')->slug)->first();
+            $product = $store->products()->where('slug', $request->route('product')->slug)->firstOrFail();
             $request->route()->setParameter('product', $product);
         }
 
         if ($request->route()->hasParameter('order')) {
-            $order = $store->orders->where('slug', $request->route('order')->slug)->first();
+            $order = $store->orders()->where('slug', $request->route('order')->slug)->firstOrFail();
             $request->route()->setParameter('order', $order);
         }
-
-        $request->route()->setParameter('store', $store);
     }
 }

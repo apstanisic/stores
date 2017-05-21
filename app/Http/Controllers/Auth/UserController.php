@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\UpdateProfileRequest;
+use App\Http\Requests\UpdatePasswordRequest;
 use Session;
 
 class UserController extends Controller
@@ -22,7 +23,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('auth.user.index')->with('user', auth()->user());
+        return view('auth.user.index', ['user' => auth()->user()]);
     }
 
     /**
@@ -55,7 +56,7 @@ class UserController extends Controller
         return redirect()->route('user.index')->with('user', auth()->user());
     }
 
-    public function updatePassword(UpdateProfileRequest $request)
+    public function updatePassword(updatePasswordRequest $request)
     {
         $password = bcrypt(request('password'));
         auth()->user()->update(compact('password'));
