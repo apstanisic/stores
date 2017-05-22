@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Requests\StoreRequest;
 use App\Category;
 use App\Order;
 use App\Product;
@@ -19,15 +20,30 @@ class Stores extends Repository {
 	public function all(User $user = null)
 	{
 		if ($user === null) {
-			return $this->model->all();
+			$this->data = $this->model->all();
 		} else {
-			return $this->model->where('user_id', $user->id)->get();
+			$this->data = $this->model->where('user_id', $user->id)->get();
 		}
+		$this->success = true;
+		$this->message = 'Requested stores';
+
+		return $this;
 	}
 
-	public function insert()
+	public function create(array $data, User $user)
 	{
+		// $store = auth()->user()->stores()->create($data->all());
+		$store = $user->stores()->create([
+			'name' => $data['name'],
+			'description' => $data['description']
+		]);
+        // Default category
+        $store->categories()->create(['name' => 'Nesvrstano']);
 
+    	$this->success = true;
+    	$this->message = 'Successfuly added new store';
+
+    	return $this;
 	}
 
 }

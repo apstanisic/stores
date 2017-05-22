@@ -3,19 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Repositories\Stores;
 use App\Http\Requests\StoreRequest;
 use App\Category;
 use App\Store;
-use Session;
-use Auth;
 
 class StoresController extends Controller
 {
 
-    // private $stores;
-	public function __construct()
+    private $stores;
+
+	public function __construct(Stores $stores)
     {
-        // $this->stores = $stores;
+        $this->stores = $stores;
+
         $this->middleware('auth');
         $this->middleware('owner')->except('index', 'create', 'store');
     }
@@ -28,8 +29,11 @@ class StoresController extends Controller
     {
         // dd((new \App\Repositories\Stores)->all(auth()->user()));
         // dd($this->stores->all());
-        $stores = auth()->user()->stores;
-        return view('stores.index', compact('stores'));
+        // $stores = auth()->user()->stores;
+        $stores = $this->stores->all(auth()->user());
+        // dd($this->stores->data);
+        // return view('stores.index', compact('stores'));
+        return view('stores.index', ['stores' => $stores->data]);
     }
 
     /**
@@ -50,11 +54,14 @@ class StoresController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $store = Auth::user()->stores()->create($request->all());
-        // Default category
-        $store->categories()->create(['name' => 'Nesvrstano']);
+        // dd($request ->all());
+        // $store = auth()->user()->stores()->create($request->all());
+        // // Default category
+        // $store->categories()->create(['name' => 'Nesvrstano']);
 
-        Session::flash('flash_success', 'Uspesno napravljena prodavnica');
+        $this->stores->create($request->all(), auth()->user());
+
+        session()->flash('flash_success', 'Uspesno napravljena prodavnica');
 
         return redirect()->route('stores.show', [$store->slug]);
     }
@@ -91,7 +98,7 @@ class StoresController extends Controller
     {
         $store->update($request->all());
 
-        Session::flash('flash_success', 'Uspesno izmenjena prodavnica');
+        session()->flash('flash_success', 'Uspesno izmenjena prodavnica');
 
         return redirect()->route('stores.show', [$store->slug]);
     }
@@ -106,7 +113,7 @@ class StoresController extends Controller
     {
     	$store->delete();
 
-        Session::flash('flash_success', 'Uspesno izbrisana prodavnica');
+        session()->flash('flash_success', 'Uspesno izbrisana prodavnica');
 
         return redirect()->route('stores.index');
     }
