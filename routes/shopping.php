@@ -15,11 +15,14 @@ Route::get('{user}/{store}/register', 'BuyerController@showRegistrationForm')->n
 Route::post('{user}/{store}/register', 'BuyerController@register')->name('buyer.register');
 Route::post('{user}/{store}/logout', 'BuyerController@logout')->name('buyer.logout');
 
+// Addresses
+Route::resource('{user}/{store}/addresses', 'AddressesController', ['as' => 'shop']);
+
 // Cart
 Route::get('{user}/{store}/cart', 'CartController@index')->name('cart.index');
 Route::post('{user}/{store}/cart/{product}', 'CartController@store')->name('cart.store');
 Route::delete('{user}/{store}/cart/{product}', 'CartController@destroy')->name('cart.destroy');
 
 // Orders  // 'as' adds a prefix in route names
-Route::resource('{user}/{store}/orders', 'BuyerOrdersController', [ 'as' => 'buyer', 'except' => ['create']]);
+Route::resource('{user}/{store}/orders', 'BuyerOrdersController', [ 'as' => 'buyer']);
 Route::patch('{user}/{store}/orders/{order}/pause', 'BuyerOrdersController@togglePause')->name('buyer.orders.pause');

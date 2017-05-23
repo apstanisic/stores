@@ -27,6 +27,7 @@
 				</li>
 	  		@endforeach
 	  			<li class="list-group-item h5">
+	  				<span class="text-muted">Ukupno</span>
 	  				<span class="ml-auto">{{ $price }}</span>
 	  			</li>
 	  	</ul>

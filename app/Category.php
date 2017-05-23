@@ -59,6 +59,26 @@ class Category extends Model
         return \Route::input('category');
     }
 
+    public function parents()
+    {
+        $parents = [];
+        if ($this->parent !== null) {
+            $parents[] = $this->parent;
+            $parents = array_merge($parents, $this->parent->parents());
+        }
+        return $parents;
+    }
+
+    public function getParentsAttribute()
+    {
+        return $this->parents();
+    }
+
+    public function children()
+    {
+        return Category::where('parent_id', $this->id);
+    }
+
     // Format is (parent->name . '_') name
     // print underscore only if parent exist
     // Words are separated by '-' and category

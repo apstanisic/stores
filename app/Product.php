@@ -56,6 +56,33 @@ class Product extends Model
 		return Cart::items($this->store)->where('id', $this->id)->first()->pivot->amount ?? 0;
 	}
 
+	public function subtractRemaining(int $amount)
+	{
+		$this->addRemaining(-$amount);
+	}
+
+	public function addRemaining(int $amount)
+	{
+		$remaining = $this->remaining + $amount;
+		$this->update([
+			'remaining' => $remaining
+		]);
+	}
+
+	public function hasEnough(int $amount)
+	{
+		if ($this->remaining < $amount) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	public function requestedOrMax(int $amount)
+	{
+		$this->hasEnough($amount) ? $amount : $this->remaining;
+	}
+
 	public static function url()
 	{
 		return \Route::input('product');

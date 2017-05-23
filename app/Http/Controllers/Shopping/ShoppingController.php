@@ -13,12 +13,13 @@ class ShoppingController extends Controller
 {
     public function index(User $user, Store $store)
     {
-    	return view('shopping.index')->with('products', $store->products()->paginate());
+        // dd($store);
+    	return view('shopping.index')->with('products', $store->products()->latest()->paginate(12));
     }
 
     public function about(User $user, Store $store)
     {
-        return view('shopping.about');
+        return view('shopping.about', compact('store'));
     }
 
     public function product(User $user, Store $store, Product $product)

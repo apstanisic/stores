@@ -21,7 +21,7 @@ class ViewServiceProvider extends ServiceProvider
     {
     	$this->getStoreFromRoute();
         $this->getNav();
-        $this->getBAuth();
+        // $this->getBAuth();
     }
 
     /**
@@ -41,9 +41,14 @@ class ViewServiceProvider extends ServiceProvider
     		'layouts.dashboard',
             'layouts.shopping',
 
+            'partials.products.ownerMany',
+
     		'categories.create',
             'categories.index',
     		'products.create',
+
+            'shopping.*',
+            '*'
     	];
 
         view()->composer($views, function($view) {
@@ -61,16 +66,16 @@ class ViewServiceProvider extends ServiceProvider
 
     }
 
-    private function getBAuth()
-    {
-        $views = [
-            '*'
-        ];
+    // private function getBAuth()
+    // {
+    //     $views = [
+    //         '*'
+    //     ];
 
-        view()->composer($views, function($view){
-            $view->with('BAuth', BAuth::class);
-        });
-    }
+    //     view()->composer($views, function($view){
+    //         $view->with('BAuth', BAuth::class);
+    //     });
+    // }
 
 
     // TODO: FIXME !!!!!!!! It's ugly!

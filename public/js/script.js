@@ -36,3 +36,18 @@ var enableProfileDeleting = (function() {
 	$('body').on('dblclick', $buttonEnable, enableDelete);
 
 })();
+
+var enableChangeProductsRemaining = (function(){
+	let $checkbox = $('#enableEditingRemaining');
+	let $textbox = $('#productRemaining');
+
+	function toggleEditing(e) {
+		if ($checkbox.prop('checked')) {
+			$textbox.prop('disabled', false);
+		} else {
+			$textbox.prop('disabled', true);
+		}
+	}
+
+	$('body').on('change', $checkbox, toggleEditing);
+})();

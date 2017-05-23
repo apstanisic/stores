@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Shopping;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\OrderRequest;
 use App\User;
 use App\Store;
 use App\Order;
@@ -17,7 +18,8 @@ class BuyerOrdersController extends Controller
     public function __construct()
     {
         $this->middleware('bauth');
-        $this->middleware('buyer.order.owner')->except(['index', 'store']);
+        $this->middleware('buyer.haveAddress')->only(['store', 'update']);
+        $this->middleware('buyer.order.owner')->except(['index', 'store', 'create']);
         $this->middleware('buyer.order.canEdit')->only(['destroy', 'edit', 'update', 'togglePause']);
     }
     /**
@@ -27,11 +29,21 @@ class BuyerOrdersController extends Controller
      */
     public function index(User $user, Store $store)
     {
-        $orders = BAuth::buyer($store)->orders()->latest()->get();
-        return view('buyer.orders.index', compact('orders'));
+        // $orders = BAuth::buyer($store)->orders()->latest()->get();
+        $orders = bauth($store)->user()->orders()->latest()->get();
+        return view('shopping.orders.index', compact('orders'));
     }
-    /* Ne treba da postoji stranica, vec u korpi postoji link koji pravi order */
-    // create()
+
+    /**
+     * Create a new order.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create(User $user, Store $store)
+    {
+        // return view('shopping.orders.create', ['cart' => BAuth::buyer($store)->cart]);
+        return view('shopping.orders.create', ['cart' => bauth($store)->cart()]);
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -39,14 +51,15 @@ class BuyerOrdersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(User $user, Store $store, Request $request)
+    public function store(OrderRequest $request, User $user, Store $store)
     {
         if (Cart::isEmpty($store)) {
             session()->flash('flash_danger', 'Korpa je prazna');
             return redirect()->back();
         }
 
-        Order::fullCreate(BAuth($store)->user);
+        // Order::fullCreate(BAuth::buyer($store));
+        Order::fullCreate($request->all(), bauth($store)->user());
 
         return redirect()->route('buyer.orders.index', [$user->slug, $store->slug]);
     }
@@ -59,7 +72,7 @@ class BuyerOrdersController extends Controller
      */
     public function show(User $user, Store $store, Order $order)
     {
-        return view('buyer.orders.show', compact('order'));
+        return view('shopping.orders.show', compact('order'));
     }
 
     /**
@@ -70,7 +83,7 @@ class BuyerOrdersController extends Controller
      */
     public function edit(User $user, Store $store, Order $order)
     {
-        return view('buyer.orders.edit', compact('order'));
+        return view('shopping.orders.edit', compact('order'));
     }
 
     /**
@@ -116,7 +129,7 @@ class BuyerOrdersController extends Controller
         $success = $order->togglePause();
 
         if (!$success) {
-            session()->flash('flash_danger', 'Nije moguce status');
+            session()->flash('flash_danger', 'Nije moguce izmeniti status');
         } else {
             session()->flash('flash_success', 'Uspesno izmenjen status');
         }

@@ -13,9 +13,7 @@ class Store extends Model
 {
 	use Sluggable;
 
-	protected $fillable = [
-		'name', 'description'
-	];
+	protected $fillable = ['name', 'description'];
 
     public function sluggable()
     {
@@ -52,6 +50,26 @@ class Store extends Model
 	public function orders()
 	{
 		return $this->hasMany(Order::class)->withTrashed();
+	}
+
+	public function getProfitAttribute()
+	{
+		$profit = 0;
+
+		foreach ($this->orders()->delivered()->get() as $order) {
+			$profit += $order->price;
+		}
+
+		return $profit;
+	}
+
+	public function soldProducts()
+	{
+		$count = 0;
+		foreach ($this->orders as $order) {
+			$count += $order->products()->count();
+		}
+		return $count;
 	}
 
 	// All store where owner is currently logged user

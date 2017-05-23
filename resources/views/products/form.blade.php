@@ -21,9 +21,16 @@
 		<input type="number" name="remaining" class="form-control" id="productRemaining" min="0" value="{{ $product->remaining or old('remaining') }}" required>
 	</div>
 @else
-	<div class="form-group">
-		<label for="changeProductRemaining" class="d-block text-center h5">Izmeni kolicinu proizvoda na stanju</label>
-		<input type="number" name="change_remaining" class="form-control" id="changeProductRemaining" value="{{ old('remaining') }}">
+	<div class="form-group container">
+		<label for="productRemaining" class="d-block text-center h5">Kolicina na stanju <small>(postavlja tacnu kolicinu)</small></label>
+		<div class="row">
+			<input type="number" name="remaining" class="form-control mr-auto col-sm-9" id="productRemaining" value="{{ $product->remaining or old('remaining') }}" disabled>
+			<label class="custom-control custom-checkbox col-sm-2 ml-auto mt-2 mt-sm-0">
+				<input type="checkbox" class="custom-control-input" id="enableEditingRemaining">
+				<span class="custom-control-indicator"></span>
+				<span class="custom-control-description">Omoguci</span>
+			</label>
+		</div>
 	</div>
 @endif
 

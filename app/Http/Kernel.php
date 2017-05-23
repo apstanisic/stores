@@ -72,6 +72,7 @@ class Kernel extends HttpKernel
         'bauth.guest' => \App\Http\Middleware\RedirectIfBuyerLoged::class,
         'buyer.order.canEdit' => \App\Http\Middleware\RedirectIfOrderProcessed::class,
         'buyer.order.owner' => \App\Http\Middleware\RedirectIfNotBuyersOrder::class,
+        'buyer.haveAddress' => \App\Http\Middleware\RedirectIfBuyerDontHaveAddress::class,
 
     ];
 }

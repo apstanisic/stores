@@ -9,16 +9,15 @@
 		@slot('right')
 
 				{{-- Ako je ulogovan mora da ima manji margin bottom zbog dropdown liste --}}
-				<a href="{{ route('cart.index', [$store->user->slug, $store->slug]) }}" class="btn btn-outline-secondary my-3 my-md-0 mx-1 {{ ($BAuth::check($store)) ? ' mb-4 mb-md-1' : '' }}" >Cart</a>
-			 	@if($BAuth::check($store))
+				<a href="{{ route('cart.index', [$store->user->slug, $store->slug]) }}" class="btn btn-outline-secondary my-3 my-md-0 mx-1 {{ (bauth($store)->check()) ? ' mb-4 mb-md-1' : '' }}" >Cart</a>
+			 	@if(bauth($store)->check())
 
 					<span class="nav-item dropdown">
 						<button class="dropdown-toggle btn btn-outline-secondary my-3 my-md-0 mx-1" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						{{ $BAuth::buyer($store)->username }}
+						{{ bauth($store)->user()->username }}
 						</button>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 							<a href="{{ route('buyer.index', [$store->user->slug, $store->slug]) }}" class="dropdown-item h5">
-					 			{{-- {{ $BAuth::buyer()->username }} --}}
 					 			Profile
 					 		</a>
 					 		<a href="{{ route('buyer.orders.index', [$store->user->slug, $store->slug]) }}" class="dropdown-item h5">Orders</a>
@@ -28,14 +27,6 @@
 							</form>
 						</div>
 					</span>
-				{{-- Stari izgled, svako dugme je za sebe. nema dropdown --}}
-			 	{{-- 	<a href="{{ route('buyer.index', [$user->slug, $store->slug]) }}" class="btn btn-outline-secondary my-3 my-md-0 mx-1">
-			 			{{ $BAuth::buyer()->username }}
-			 		</a>
-					<form action="{{ route('buyer.logout', [$user->slug, $store->slug]) }}" method="post">
-						{{ csrf_field() }}
-						<button type="submit" class="btn btn-outline-secondary my-3 my-md-0 mx-1">Logout</button>
-					</form> --}}
 		 		@else
 					<a href="{{ route('buyer.login', [$store->user->slug, $store->slug]) }}" class="btn btn-outline-secondary my-3 my-md-0 mx-1" >Login</a>
 			      	<a href="{{ route('buyer.register.show', [$store->user->slug, $store->slug]) }}" class="btn btn-outline-secondary my-3 my-md-0 mx-1" >Sign Up</a>

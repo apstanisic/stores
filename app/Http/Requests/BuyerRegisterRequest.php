@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\BAuth;
 use App\Store;
 use Illuminate\Validation\Rule;
 
@@ -16,7 +15,7 @@ class BuyerRegisterRequest extends FormRequest
      */
     public function authorize()
     {
-        return BAuth::guest();
+        return bauth(Store::url())->guest();
     }
 
     /**

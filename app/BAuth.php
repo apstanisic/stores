@@ -3,117 +3,118 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Http\Requests\BuyerRegisterRequest;
 use App\Buyer;
 use App\Store;
-use App\User;
 use App\Cart;
 use Hash;
 
 class BAuth extends Model
 {
-    // When logging in it will check this
-    // field with provided password
-    // Recommended username, email or slug
-    // But you can set anything you want
+    // When logging in it will check this field with provided password
+    // Recommended username, email or slug but you can set anything you want
     private static $field = 'email';
+    private $store;
 
+    public function __construct(Store $store = null)
+    {
+        // if ($store === null) $store = Store::url();
+        $store = $store ?? Store::url();
+
+        if(!$store) throw new Exception('Invalid parameters for buyer auth');
+
+        $this->store = $store;
+    }
     // Ima problem kada se ceo kupac stavi u sesiju.
     // Ovako se cuva samo id, a kada se trazi kupac
-    // Pravi se objekat od tog id-a
-    public static function buyer(Store $store)
+    // Pravi se objekat od tog id-a // TODO:: how call user or buyer
+    public function user()
     {
-    	$buyer_id = static::id($store);
+    	$buyer_id = $this->id();
         return Buyer::find($buyer_id);
     }
 
-    public static function id(Store $store)
+    // gets current buyer id or null
+    public function id()
     {
-        return session('buyer_' . $store->id);
+        return session('buyer_' . $this->store->id);
     }
 
     // Check if buyer is logged in
-    public static function check(Store $store)
+    public function check()
     {
-        return session()->has('buyer_' . $store->id);
+        return session()->has('buyer_' . $this->store->id);
     }
 
 
     // Check if buyer is not logged in
-    public static function guest(Store $store)
+    public function guest()
     {
-    	return !static::check($store);
+    	return ! $this->check();
     }
 
     // Logs out buyer
-    public static function logout(Store $store)
+    public static function logout()
     {
-    	session()->forget('buyer_' . $store->id);
+    	session()->forget('buyer_' . $this->store->id);
     }
 
     // $data = array with email and password
-    public static function attempt(array $data, Store $store)
+    public function attempt(array $data)
     {
-        // You can see what field to check
-    	$buyer = Buyer::where('store_id', $store->id)
-                      ->where(static::$field, $data[static::$field])
-                      ->first();
+        $buyer = $this->store->buyers->where(static::$field, $data[static::$field])->first();
 
     	if (!$buyer) return false;
 
         if (!Hash::check($data['password'], $buyer->password)) return false;
 
-        static::login($buyer);
+        $this->login($buyer);
 
         return true;
 
     }
 
-    public static function register(array $data, Store $store)
+    public function register(array $data)
     {
         $data['password'] = bcrypt($data['password']);
-        $buyer = $store->buyers()->create($data);
-        $cart = new Cart;
-        $cart->store_id = $store->id;
-        $buyer->cart()->save($cart);
+        $buyer = $this->store->buyers()->create($data);
+        $buyer->cart()->create(['store_id' => $this->store->id]);
+
         return $buyer;
     }
 
-    // Store only id, there is a problem
-    // when storing buyer object
-    public static function login(Buyer $buyer)
+    // Store only id, there is a problem when storing buyer object
+    public function login(Buyer $buyer)
     {
-        session()->put('buyer_' . $buyer->store_id, $buyer->id);
-        static::cartFromSessionToDb($buyer);
+        session()->put('buyer_' . $this->store->id, $buyer->id);
+        $this->cartFromSessionToDb($buyer);
     }
 
-
-    public static function cart()
+    // returns logged buyer cart
+    public function cart()
     {
-        if (static::guest()) {
+        if ($this->guest()) {
             return null;
         } else {
-            return static::buyer()->cart;
+            return $this->user()->cart;
         }
     }
 
-    // This will get cart from session if user
-    // isn't logged in. cart() will get only
-    // logged in user cart
+    // This will get cart from session if user isn't logged in.
+    //cart() will get only logged in user cart
     public function cartWithGuest(Store $store)
     {
-        if (static::guest()) {
+        if ($this->guest()) {
             return Cart::fromSession($store);
         } else {
-            return static::cart();
+            return $this->cart();
         }
     }
 
     // Metoda se nalazi ovde jer je vezana za buyera a ne samo za cart
     // Jedino se izvrsava kada se korisnik loguje
-    private static function cartFromSessionToDb(Buyer $buyer)
+    private function cartFromSessionToDb(Buyer $buyer)
     {
-        $products = Cart::fromSession($buyer->store);
+        $products = Cart::fromSession($this->store);
         foreach ($products as $product) {
             $currentProduct = $buyer->cart->products->where('id', $product->id)->first();
             if ($currentProduct) {
@@ -122,6 +123,6 @@ class BAuth extends Model
             $buyer->cart->products()->detach($product);
             $buyer->cart->products()->attach($product, ['amount' => intval($product->pivot->amount)]);
         }
-        Cart::removeAllFromSession($buyer->store);
+        Cart::removeAllFromSession($this->store);
     }
 }

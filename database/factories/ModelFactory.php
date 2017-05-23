@@ -12,7 +12,8 @@
 */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+
+function generateUser(Faker\Generator $faker) {
     static $password;
 
     return [
@@ -21,7 +22,12 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
     ];
-});
+}
+
+
+$factory->define(App\User::class, 'generateUser');
+
+$factory->define(App\Buyer::class, 'generateUser');
 
 $factory->define(App\Store::class, function (Faker\Generator $faker) {
     $name = $faker->company;
@@ -49,13 +55,13 @@ $factory->define(App\Product::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Buyer::class, function (Faker\Generator $faker) {
-    static $password;
+$factory->define(App\Address::class, function (Faker\Generator $faker) {
 
     return [
-        'username' => $faker->unique()->username,
-        'email' => $faker->unique()->safeEmail,
-        'password' => $password ?: $password = bcrypt('secret'),
-        'remember_token' => str_random(10),
+        'name' => $faker->firstName,
+        'street_name' => $faker->streetName,
+        'building_number' => $faker->buildingNumber,
+        'city' => $faker->city,
+        'postal_code' => $faker->numberBetween(11000, 39000),
     ];
 });

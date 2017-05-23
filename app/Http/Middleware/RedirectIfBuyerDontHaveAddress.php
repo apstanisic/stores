@@ -3,9 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\Store;
 
-class RedirectIfBuyerNotLoged
+class RedirectIfBuyerDontHaveAddress
 {
     /**
      * Handle an incoming request.
@@ -16,10 +15,9 @@ class RedirectIfBuyerNotLoged
      */
     public function handle($request, Closure $next)
     {
-        // if (BAuth::guest($request->store)) {
-        if (bauth($request->store)->guest()) {
-            session()->flash('flash_danger', 'Morate biti ulogovani');
-            return redirect()->route('buyer.login.show', [$request->user->slug, $request->store->slug]);
+        if (!bauth($request->store)->user()->hasAddress()) {
+            session()->flash('flash_danger', 'Morate imati adresu da biste narucili');
+            return redirect()->back();
         }
 
         return $next($request);

@@ -2,8 +2,10 @@
 	{{ csrf_field() }}
 	{{ method_field('patch') }}
 	<select name="status_id" class="form-control" id="changeStatus">
-		@foreach(\App\Status::where('id', '!=', 7)->get() as $status)
-		<option value="{{ $order->status->slug }}" {{ ($status->slug === $order->status->slug) ? 'selected' : '' }}>{{ $status->description }}</option>
+		@foreach($status as $oneStatus)
+			<option value="{{ $order->status->name }}" {{ ($oneStatus->name === $order->status->name) ? 'selected' : '' }}>
+				{{ $oneStatus->description }}
+			</option>
 		@endforeach
 	</select>
 	<button type="submit" class="btn btn-primary btn-block mt-2">Izmeni status</button>

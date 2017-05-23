@@ -8,7 +8,9 @@
 	<select name="parent_id" id="categoryParent" class="form-control">
 			<option value="">Nijedna</option>
 		@foreach($parentCategories as $parentCategory)
-			@if(($parentCategory->id === (isset($category->parent_id) ? $category->parent_id : null)) || ($parentCategory->id === old('parent_id')))
+			@if(isset($category) && $category->id === $parentCategory->id)
+			{{-- There should be an option to category be parent to  itself  --}}
+			@elseif(($parentCategory->id === (isset($category->parent_id) ? $category->parent_id : null)) || ($parentCategory->id === old('parent_id')))
 				<option value="{{ $parentCategory->id }}" selected>{{ $parentCategory->name }}</option>
 			@else
 				<option value="{{ $parentCategory->id }}">{{ $parentCategory->name }}</option>

@@ -18,7 +18,7 @@
 			</div>
 			<div class="col-12 col-md-2">
 				<p class="h4 text-center">U korpu</p>
-				<form action="{{ route('cart.store', [$store->user->slug, $store->slug, $product->slug]) }}" method="post">
+				<form action="{{ route('cart.store', [$product->store->user->slug, $product->store->slug, $product->slug]) }}" method="post">
 					{{ csrf_field() }}
 					<select name="amount" id="" class="custom-select form-control my-2">
 						@for($i = 0; $i <= 10; $i++)

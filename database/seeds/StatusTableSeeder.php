@@ -35,17 +35,17 @@ class StatusTableSeeder extends Seeder
 
         Status::create([
             'name' => 'declined',
-            'description' => 'Porudzbina je primljena',
+            'description' => 'Porudzbina je odbijena',
         ]);
 
         Status::create([
             'name' => 'deleted',
-            'description' => 'Porudzbina je primljena',
+            'description' => 'Porudzbina je obrisana',
         ]);
 
         Status::create([
             'name' => 'paused',
-            'description' => 'Porudzbina je primljena',
+            'description' => 'Porudzbina je pauzirana',
         ]);
 
         Status::create([

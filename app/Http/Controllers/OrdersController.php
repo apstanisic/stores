@@ -7,6 +7,7 @@ use App\Http\Requests\ValidStatusRequest;
 use App\Store;
 use App\Order;
 use App\Product;
+use App\Status;
 
 class OrdersController extends Controller
 {
@@ -52,8 +53,9 @@ class OrdersController extends Controller
      */
     public function edit(Store $store, Order $order)
     {
+        $status = Status::where('id', '!=', 6)->get();
         // Da izmeni status, ili porudzbinu
-        return view('orders.edit', compact('order'));
+        return view('orders.edit', compact('order', 'status'));
     }
 
     /**

@@ -20,6 +20,7 @@ Route::get('stores/{store}/categories/{category}/products', 'CategoriesControlle
 	 ->name('stores.categories.products');
 // Store products
 Route::resource('stores.products', 'ProductsController');
+Route::post('stores.products.remaining', 'ProductsController@updateRemaining')->name('stores.products.remaining');
 // Store orders
 Route::resource('stores.orders', 'OrdersController', ['except' => ['create', 'store']]);
 Route::patch('stores/{store}/orders/{order}/status', 'OrdersController@updateStatus')

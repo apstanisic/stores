@@ -1,4 +1,4 @@
-<form method="post"  action="{{ route('buyer.register', [$user->slug, $store->slug]) }}" class="mx-auto max-500">
+<form method="post"  action="{{ route('buyer.register', [$store->user->slug, $store->slug]) }}" class="mx-auto max-500">
 	{{ csrf_field() }}
 
 	<div class="form-group mb-3">

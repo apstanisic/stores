@@ -37,6 +37,11 @@ class Buyer extends Model
         return $this->belongsTo(Store::class);
     }
 
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
+    }
+
     public function hasOrder(Order $order)
     {
         // if (BAuth::buyer()->orders()->where('id', $order->id)->count()) {
@@ -44,6 +49,15 @@ class Buyer extends Model
             return true;
         } else {
             return false;
+        }
+    }
+
+    public function hasAddress()
+    {
+        if (count($this->addresses) === 0) {
+            return false;
+        } else {
+            return true;
         }
     }
 }

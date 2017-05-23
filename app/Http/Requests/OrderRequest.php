@@ -3,9 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Store;
+use Illuminate\Validation\Rule;
 
-class AddToCartRequest extends FormRequest
+class OrderRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +14,7 @@ class AddToCartRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return bauth()->check();
     }
 
     /**
@@ -25,7 +25,13 @@ class AddToCartRequest extends FormRequest
     public function rules()
     {
         return [
-            'amount' => 'required|integer|min:1'
+            'address_id' => [
+                'required',
+                Rule::exists('addresses', 'id')->where(function($query) {
+                    $query->where('buyer_id', bauth()->user()->id);
+                }),
+
+            ]
         ];
     }
 }

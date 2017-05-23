@@ -5,12 +5,10 @@ namespace App\Http\Controllers\Shopping;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddToCartRequest;
-use Session;
 use App\User;
 use App\Store;
 use App\Product;
 use App\Cart;
-use App\BAuth;
 
 class CartController extends Controller
 {
@@ -24,7 +22,7 @@ class CartController extends Controller
     {
         Cart::add($product, request('amount'));
 
-        Session::flash('flash_success', 'Proizvod "' . $product->name . '" uspesno dodat u korpu.');
+        session()->flash('flash_success', 'Proizvod "' . $product->name . '" uspesno dodat u korpu.');
 
         return redirect()->back();
     }

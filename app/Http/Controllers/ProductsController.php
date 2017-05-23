@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductRequest;
+use App\Http\Requests\UpdateRemainingProductsRequest;
 use Route;
 use App\Store;
 use App\Product;
@@ -76,7 +77,7 @@ class ProductsController extends Controller
     public function edit(Store $store, Product $product)
     {
         return view('products.edit')->with('categories', $store->categories)
-                                    ->with('products', $products);
+                                    ->with('product', $product);
     }
 
     /**
@@ -89,6 +90,7 @@ class ProductsController extends Controller
     public function update(ProductRequest $request, Store $store, Product $product)
     {
         $product->update($request->all());
+
 
         Session::flash('flash_success', 'Uspesno izmenjen proizvod');
 
@@ -108,5 +110,10 @@ class ProductsController extends Controller
         Session::flash('flash_success', 'Uspesno izbrisan proizvod');
 
         return redirect()->route('stores.products.index', [$store->slug]);
+    }
+
+    public function updateRemaining(UpdateRemainingProductsRequest $request, Store $store, Product $product)
+    {
+        $product->addRemaining($request->amount);
     }
 }

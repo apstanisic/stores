@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\Store;
 use App\Product;
-use App\BAuth;
+// use App\BAuth;
 
 class Cart extends Model
 {
@@ -20,6 +20,16 @@ class Cart extends Model
     public function buyer()
     {
         return $this->hasOne(Buyer::class);
+    }
+
+    public function store()
+    {
+        return $this->belongsTo(Store::class);
+    }
+
+    public function getPriceAttribute()
+    {
+        return static::price($this->store);
     }
 
     public static function price(Store $store)
@@ -48,19 +58,21 @@ class Cart extends Model
     // iz baze preko products metode
     public static function items(Store $store)
     {
-        if(BAuth::guest($store)) {
+        // if(BAuth::guest($store)) {
+        if (bauth($store)->guest()) {
             return static::fromSession($store);
         } else {
-            return BAuth::buyer($store)->cart->products()->get();
+            // return BAuth::buyer($store)->cart->products()->get();
+            return bauth($store)->cart()->products;
         }
     }
 
     public static function amount(Product $product)
     {
-        if (BAuth::guest($product->store)) {
+        if (bauth($product->store)->guest()) {
             return('cart_' . $product->store_id)[$product->slug] ?? 0;
         } else {
-            return BAuth::buyer($product->store)->cart->products->find($product->id)->pivot->amount ?? 0;
+            return bauth($product->store)->cart()->products->find($product->id)->pivot->amount ?? 0;
         }
     }
 
@@ -69,7 +81,7 @@ class Cart extends Model
     // public static function add(array $data) // Stari nacin
     public static function add(Product $product, $amount)
     {
-    	if (BAuth::guest($product->store)) {
+    	if (bauth($product->store)->guest()) {
             static::addToSession($product, $amount);
     	} else {
             static::addToDb($product, $amount);
@@ -79,7 +91,7 @@ class Cart extends Model
     // Izpraznjuje korpu
     public static function removeAll(Store $store)
     {
-    	if (BAuth::guest($store)) {
+    	if (bauth($store)->guest()) {
 			static::removeAllFromSession($store);
     	} else {
     		static::removeAllFromDb($store);
@@ -89,7 +101,7 @@ class Cart extends Model
     // Brise proizvod iz korpe
     public static function removeItem(Product $product)
     {
-    	if (BAuth::guest($product->store)) {
+    	if (bauth($product->store)->guest()) {
     		static::removeFromSession($product);
     	} else {
     		static::removeFromDb($product);
@@ -99,7 +111,7 @@ class Cart extends Model
     // Izbacuje proizvod iz baze
     public static function removeFromDb(Product $product)
     {
-    	BAuth::buyer($product->store)->cart->products()->detach($product->id);
+    	bauth($product->store)->cart()->products()->detach($product->id);
     }
 
     // Izbacuje proizvod iz sesije
@@ -133,7 +145,7 @@ class Cart extends Model
     // Izpraznjuje celu korpu iz baze
     private static function removeAllFromDb(Store $store)
     {
-    	BAuth::buyer($store)->cart->products()->detach();
+    	bauth($store)->cart()->products()->detach();
     }
 
     // Izpraznjuje celu korpu iz sesije
@@ -164,14 +176,22 @@ class Cart extends Model
     private static function addToDb(Product $product, $amount)
     {
         if($amount === '+1') {
-            $currentAmount = BAuth::buyer($product->store)->cart->products->where('id', $product->id)->first()->pivot->amount ?? 0;
+            $currentAmount = bauth($product->store)->cart()->products->where('id', $product->id)->first()->pivot->amount ?? 0;
             $amount = ++$currentAmount;
         }
 
-        BAuth::buyer($product->store)->cart->products()->detach($product->id);
-		BAuth::buyer($product->store)->cart->products()->attach($product->id, ['amount' => intval($amount)]);
+        bauth($product->store)->cart()->products()->detach($product->id);
+		bauth($product->store)->cart()->products()->attach($product->id, ['amount' => intval($amount)]);
     }
 
 
 
 }
+
+// [
+//     0 => [
+//         'product' => $product,
+//         'amount' => $product->pivot->amount
+//     ]
+
+// ]
