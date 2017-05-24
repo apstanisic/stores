@@ -20,13 +20,13 @@
 				<p class="h4 text-center">U korpu</p>
 				<form action="{{ route('cart.store', [$product->store->user->slug, $product->store->slug, $product->slug]) }}" method="post">
 					{{ csrf_field() }}
-					<select name="amount" id="" class="custom-select form-control my-2">
+					<select name="amount" id="" class="custom-select form-control my-2"   {{ ($product->remaining > 0) ? '' : 'disabled'}}>
 						@for($i = 0; $i <= 10; $i++)
 							<option value="{{ $i }}" {{ $i === $product->inCart() ? 'selected' : '' }}>{{ $i }}</option>
 						@endfor
 					</select>
 					{{-- <p class="display-4">{{ $product->inCart() }}</p> --}}
-					<button class="btn btn-primary btn-block">Dodaj</button>
+					<button class="btn btn-primary btn-block"   {{ ($product->remaining > 0) ? '' : 'disabled'}}>Dodaj</button>
 				</form>
 			</div>
 		</div>

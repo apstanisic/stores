@@ -80,7 +80,7 @@ class Product extends Model
 
 	public function requestedOrMax(int $amount)
 	{
-		$this->hasEnough($amount) ? $amount : $this->remaining;
+		return $this->hasEnough($amount) ? $amount : $this->remaining;
 	}
 
 	public static function url()

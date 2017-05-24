@@ -17,7 +17,7 @@
 			<table class="table table-hover">
 				<thead class="thead-default">
 					<tr>
-						<th colspan="4" class="text-center">
+						<th colspan="5" class="text-center">
 							<a href="{{ route('stores.create') }}">Napravi prodavnicu</a>
 						</th>
 					</tr>
@@ -27,6 +27,7 @@
 						<th class="text-center w-100p">Proizvodi</th>
 						{{-- <th class="text-center">Kategorije</th> --}}
 						<th class="text-center w-100p">Izmeni</th>
+						<th class="text-center w-100p">Poseti</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -45,6 +46,12 @@
 							<td class="text-center">
 								<a href="{{ route('stores.edit', [$store->slug]) }}" class="btn btn-primary">
 									<i class="fa fa-pencil" aria-hidden="true"></i>
+								</a>
+							</td>
+
+							<td class="text-center">
+								<a href="{{ route('shopping.index', [$store->user->slug, $store->slug]) }}" class="btn btn-info">
+									<i class="fa fa-globe" aria-hidden="true"></i>
 								</a>
 							</td>
 						</tr>

@@ -82,9 +82,9 @@ class Cart extends Model
     public static function add(Product $product, $amount)
     {
     	if (bauth($product->store)->guest()) {
-            static::addToSession($product, $amount);
+            static::addToSession($product, $product->requestedOrMax($amount));
     	} else {
-            static::addToDb($product, $amount);
+            static::addToDb($product, $product->requestedOrMax($amount));
     	}
     }
 

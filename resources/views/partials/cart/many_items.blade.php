@@ -21,7 +21,7 @@
 					</td>
 
 					<td class="text-center align-middle">
-						{{ $product->pivot->amount * $product->price }} din.
+						{{ $product->pivot->amount * $product->price }}&nbsp;din.
 					</td>
 
 					<td class="text-center align-middle">

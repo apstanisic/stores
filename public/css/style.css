@@ -3,6 +3,11 @@ body {
   font-weight: 400;
 }
 
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 .navbar-transparent {
     background-color: transparent;

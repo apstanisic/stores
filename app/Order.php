@@ -13,26 +13,9 @@ class Order extends Model
     use SoftDeletes;
     use Sluggable;
 
-
     protected $fillable = ['buyer_id', 'store_id', 'status_id', 'address_id'];
     protected $dates = ['deleted_at'];
 
-
-    public function sluggable()
-    {
-        return [
-            'slug' => [
-                'source' => 'generateSlug',
-                'unique' => true,
-                'onUpdate' => false,
-            ]
-        ];
-    }
-
-    public function getRouteKeyName()
-    {
-        return 'slug';
-    }
 
     public function products()
     {
@@ -65,10 +48,14 @@ class Order extends Model
         $query->where('status_id', $status->id);
     }
 
-    public function refresh()
+    public function refresh($fullRefresh = false)
     {
-        $this->updatePrice(true);
-        $this->deleteIfEmpty();
+        $order = Order::find($this->id);
+        if ($fullRefresh) {
+            $order->updatePrice(true);
+            $order->deleteIfEmpty();
+        }
+        return $order;
     }
 
 
@@ -76,7 +63,8 @@ class Order extends Model
     {
         $price = 0;
         // Refresh its products
-        $products = Order::find($this->id)->products;
+        // $products = Order::find($this->id)->products;
+        $products = $this->refresh()->products;
         foreach ($products as $product) {
             if ($newProductPrice) {
                 $price += $product->price * $product->pivot->amount;
@@ -210,27 +198,37 @@ class Order extends Model
         return true;
     }
 
-    // Used for creating random slug for order
-    // Doesn't contain o, O, 0 because of readibility
+
+    // Samo citljivi karakteri, da se ne mesa 0 i O, l i I.
     public function getGenerateSlugAttribute()
     {
+        $faker = \Faker\Factory::create();
         $string = '';
-        for ($i = 1, $j = -1; $i < 9; $i++) {
-            if ($i % 3 === 0 || $i % 3 === 1) {
-                $char = chr(rand(65,90));
-                $string .= ($char === 'O') ? 'A' : $char;
-            } else {
-                $char = intval(substr(time(), $j, 1));
-                $string .= ($char === 0) ? rand(1, 9) : $char;
-                $j--;
-            }
+
+        for ($i = 0; $i < 7; $i++) {
+            $string .= $faker->randomElement(str_split('abcdefghjkmnpqrstuvwxyz23456789'));
         }
-        // Checks if this slug exists in database
+
         $notUnique = $this->where('slug', $string)->first();
-        if($notUnique) {
-            $string = $this->getGenerateSlugAttribute();
-        }
-        return $string;
+
+        return ($notUnique) ? $this->getGenerateSlugAttribute() : $string;
+    }
+
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => 'generateSlug',
+                'unique' => true,
+                'onUpdate' => false,
+            ]
+        ];
+    }
+
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 
 }
