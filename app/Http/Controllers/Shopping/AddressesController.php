@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
 use App\Store;
+use App\Address;
+use App\Http\Requests\AddressRequest;
 
 class AddressesController extends Controller
 {
@@ -16,7 +18,8 @@ class AddressesController extends Controller
      */
     public function index(User $user, Store $store)
     {
-        //
+        $addresses = bauth($store)->user()->addresses;
+        return view('shopping.addresses.index', compact('addresses'));
     }
 
     /**
@@ -26,8 +29,7 @@ class AddressesController extends Controller
      */
     public function create(User $user, Store $store)
     {
-        //
-        // dd('Hello');
+        return view('shopping.addresses.create');
     }
 
     /**
@@ -36,21 +38,18 @@ class AddressesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, User $user, Store $store)
+    public function store(AddressRequest $request, User $user, Store $store)
     {
-        //
+        bauth($store)->user()->addresses()->create($request->all());
+        session()->flash('flash_success', 'Uspesno dodata adresa');
+        
+        return redirect()->route('shop.addresses.index', [$user->slug, $store->slug]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show(User $user, Store $store, $id)
-    {
-        //
-    }
+    // public function show(User $user, Store $store, Address $address)
+    // {
+    //     //
+    // }
 
     /**
      * Show the form for editing the specified resource.
@@ -58,9 +57,9 @@ class AddressesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user, Store $store, $id)
+    public function edit(User $user, Store $store, Address $address)
     {
-        //
+        return view('shopping.addresses.edit', compact('address'));
     }
 
     /**
@@ -70,9 +69,12 @@ class AddressesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,User $user, Store $store, $id)
+    public function update(AddressRequest $request, User $user, Store $store, Address $address)
     {
-        //
+        $address->update($request->all());
+        session()->flash('flash_success', 'Uspesno izmenjena adresa');
+        
+        return redirect()->route('shop.addresses.index', [$user->slug, $store->slug]);
     }
 
     /**
@@ -81,8 +83,12 @@ class AddressesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user, Store $store,$id)
+    public function destroy(User $user, Store $store, Address $address)
     {
-        //
+        $address->delete();
+        
+        session()->flash('flash_success', 'Uspesno izbrisana adresa');
+
+        return redirect()->route('shop.addresses.index', [$user->slug, $store->slug]);
     }
 }

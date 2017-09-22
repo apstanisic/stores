@@ -14,13 +14,17 @@ class BuyerController extends Controller
 
     public function __construct()
     {
-        $this->middleware('bauth.guest')->except('logout');
+        $this->middleware('bauth.guest')->except(['logout', 'index']);
         // $this->middleware('buyer')->only('logout');
+    }
+
+    public function index(User $user, Store $store) {
+        $buyer = bauth($store)->user();
+        return view('bauth.user.index', compact('buyer'));
     }
 
     public function showLoginForm(User $user, Store $store)
     {
-    	//dd(BA::check($store));
     	return view('bauth.login');
     }
 

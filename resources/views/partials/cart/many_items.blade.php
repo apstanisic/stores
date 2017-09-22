@@ -27,10 +27,15 @@
 					<td class="text-center align-middle">
 						{{-- {{ $product->pivot->amount }} --}}
 						@if($canEdit ?? false)
-						<form action="{{ route('cart.store', [$product->store->user->slug, $product->store->slug, $product->slug]) }}" method="post" class="form-inline d-flex justify-content-end ml-auto">
+						<form action="{{ route('cart.store', [$product->store->user->slug, $product->store->slug, $product->slug]) }}" method="post" class="form-inline d-inline-flex justify-content-end ml-auto">
 							{{ csrf_field() }}
 							<input type="number" class="form-control" name="amount" min="0" max="100" value="{{ $product->pivot->amount }}">
 							<button type="submit" class="btn btn-warning ml-2">Izmeni</button>
+						</form>
+						<form action="{{ route('cart.destroy', [$product->store->user->slug, $product->store->slug, $product->slug]) }}" method="post" class="form-inline d-inline-flex justify-content-end ml-auto">
+							{{ csrf_field() }}
+							{{ method_field('delete') }}
+							<button type="submit" class="btn btn-danger ml-2">Izbrisi</button>
 						</form>
 						@else
 							<span class="d-flex justify-content-end mr-3">{{ $product->pivot->amount }}</span>

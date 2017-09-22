@@ -16,7 +16,7 @@ Route::post('{user}/{store}/register', 'BuyerController@register')->name('buyer.
 Route::post('{user}/{store}/logout', 'BuyerController@logout')->name('buyer.logout');
 
 // Addresses
-Route::resource('{user}/{store}/addresses', 'AddressesController', ['as' => 'shop']);
+Route::resource('{user}/{store}/addresses', 'AddressesController', ['as' => 'shop', 'except' => ['show']]);
 
 // Cart
 Route::get('{user}/{store}/cart', 'CartController@index')->name('cart.index');

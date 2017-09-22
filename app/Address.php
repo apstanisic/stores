@@ -21,6 +21,11 @@ class Address extends Model
 	        ];
 	    }
 
+	public function getRouteKeyName()
+	{
+		return 'slug';
+	}
+
 	public function buyer()
 	{
 		return $this->belongsTo(Buyer::class);

@@ -74,5 +74,6 @@ class BindCorrectData
             $order = $store->orders()->where('slug', $request->route('order')->slug)->firstOrFail();
             $request->route()->setParameter('order', $order);
         }
+
     }
 }
