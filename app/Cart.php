@@ -70,7 +70,7 @@ class Cart extends Model
     public static function amount(Product $product)
     {
         if (bauth($product->store)->guest()) {
-            return('cart_' . $product->store_id)[$product->slug] ?? 0;
+            return session('cart_' . $product->store_id)[$product->slug] ?? 0;
         } else {
             return bauth($product->store)->cart()->products->find($product->id)->pivot->amount ?? 0;
         }
@@ -81,6 +81,12 @@ class Cart extends Model
     // public static function add(array $data) // Stari nacin
     public static function add(Product $product, $amount)
     {
+        $currentAmount = static::amount($product);
+        // dd($currentAmount);
+        if ($amount == '+1') {
+            $amount = $currentAmount + 1;
+        }
+
     	if (bauth($product->store)->guest()) {
             static::addToSession($product, $product->requestedOrMax($amount));
     	} else {
@@ -163,11 +169,11 @@ class Cart extends Model
         // Key is product slug, value is product amount
         $products = session($session_name);
 
-        if($amount === '+1'){
-            $products[$product->slug] = isset($products[$product->slug]) ? ++$products[$product->slug] : 1;
-        } else {
+        // if($amount === '+1'){
+        //     $products[$product->slug] = isset($products[$product->slug]) ? ++$products[$product->slug] : 1;
+        // } else {
             $products[$product->slug] = intval($amount);
-        }
+        // }
 
         session()->put($session_name, $products);
     }
@@ -175,10 +181,10 @@ class Cart extends Model
     // Add new product to database cart
     private static function addToDb(Product $product, $amount)
     {
-        if($amount === '+1') {
-            $currentAmount = bauth($product->store)->cart()->products->where('id', $product->id)->first()->pivot->amount ?? 0;
-            $amount = ++$currentAmount;
-        }
+        // if($amount === '+1') {
+        //     $currentAmount = bauth($product->store)->cart()->products->where('id', $product->id)->first()->pivot->amount ?? 0;
+        //     $amount = ++$currentAmount;
+        // }
 
         bauth($product->store)->cart()->products()->detach($product->id);
 		bauth($product->store)->cart()->products()->attach($product->id, ['amount' => intval($amount)]);

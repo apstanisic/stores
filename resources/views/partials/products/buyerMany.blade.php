@@ -10,12 +10,12 @@
 				@slot('name')
 					<a href="{{ route('shopping.products.show', [$product->store->user->slug, $product->store->slug, $product->slug]) }}">{{ $product->name }}</a>
 				@endslot
-				@slot('price')
-					{{ $product->price }}
-				@endslot
-				@slot('remaining')
-					{{ $product->remaining }}
-				@endslot
+				@slot('price', $product->price)
+					{{-- {{ $product->price }}
+				@endslot --}}
+				@slot('remaining', $product->remaining)
+					{{-- {{ $product->remaining }} --}}
+				{{-- @endslot --}}
 				@slot('routes')
 					<form action="{{ route('cart.store', [$product->store->user->slug, $product->store->slug, $product->slug]) }}" method="post" class="w-100">
 						{{ csrf_field() }}

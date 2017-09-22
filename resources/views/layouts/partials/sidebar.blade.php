@@ -1,4 +1,4 @@
-	<div class="sidebar bg-inverse pt-2 d-inline" id="sidebar">
+	<div class="sidebar bg-dark pt-2 d-inline" id="sidebar">
 
 			<button type="button" class="btn-transparent text-lightgrey" id="sidebarToggle">
 				<div class="sidebar-block">

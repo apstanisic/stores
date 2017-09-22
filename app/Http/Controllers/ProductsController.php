@@ -114,6 +114,8 @@ class ProductsController extends Controller
 
     public function updateRemaining(UpdateRemainingProductsRequest $request, Store $store, Product $product)
     {
-        $product->addRemaining($request->amount);
+        $product->addRemaining($request->remaining);
+        session()->flash('flash_success', 'Uspesno izmenjeni proizvodi na stanju');
+        return redirect()->back();
     }
 }

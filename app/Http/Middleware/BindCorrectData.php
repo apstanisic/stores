@@ -30,7 +30,6 @@ class BindCorrectData
     private function ownerBinding($request)
     {
         if ($request->route()->hasParameter('store')) {
-
             if ($request->user()) {
                 $store = $request->user()->stores()->where('slug', $request->route('store')->slug)->firstOrFail();
                 $request->route()->setParameter('store', $store);

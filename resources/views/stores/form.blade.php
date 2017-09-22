@@ -9,15 +9,16 @@
 	<textarea name="description" class="form-control" id="storeDescription" rows="10">{{ $store->description or old('description') }}</textarea>
 </div>
 
-<div class="form-group">
-	<label for="storeCurrency" class="d-block text-center h5">Valuta{{-- (Ovo polje trenutno nicemu ne sluzi) --}}</label>
+{{-- (Add featuer: Choose currencies) --}}
+{{--  <div class="form-group">
+	<label for="storeCurrency" class="d-block text-center h5">Valuta</label>
 	<select name="currency" id="storeCurrency" class="form-control">
 		<option value="">din</option>
 		<option value="">euro</option>
 		<option value="">dolar</option>
 		<option value="">funta</option>
 	</select>
-</div>
+</div>  --}}
 
 <div class="form-group">
 	<button type="submit" class="btn btn-warning btn-block">{{ $submitButton }}</button>

@@ -1,1 +1,1 @@
-{{ ($status == 'confirmed' || $status == 'sent' || $status == 'paused') ? 'info' : ''}}{{ ($status == 'canceled' || $status == 'not_sent' || $status == 'declined') ? 'danger' : '' }}{{ ($status == 'delivered') ? 'success' : '' }}{{ ($status == 'deleted') ? 'warning' : '' }}
+{{ ($status == 'confirmed' || $status == 'sent' || $status == 'paused') ? 'info' : ''}}{{ ($status == 'canceled' || $status == 'not_sent' || $status == 'declined') ? 'danger' : '' }}{{ ($status == 'delivered' || $status == 'finished') ? 'success' : '' }}{{ ($status == 'deleted') ? 'warning' : '' }}

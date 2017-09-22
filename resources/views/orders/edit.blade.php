@@ -2,21 +2,11 @@
 
 @section('content')
 	@component('partials.orders.big')
-		@slot('status')
-			{{ $order->status->name }}
-		@endslot
-		@slot('id')
-			{{ $order->slug }}
-		@endslot
-		@slot('description')
-			{{ $order->status->description }}
-		@endslot
-		@slot('price')
-			{{ $order->price }}
-		@endslot
-		@slot('created_at')
-			{{ $order->created_at->diffForHumans() }}
-		@endslot
+		@slot('status', $order->status->name)
+		@slot('id', $order->slug)
+		@slot('description', $order->status->description)
+		@slot('price', $order->price)
+		@slot('created_at', $order->created_at->diffForHumans())
 		@slot('editProducts')
 			@include('orders.form_amount')
 		@endslot

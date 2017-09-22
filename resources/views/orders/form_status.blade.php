@@ -3,7 +3,7 @@
 	{{ method_field('patch') }}
 	<select name="status_id" class="form-control" id="changeStatus">
 		@foreach($status as $oneStatus)
-			<option value="{{ $order->status->name }}" {{ ($oneStatus->name === $order->status->name) ? 'selected' : '' }}>
+			<option value="{{ $oneStatus->id }}" {{ ($oneStatus->name === $order->status->name) ? 'selected' : '' }}>
 				{{ $oneStatus->description }}
 			</option>
 		@endforeach

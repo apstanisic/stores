@@ -3,7 +3,7 @@
 @section('content')
 	<div class="container">
 		<div class="card my-5">
-		  	<div class="card-block card-inverse card-@include('partials.status_color', ['status' => $order->status->name])">
+		  	<div class="card-block text-white bg-@include('partials.status_color', ['status' => $order->status->name])">
 			    <h4 class="card-title text-center h2">Porudzbina {{ $order->slug }}</h4>
 			    <hr>
 			    <p>{{ $order->status->description }}</p>

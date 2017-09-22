@@ -1,5 +1,5 @@
 <div class="card my-5">
-  	<div class="card-block card-inverse card-@include('partials.status_color', compact('status'))">
+  	<div class="card-block text-white bg-@include('partials.status_color', compact('status'))">
 	    <h4 class="card-title text-center h2">Porudzbina {{ $id }}</h4>
 	    <hr>
 	    <p>{{ $description }}</p>
@@ -32,7 +32,7 @@
 	  			</li>
 	  	</ul>
   	@endif
-  		<div class="card-block">
+  		<div class="card-block m-2">
   			{{ $links }}
 		</div>
 		{{ $additional or '' }}

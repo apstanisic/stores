@@ -4,7 +4,7 @@
 
 
 @section('content')
-	<div class="container-fluid bg-inverse p-0">
+	<div class="container-fluid bg-dark p-0">
 		<div class="container">
 			<div class="row py-5">
 

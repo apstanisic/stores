@@ -1,4 +1,4 @@
-<footer class="footer bg-faded py-2">
+<footer class="footer bg-light py-2">
     <div class="container">
         <div class="row">
             <div class="col-12">

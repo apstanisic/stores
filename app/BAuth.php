@@ -53,7 +53,7 @@ class BAuth extends Model
     }
 
     // Logs out buyer
-    public static function logout()
+    public function logout()
     {
     	session()->forget('buyer_' . $this->store->id);
     }

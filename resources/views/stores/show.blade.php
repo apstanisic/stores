@@ -2,7 +2,7 @@
 
 
 @section('content')
-<p class="display-4 text-center">{{ $store->name }}</p>
+<p class="display-4 text-center mt-5">{{ $store->name }}</p>
 
 <p class="h3 text-center mt-4">Napravili ste profit u vrednosti od:</p>
 <p class="display-4 text-center">{{ $store->profit }} <small class="h4"> dinar/a.</small></p>

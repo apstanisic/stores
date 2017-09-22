@@ -3,7 +3,7 @@
 @section('content')
 	<div class="container">
 		<div class="card my-5">
-		  	<div class="card-block card-inverse card-@include('partials.status_color', ['status' => $order->status->name])">
+		  	<div class="card-block text-white bg-@include('partials.status_color', ['status' => $order->status->name])">
 			    <h4 class="card-title text-center h2">Porudzbina {{ $order->slug }}</h4>
 			    <hr>
 			    <p>{{ $order->status->description }}</p>
@@ -19,7 +19,7 @@
 		  		@endforeach
 		  	</ul>
 		  	@if ($order->canEdit())
-		  		<div class="card-block d-flex justify-content-around">
+		  		<div class="card-block d-flex justify-content-around m-2">
 					<form action="{{ route('buyer.orders.destroy', [$order->store->user->slug, $order->store->slug, $order->slug]) }}" method="post">
 						{{ csrf_field() }}
 						{{ method_field('delete') }}
