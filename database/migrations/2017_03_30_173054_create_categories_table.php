@@ -22,11 +22,13 @@ class CreateCategoriesTable extends Migration
 
         	$table->foreign('parent_id')
         		  ->references('id')
-        		  ->on('categories');
+                  ->on('categories')
+                  ->onDelete('cascade');
 
             $table->foreign('store_id')
                   ->references('id')
-                  ->on('stores');
+                  ->on('stores')
+                  ->onDelete('cascade');
         });
     }
 

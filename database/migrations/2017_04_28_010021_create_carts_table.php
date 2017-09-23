@@ -21,11 +21,13 @@ class CreateCartsTable extends Migration
 
             $table->foreign('buyer_id')
                   ->references('id')
-                  ->on('buyers');
+                  ->on('buyers')
+                  ->onDelete('cascade');
 
             $table->foreign('store_id')
                   ->references('id')
-                  ->on('stores');
+                  ->on('stores')
+                  ->onDelete('cascade');
         });
 
         Schema::create('cart_product', function (Blueprint $table) {

@@ -41,6 +41,7 @@ class AddressesController extends Controller
     public function store(AddressRequest $request, User $user, Store $store)
     {
         bauth($store)->user()->addresses()->create($request->all());
+        
         session()->flash('flash_success', 'Uspesno dodata adresa');
         
         return redirect()->route('shop.addresses.index', [$user->slug, $store->slug]);
@@ -72,6 +73,7 @@ class AddressesController extends Controller
     public function update(AddressRequest $request, User $user, Store $store, Address $address)
     {
         $address->update($request->all());
+
         session()->flash('flash_success', 'Uspesno izmenjena adresa');
         
         return redirect()->route('shop.addresses.index', [$user->slug, $store->slug]);

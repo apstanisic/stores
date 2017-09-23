@@ -27,7 +27,8 @@ class CreateBuyersTable extends Migration
 
             $table->foreign('store_id')
                   ->references('id')
-                  ->on('stores');
+                  ->on('stores')
+                  ->onDelete('cascade');
 
             $table->unique(['username', 'store_id']);
             $table->unique(['email', 'store_id']);

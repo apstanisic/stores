@@ -26,7 +26,8 @@ class CreateAddressesTable extends Migration
 
             $table->foreign('buyer_id')
                   ->references('id')
-                  ->on('buyers');
+                  ->on('buyers')
+                  ->onDelete('cascade');
         });
     }
 
