@@ -17,7 +17,7 @@
 	  		<form action="{{ route('stores.orders.destroy', [$order->store->slug, $order->slug]) }}" method="post" class="text-right mt-3">
 	  			{{ csrf_field() }}
 	  			{{ method_field('delete') }}
-	  			<button class="btn btn-danger">Izbrisi porudzbinu</button>
+	  			<button class="btn btn-danger">Izbriši porudžbinu</button>
 	  		</form>
 
 		@endslot

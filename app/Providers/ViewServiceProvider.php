@@ -78,12 +78,12 @@ class ViewServiceProvider extends ServiceProvider
     // }
 
 
-    // TODO: FIXME !!!!!!!! It's ugly!
+    // TODO: Pretify
     private function tmpShoppingNav()
     {
         view()->composer(['layouts.shopping', 'shopping.*'], function($view) {
             $link1 = new Nav;
-            $link1->name = 'Pocetna';
+            $link1->name = 'Početna';
             $link1->route = 'shopping.index';
             $link1->params = [User::url()->slug, Store::url()->slug];
 

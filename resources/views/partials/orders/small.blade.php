@@ -7,7 +7,7 @@
 	<div class="card-block">
 		{{-- You can pass counter if you wants --}}
 		<p class="card-title">{{ (isset($counter)) ? $counter . '. ' : '' }}{{ $description }} </p>
-		<p>Sadrzi {{ $amount }} proizvod/a.</p>
+		<p>Sadrži {{ $amount }} proizvod/a.</p>
 		<div class="m-2">
 			{{ $routes }}
 		</div>

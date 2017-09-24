@@ -14,7 +14,7 @@
 				<div class="sidebar-icon">
 					<i class="fa fa-home" aria-hidden="true"></i>
 				</div>
-				<span class="sidebar-text">Pocetna</span>
+				<span class="sidebar-text">Početna</span>
 			</div>
 		</a>
 
@@ -34,7 +34,7 @@
 				<div class="sidebar-icon">
 					<i class="fa fa-files-o" aria-hidden="true"></i>
 				</div>
-				<span class="sidebar-text">Porudzbine</span>
+				<span class="sidebar-text">Porudžbine</span>
 			</div>
 		</a>
 
@@ -77,7 +77,7 @@
 					<div class="sidebar-icon">
 						<i class="fa fa-trash" aria-hidden="true"></i>
 					</div>
-					<span class="sidebar-text">Izbrisi prodavnicu</span>
+					<span class="sidebar-text">Izbriši prodavnicu</span>
 				</div>
 			</button>
 		</form>

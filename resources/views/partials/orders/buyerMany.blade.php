@@ -1,4 +1,4 @@
-<h1 class="text-center m-4">Porudzbine</h1>
+<h1 class="text-center m-4">Porudžbine</h1>
 @foreach($orders as $order)
 	@component('partials.orders.small')
 		@slot('status')

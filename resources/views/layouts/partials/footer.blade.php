@@ -4,7 +4,7 @@
             <div class="col-12">
             	{{-- Footer linkovi --}}
             </div>
-            <div class="col-12 text-center mt-2 h5"><span class="h6">Created by</span><strong>
+            <div class="col-12 text-center mt-2 h5"><span class="h6">Napravio </span><strong>
                 <a href="{{ route('about') }}">
                     AStanisic
                 </a></strong>

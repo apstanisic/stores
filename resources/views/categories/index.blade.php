@@ -28,7 +28,7 @@
 						<th class="text-center">Nadkategorija</th>
 						<th class="text-center w-100p">Proizvodi</th>
 						<th class="text-center w-100p">Izmeni</th>
-						<th class="text-center w-100p">Izbrisi</th>
+						<th class="text-center w-100p">Izbriši</th>
 					</tr>
 				</thead>
 				<tbody>

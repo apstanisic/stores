@@ -2,7 +2,7 @@
 
 @section('content')
 	<div class="container">
-		<h1 class="display-4 text-center my-4">Vasa porudzbina</h1>
+		<h1 class="display-4 text-center my-4">Vaša porudžbina</h1>
 
 		@component('partials.cart.many_items', ['products' => $cart->products])
 			@slot('additional')
@@ -36,7 +36,7 @@
 				</form>
 			</div>
 		@else
-			<p class="h4">Morate imati adresu da biste narucili proizvode. <strong><a href="{{ route('shop.addresses.create', [$store->user->slug, $store->slug]) }}">Dodajte&nbsp;adresu</a></strong>.</p>
+			<p class="h4">Morate imati adresu da biste naručili proizvode. <strong><a href="{{ route('shop.addresses.create', [$store->user->slug, $store->slug]) }}">Dodajte&nbsp;adresu</a></strong>.</p>
 		@endif
 
 	</div>

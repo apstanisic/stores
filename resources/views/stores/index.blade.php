@@ -12,7 +12,7 @@
 		</div>
 	@else
 		<div class="container">
-			<h2 class="h1 text-center my-4">Vase prodavnice</h2>
+			<h2 class="h1 text-center my-4">Vaše prodavnice</h2>
 			<div class="table-responsive">
 			<table class="table table-hover">
 				<thead class="thead-default">

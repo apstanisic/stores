@@ -15,7 +15,7 @@
         @include('auth.forms.register')
 
         <div class="mx-auto p-3 d-flex align-items-center justify-content-center my-4 rounded border-grey">
-            <p class="mb-0">Vec ste se registrovali? <a href="{{ route('login') }}">Ulogujte se.</a></p>
+            <p class="mb-0">Već ste se registrovali? <a href="{{ route('login') }}">Ulogujte se.</a></p>
         </div>
     </div>
 @endsection

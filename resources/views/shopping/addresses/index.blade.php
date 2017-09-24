@@ -18,7 +18,7 @@
 						<form class="inline-form" action="{{ route('shop.addresses.destroy', [$store->user->slug, $store->slug, $address->slug]) }}" method="post">
 							{{ csrf_field() }}
 							{{ method_field('delete') }}
-							<button type="submit" class="btn btn-outline-danger ml-2">Izbrisi</button>
+							<button type="submit" class="btn btn-outline-danger ml-2">Izbriši</button>
 						</form>
 					</div>
 					@endslot

@@ -3,7 +3,7 @@
 
 @section('content')
 
-<h1 class="display-4 text-center mt-3">Vas profil</h1>
+<h1 class="display-4 text-center mt-3">Vaš profil</h1>
 
 <div class="container">
 	<div class="row">

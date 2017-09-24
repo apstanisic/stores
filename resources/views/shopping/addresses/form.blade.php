@@ -12,7 +12,7 @@
 	<input type="text" name="building_number" class="form-control" id="addressNumber" value="{{ $address->building_number or old('building_number') }}" required>
 </div>
 <div class="form-group">
-	<label for="addressPostal" class="d-block text-center h5">Postanski broj</label>
+	<label for="addressPostal" class="d-block text-center h5">Poštanski broj</label>
 	<input type="text" name="postal_code" class="form-control" id="addressPostal" value="{{ $address->postal_code or old('postal_code') }}" required>
 </div>
 <div class="form-group">

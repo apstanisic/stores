@@ -15,7 +15,7 @@
 	    <div class="d-flex justify-content-between align-items-end flex-wrap">
 			<label for="loginPassword"  class="form-control-label">Password</label>
 			<a class="btn btn-link" href="{{ route('password.request') }}">
-                Zaboravili sifru?
+                Zaboravili šifru?
             </a>
         </div>
 		<input type="password" name="password" class="form-control" id="loginPassword" required>
@@ -29,11 +29,11 @@
     <div class="form-group">
         <div class="checkbox">
             <label class="mb-0">
-                <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
+                <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Zapamti me
             </label>
         </div>
     </div>
 
-    <button type="submit" name="submit" class="btn btn-success btn-block" id="loginButton" value="login">Sign In</button>
+    <button type="submit" name="submit" class="btn btn-success btn-block" id="loginButton" value="login">Uloguj se</button>
 
 </form>

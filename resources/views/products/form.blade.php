@@ -22,7 +22,7 @@
 	</div>
 @else
 	<div class="form-group container">
-		<label for="productRemaining" class="d-block text-center h5">Kolicina na stanju <small>(postavlja tacnu kolicinu)</small></label>
+		<label for="productRemaining" class="d-block text-center h5">Količina na stanju <small>(postavlja tacnu količinu)</small></label>
 		<div class="row">
 			<input type="number" name="remaining" class="form-control mr-auto col-sm-9" id="productRemaining" value="{{ $product->remaining or old('remaining') }}" disabled>
 			<label class="custom-control custom-checkbox col-sm-2 ml-auto mt-2 mt-sm-0">

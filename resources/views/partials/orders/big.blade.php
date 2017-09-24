@@ -1,6 +1,6 @@
 <div class="card my-5">
   	<div class="card-block text-white bg-@include('partials.status_color', compact('status'))">
-	    <h4 class="card-title text-center h2">Porudzbina {{ $id }}</h4>
+	    <h4 class="card-title text-center h2">Porudžbina {{ $id }}</h4>
 	    <hr>
 	    <p>{{ $description }}</p>
 	    <div class="d-flex flex-wrap justify-content-between">
@@ -12,7 +12,7 @@
 		{{ $editProducts }}
   	@else
 	  	<ul class="list-group list-group-flush">
-	  		<li class="list-group-item text-muted">Proizvodi<span class="ml-auto">Kolicina</span></li>
+	  		<li class="list-group-item text-muted">Proizvodi<span class="ml-auto">Količina</span></li>
 	  		@foreach($products as $product)
 				<li class="list-group-item h5">
 					<a href="{{ (isset($owner)) ? route('stores.products.show', [$product->store->slug, $product->slug])

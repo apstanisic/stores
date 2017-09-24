@@ -28,7 +28,7 @@
 							<form action="{{ route('stores.products.destroy', [$product->store->slug, $product->slug]) }}" method="post">
 								{{ csrf_field() }}
 								{{ method_field('delete') }}
-								<button type="submit" class="btn btn-danger">Izbrisi</button>
+								<button type="submit" class="btn btn-danger">Izbriši</button>
 							</form>
 						@endslot
 					@endcomponent

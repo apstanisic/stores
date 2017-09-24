@@ -43,7 +43,7 @@
 				</div>
 
 				<div class="form-group">
-					<label for="newPassword">Password</label>
+					<label for="newPassword">Nova lozinka</label>
 					<input type="password" name="password" class="form-control" id="newPassword" placeholder="Novi password" required>
 				</div>
 
@@ -65,13 +65,13 @@
 				{{ csrf_field() }}
 				{{ method_field('delete') }}
 				<div class="form-group">
-					<button type="submit" class="btn btn-danger btn-block" id="profileDelete" disabled>Izbrisi profil</button>
+					<button type="submit" class="btn btn-danger btn-block" id="profileDelete" disabled>Izbriši profil</button>
 				</div>
 				<div class="form-group">
 					<button type="button" class="btn btn-danger btn-block" id="enableProfileDelete">Dupli klik da omogucite brisanje</button>
 				</div>
 				<div  class="form-group" id="profileDeleteHidden" style="display: none;">
-					<label for="usernameProfileDelete">Ukucajte vas username, da biste obrisali profil</label>
+					<label for="usernameProfileDelete">Ukucajte vaš username, da biste obrisali profil</label>
 					<input type="text" class="form-control" name="username" placeholder="Username" id="usernameProfileDelete">
 				</div>
 			</form>

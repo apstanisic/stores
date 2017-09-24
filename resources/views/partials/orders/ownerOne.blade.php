@@ -15,6 +15,6 @@
 		{{ $order->created_at->diffForHumans() }}
 	@endslot
 	@slot('links')
-		<a href="{{ route('stores.orders.edit', [$order->store->slug, $order->slug]) }}" class="btn btn-warning">Izmeni porudzbinu</a>
+		<a href="{{ route('stores.orders.edit', [$order->store->slug, $order->slug]) }}" class="btn btn-warning">Izmeni porudžbinu</a>
 	@endslot
 @endcomponent
