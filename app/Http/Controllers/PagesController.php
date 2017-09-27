@@ -17,19 +17,9 @@ class PagesController extends Controller
     	return view('pages.welcome');
     }
 
-    public function whyUs ()
+    public function about ()
     {
-    	return view('layouts.master');
-    }
-
-    public function guides ()
-    {
-    	return view('layouts.master');
-    }
-
-    public function contact ()
-    {
-    	return view('layouts.master');
+    	return view('pages.about');
     }
 
 }

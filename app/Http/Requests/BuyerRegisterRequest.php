@@ -42,7 +42,7 @@ class BuyerRegisterRequest extends FormRequest
                 'max:240',
                 Rule::unique('buyers')
                     ->where(function($query) {
-                        $query->where('store_id', Store::url())
+                        $query->where('store_id', Store::url());
                     })
             ],
             'password' =>

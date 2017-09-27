@@ -13,13 +13,19 @@
 			    </div>
 		  	</div>
 		  	<ul class="list-group list-group-flush">
-		  		<li class="list-group-item text-muted">Proizvodi<span class="ml-auto">Količina</span></li>
+		  		<li class="list-group-item text-muted d-flex justify-content-between">
+				  <span>Proizvodi</span>
+				  <span class="ml-auto">Količina</span>
+				</li>
 		  		@foreach($order->products as $product)
-					<li class="list-group-item h5">{{ $product->name }}<span class="ml-auto">{{ $product->pivot->amount }}</span></li>
+					<li class="list-group-item h5 d-flex justify-content-between">
+						<span>{{ $product->name }}</span>
+						<span class="ml-auto">{{ $product->pivot->amount }}</span>
+					</li>
 		  		@endforeach
 		  	</ul>
 		  	@if ($order->canEdit())
-		  		<div class="card-block d-flex justify-content-around m-2">
+		  		<div class="card-block d-flex justify-content-around m-2 flex-wrap">
 					<form action="{{ route('buyer.orders.destroy', [$order->store->user->slug, $order->store->slug, $order->slug]) }}" method="post">
 						{{ csrf_field() }}
 						{{ method_field('delete') }}

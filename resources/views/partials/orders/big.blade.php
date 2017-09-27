@@ -12,9 +12,12 @@
 		{{ $editProducts }}
   	@else
 	  	<ul class="list-group list-group-flush">
-	  		<li class="list-group-item text-muted">Proizvodi<span class="ml-auto">Količina</span></li>
+	  		<li class="list-group-item text-muted d-flex justify-content-between">
+			  <span>Proizvodi</span>
+			  <span class="ml-auto">Količina</span>
+			</li>
 	  		@foreach($products as $product)
-				<li class="list-group-item h5">
+				<li class="list-group-item h5  d-flex justify-content-between">
 					<a href="{{ (isset($owner)) ? route('stores.products.show', [$product->store->slug, $product->slug])
 												: route('shopping.products.show', [$product->store->user->slug, $product->store->slug, $product->slug]) }}">
 						{{ $product->name }}
