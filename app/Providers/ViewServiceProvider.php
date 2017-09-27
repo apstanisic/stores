@@ -58,9 +58,9 @@ class ViewServiceProvider extends ServiceProvider
 
     private function getNav()
     {
-        view()->composer('layouts.master', function($view) {
-            $view->with('links', Nav::links()->get());
-        });
+        // view()->composer('layouts.master', function($view) {
+        //     $view->with('links', Nav::links()->get());
+        // });
 
         $this->tmpShoppingNav();
 
