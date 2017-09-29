@@ -6,6 +6,9 @@
 		@endslot
 		@slot('description')
 			{{ $order->status->description }}
+
+			<p>{{ $order->address->street_name . ' ' . $order->address->building_number}}, 
+			{{ $order->address->postal_code . ' ' . $order->address->city}}</p>
 		@endslot
 		@slot('id')
 			{{ $order->slug }}

@@ -39,7 +39,7 @@ class Order extends Model
 
     public function address()
     {
-        return $this->belongsTo(Order::class);
+        return $this->belongsTo(Address::class);
     }
 
     public function scopeDelivered($query)
