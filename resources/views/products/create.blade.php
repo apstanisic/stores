@@ -8,7 +8,7 @@
 				danger
 			@endslot
 
-			@slot('content')
+			@slot('message')
 				Morate imati barem jednu kategoriju da biste dodali proizvod
 			@endslot
 		@endcomponent

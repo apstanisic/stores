@@ -5,7 +5,7 @@
             	{{-- Footer linkovi --}}
             </div>
             <div class="col-12 text-center mt-2 h5"><span class="h6">Napravio </span><strong>
-                <a href="{{ route('about') }}">
+                <a href="#{{-- route('home') --}}">
                     AStanisic
                 </a></strong>
             </div>

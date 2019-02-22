@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Store;
 
 class AddressRequest extends FormRequest
 {
@@ -24,11 +25,11 @@ class AddressRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|min:1|max:100',
-            'street_name' => 'required|string|min:3|max:200',
+            'name' => 'required|string|min:3|max:50',
+            'street_name' => 'required|string|min:3|max:100',
             'building_number' => 'required|string|max:10',
-            'city' => 'required|string|min:2|max:200',
-            'postal_code' => 'required|integer|min:10000|max:100000'
+            'city' => 'required|string|min:2|max:100',
+            'postal_code' => 'required|integer|min:11000|max:37999'
         ];
     }
 }

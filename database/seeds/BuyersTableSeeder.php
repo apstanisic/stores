@@ -14,15 +14,15 @@ class BuyersTableSeeder extends Seeder
         $stores = \App\Store::all();
 
         foreach ($stores as $store) {
-        	for ($i=0; $i < 5; $i++) {
-	        	$buyer = $store->buyers()->save(factory(App\Buyer::class)->make());
-                if($buyer->id == 1) {
-                    $buyer->update(['email' => 'aleksandar@example.com',
-                                    'password' => '$2y$10$l07kG3A9ciFaauExHcFL2eAA7B8zSIP/3QAAG3vFgnMF3AyksOcHq'
-                                    ]);
-                }
-	            $buyer->cart()->create(['store_id' => $store->id]);
-        	}
+            $buyers = factory(App\Buyer::class, 4)->create([
+                'store_id' => $store->id,
+            ]);
+
+            App\Buyer::where('store_id', $store->id)->first()->update([
+                'username' => 'testing',
+                'email' => 'testing@example.com'
+            ]);
         }
+
     }
 }

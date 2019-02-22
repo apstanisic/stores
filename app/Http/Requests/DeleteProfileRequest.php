@@ -18,7 +18,8 @@ class DeleteProfileRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     * User must type his username to delete his profile
+     * User must type his username to delete his profile.
+     * 
      * @return array
      */
     public function rules()

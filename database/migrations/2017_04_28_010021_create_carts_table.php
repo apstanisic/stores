@@ -15,8 +15,9 @@ class CreateCartsTable extends Migration
     {
         Schema::create('carts', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('amount');
             $table->integer('buyer_id')->unsigned();
-            $table->integer('store_id')->unsigned();
+            $table->integer('product_id')->unsigned();
             $table->timestamps();
 
             $table->foreign('buyer_id')
@@ -24,26 +25,10 @@ class CreateCartsTable extends Migration
                   ->on('buyers')
                   ->onDelete('cascade');
 
-            $table->foreign('store_id')
-                  ->references('id')
-                  ->on('stores')
-                  ->onDelete('cascade');
-        });
-
-        Schema::create('cart_product', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('amount');
-            $table->integer('cart_id')->unsigned();
-            $table->integer('product_id')->unsigned();
-            $table->timestamps();
-
-            $table->foreign('cart_id')
-                  ->references('id')
-                  ->on('carts');
-
             $table->foreign('product_id')
                   ->references('id')
-                  ->on('products');
+                  ->on('products')
+                  ->onDelete('cascade');
         });
     }
 
@@ -54,8 +39,6 @@ class CreateCartsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cart_product');
         Schema::dropIfExists('carts');
-
     }
 }

@@ -18,6 +18,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \App\Http\Middleware\TrustProxies::class,
     ];
 
     /**
@@ -34,15 +35,12 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            // Mine
-            'bindCorrectData',
         ],
 
         'api' => [
             'throttle:60,1',
             'bindings',
         ],
-
     ];
 
     /**
@@ -59,20 +57,17 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        // Mine
-        // Correct route model binding for slug
-        'bindCorrectData' => \App\Http\Middleware\BindCorrectData::class,
-
-        'owner' => \App\Http\Middleware\RedirectIfNotStoreOwner::class,
-        'store.haveCategory' => \App\Http\Middleware\RedirectIfCategoryNotInStore::class,
-        'store.haveProduct' => \App\Http\Middleware\RedirectIfProductNotInStore::class,
-        'store.haveOrder' => \App\Http\Middleware\RedirectIfOrderNotInStore::class,
-        // Buyer auth
-        'bauth' => \App\Http\Middleware\RedirectIfBuyerNotLoged::class,
-        'bauth.guest' => \App\Http\Middleware\RedirectIfBuyerLoged::class,
-        'buyer.order.canEdit' => \App\Http\Middleware\RedirectIfOrderProcessed::class,
-        'buyer.order.owner' => \App\Http\Middleware\RedirectIfNotBuyersOrder::class,
-        'buyer.haveAddress' => \App\Http\Middleware\RedirectIfBuyerDontHaveAddress::class,
-
+        /* Mine */
+        'owner' => \App\Http\Middleware\CheckDoesStoreBelongsToUser::class,
+        'product.inStore' => \App\Http\Middleware\CheckIsProductInStore::class,
+        'category.inStore' => \App\Http\Middleware\CheckIsCategoryInStore::class,
+        'order.inStore' => \App\Http\Middleware\CheckIsOrderInStore::class,
+        'order.buyerCanEdit' => \App\Http\Middleware\CheckCanBuyerEditOrder::class,
+        'bauth' => \App\Http\Middleware\RedirectIfBuyerNotAuthenticated::class,
+        'bguest' => \App\Http\Middleware\RedirectIfBuyerAuthenticated::class,
+        'buyer.hasAddress' => \App\Http\Middleware\CheckDoesBuyerHasAddress::class,
+        'buyer.orderOwner' => \App\Http\Middleware\CheckDoesOrderBelongsToBuyer::class,
+        
+        
     ];
 }

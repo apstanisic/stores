@@ -1,8 +1,12 @@
 <?php
 
 
-// Auth and user profile
+Route::get('/', 'PagesController@index')->name('home');
+
+// Auth
 Auth::routes();
+
+// User profile
 Route::group(['prefix' => 'profile'], function() {
 	Route::get('/', 'Auth\UserController@index')->name('user.index');
 	Route::patch('/', 'Auth\UserController@update')->name('user.update');
@@ -14,26 +18,19 @@ Route::group(['prefix' => 'profile'], function() {
 
 // Stores
 Route::resource('stores', 'StoresController');
-// Store categories
+
+// Categories
 Route::resource('stores.categories', 'CategoriesController');
-Route::get('stores/{store}/categories/{category}/products', 'CategoriesController@products')
-	 ->name('stores.categories.products');
-// Store products
+Route::get('stores/{store}/categories/{category}/products',	'CategoriesController@products')
+	->name('stores.categories.products');
+     
+// Products
 Route::resource('stores.products', 'ProductsController');
 Route::patch('stores/{store}/products/{product}/remaining', 'ProductsController@updateRemaining')
-	 ->name('stores.products.remaining');
-// Store orders
+	->name('stores.products.remaining');
+	 
+     
+// Orders
 Route::resource('stores.orders', 'OrdersController', ['except' => ['create', 'store']]);
 Route::patch('stores/{store}/orders/{order}/status', 'OrdersController@updateStatus')
-	 ->name('stores.orders.updateStatus');
-
-
-
-// Static pages
-Route::group([], function() {
-	Route::get('/', 'PagesController@index')->name('root');
-	Route::get('/home', 'PagesController@index');
-	Route::get('/about', 'PagesController@about')->name('about');
-	// Route::get('/manuals', 'PagesController@guides')->name('manuals');
-	// Route::get('/contact', 'PagesController@contact')->name('contact');
-});
+	->name('stores.orders.updateStatus');

@@ -7,7 +7,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 
 class Address extends Model
 {
-	use Sluggable;
+    use Sluggable;
 
 	protected $fillable = ['name', 'slug', 'street_name', 'building_number', 'city', 'postal_code'];
 

@@ -50,7 +50,7 @@
 							</td>
 
 							<td class="text-center">
-								<a href="{{ route('shopping.index', [$store->user->slug, $store->slug]) }}" class="btn btn-info">
+								<a href="{{ route('shop.index', [$store->slug]) }}" class="btn btn-info">
 									<i class="fa fa-globe" aria-hidden="true"></i>
 								</a>
 							</td>

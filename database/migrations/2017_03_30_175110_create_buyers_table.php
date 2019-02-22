@@ -17,13 +17,13 @@ class CreateBuyersTable extends Migration
         Schema::create('buyers', function (Blueprint $table) {
 
             $table->increments('id');
-            $table->integer('store_id')->unsigned();
             $table->string('username');
             $table->string('email');
             $table->string('password');
+            $table->boolean('confirmed')->default(false);
+            $table->integer('store_id')->unsigned();
             $table->rememberToken();
             $table->timestamps();
-            $table->softDeletes();
 
             $table->foreign('store_id')
                   ->references('id')
@@ -33,7 +33,7 @@ class CreateBuyersTable extends Migration
             $table->unique(['username', 'store_id']);
             $table->unique(['email', 'store_id']);
         });
-        //*/
+
     }
 
     /**

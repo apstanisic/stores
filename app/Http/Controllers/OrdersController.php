@@ -14,7 +14,7 @@ class OrdersController extends Controller
     public function __construct()
     {
         $this->middleware(['auth', 'owner']);
-        $this->middleware('store.haveOrder')->except(['index']);
+        $this->middleware('order.inStore')->except(['index']);
     }
 
     /**
@@ -67,9 +67,9 @@ class OrdersController extends Controller
      */
     public function update(Request $request, Store $store, Order $order)
     {
-        $status = $order->fullUpdate($request->except(['_token', '_method']));
+        $order->fullUpdate($request->all());
 
-        if ($status) session()->flash('flash_success', 'Uspesno izmenjena porudzbina');
+        session()->flash('flash_success', 'Uspesno izmenjena porudzbina');
 
         return redirect()->route('stores.orders.show', [$store->slug, $order->slug]);
     }

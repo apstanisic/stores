@@ -23,6 +23,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        //
+
         parent::boot();
     }
 
@@ -36,8 +38,8 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapApiRoutes();
 
         $this->mapWebRoutes();
-        // Mine
-        $this->mapShoppingRoutes();
+
+        $this->mapShopRoutes();
     }
 
     /**
@@ -69,12 +71,50 @@ class RouteServiceProvider extends ServiceProvider
              ->group(base_path('routes/api.php'));
     }
 
-    protected function mapShoppingRoutes()
+
+    /**
+     * Define the "shop" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     * These routes are for buyer facing pages.
+     *
+     * @return void
+     */
+    protected function mapShopRoutes()
     {
-        Route::prefix('shop')
-             ->middleware('web')
-             ->namespace($this->namespace . '\Shopping')
-             ->group(base_path('routes/shopping.php'));
+        Route::middleware('web')
+             ->prefix('s')
+             ->namespace($this->namespace . '\Shop')
+             ->group(base_path('routes/shop.php'));
     }
+
+    // /**
+    //  * Get correct store from url, because of non unique slug
+    //  *
+    //  * @return \App\Store
+    //  */
+    // private function bindCorrectData()
+    // {
+    //     Route::bind('store', function() {
+    //         $storeSlug = request()->route()->store;
+            
+    //         if (request()->route()->hasParameter('user')) {
+    //             $userSlug = request()->route()->user;
+    //         } else {
+    //             $userSlug = auth()->user()->slug;
+    //         }
+
+    //     return \App\Store::findBySlug($storeSlug, $userSlug)->firstOrFail();
+            
+
+    //         // $store = \App\Store::where('slug', request()->route()->store)->whereHas('user', function($query) {
+    //         //     $query->where('slug', request()->route()->user);
+    //         // })->firstOrFail();
+    //         // Store::findBySlug()
+
+    // });
+
+    // }
+    
 
 }

@@ -5,7 +5,6 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Store;
 use App\Product;
-use Illuminate\Validation\Rule;
 
 class ProductRequest extends FormRequest
 {
@@ -27,23 +26,23 @@ class ProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => [
+              'name' => [
                 'required',
                 'min:2',
+                // You can have only 1 product with same name in store
                 Rule::unique('products')
-                    ->ignore(Product::url()->id ?? null, 'id')
+                    ->ignore(Product::fromUrl()->id ?? null, 'id')
                     ->where(function($query) {
-                        $query->where('store_id', Store::url()->id);
+                        $query->where('store_id', Store::fromUrl()->id);
                     })
             ],
-            // 'description' => 'required'
-            'price' => 'numeric',
-            'remaining' => 'numeric|nullable',
+            'price' => 'integer',
+            'remaining' => 'integer|nullable',
             'category_id' => [
-	            'numeric',
+	            'integer',
+                // Categorie must be valid and its store must be store from url
             	Rule::exists('categories', 'id')->where(function($query) {
-            		// I prodavnica iz url-a mora da bude prodavnica iz tabele
-            		$query->where('store_id', Store::url()->id);
+            		$query->where('store_id', Store::fromUrl()->id);
             	}),
             ]
         ];

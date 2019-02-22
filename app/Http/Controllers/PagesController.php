@@ -7,19 +7,13 @@ use Illuminate\Http\Request;
 class PagesController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware('guest', ['only' => 'index']);
-    }
-
     public function index ()
     {
-    	return view('pages.welcome');
-    }
-
-    public function about ()
-    {
-    	return view('pages.about');
+        if (auth()->check()) {
+            return redirect()->route('stores.index');
+        } else {
+            return view('pages.welcome');
+        }
     }
 
 }

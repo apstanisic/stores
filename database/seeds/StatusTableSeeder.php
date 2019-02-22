@@ -13,49 +13,51 @@ class StatusTableSeeder extends Seeder
      */
     public function run()
     {
+        // id = 1
+        Status::create([
+            'name' => 'processing',
+            'description' => 'Porudzbina je primljena na procesuiranje.',
+        ]);
+        // id = 2
         Status::create([
             'name' => 'confirmed',
             'description' => 'Porudzbina je primljena na procesuiranje.',
         ]);
-
+        // id = 3
+        Status::create([
+            'name' => 'problem',
+            'description' => 'Problem sa porudzbinom.',
+        ]);
+        // id = 4
+        Status::create([
+            'name' => 'paused',
+            'description' => 'Porudzbina je pauzirana.',
+        ]);
+        // id = 5
+        Status::create([
+            'name' => 'canceled',
+            'description' => 'Porudzbina je otkazana.',
+        ]);
+        // id = 6
         Status::create([
             'name' => 'sent',
-            'description' => 'Porudzbina je poslata.',
+            'description' => 'Porudzbina je u tranzitu.',
         ]);
-
-        Status::create([
-            'name' => 'not_sent',
-            'description' => 'Porudzbina ne moze da bude poslata.',
-        ]);
-
+        // id = 7
         Status::create([
             'name' => 'delivered',
-            'description' => 'Primalac je primio porudzbinu.',
+            'description' => 'Porudzbina je dostavljena.',
         ]);
-
+        // id = 8
         Status::create([
-            'name' => 'declined',
-            'description' => 'Porudzbina je odbijena.',
+            'name' => 'returned',
+            'description' => 'Porudzbina je vracena.',
         ]);
-
+        // id = 9
         Status::create([
             'name' => 'deleted',
             'description' => 'Porudzbina je obrisana.',
         ]);
 
-        Status::create([
-            'name' => 'paused',
-            'description' => 'Porudzbina je pauzirana.',
-        ]);
-
-        Status::create([
-            'name' => 'canceled',
-            'description' => 'Porudzbina je otkazana.',
-        ]);
-
-        Status::create([
-            'name' => 'finished',
-            'description' => 'Rad sa porudzbinom je gotov.',
-        ]);
     }
 }

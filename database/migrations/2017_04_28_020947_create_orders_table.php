@@ -17,12 +17,16 @@ class CreateOrdersTable extends Migration
             $table->increments('id');
             $table->integer('price')->nullable();
             $table->string('slug');
+            $table->integer('store_id')->unsigned()->index()->nullable();
             $table->integer('buyer_id')->unsigned()->index()->nullable();
             $table->integer('address_id')->unsigned()->index()->nullable();
-            $table->integer('store_id')->unsigned()->index()->nullable();
             $table->integer('status_id')->unsigned()->index()->default(1);
             $table->timestamps();
-            $table->softDeletes();
+
+            $table->foreign('store_id')
+                  ->references('id')
+                  ->on('stores')
+                  ->onDelete('set null');
 
             $table->foreign('buyer_id')
                   ->references('id')
@@ -37,11 +41,6 @@ class CreateOrdersTable extends Migration
             $table->foreign('status_id')
                   ->references('id')
                   ->on('status');
-
-            $table->foreign('store_id')
-                  ->references('id')
-                  ->on('stores')
-                  ->onDelete('set null');
         });
 
 

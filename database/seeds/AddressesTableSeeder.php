@@ -14,11 +14,14 @@ class AddressesTableSeeder extends Seeder
         $buyers = \App\Buyer::all();
 
         foreach ($buyers as $buyer) {
-        	$times = rand(1, 4);
-        	for ($i=0; $i < $times; $i++) {
-        		// dd($buyer->addresses);
-        		$buyer->addresses()->save(factory(App\Address::class)->make());
-        	}
+        	$amount = rand(1, 4);
+            factory(App\Address::class, $amount)->create([
+                'buyer_id' => $buyer->id
+            ]);
+                // for ($i=0; $i < $times; $i++) {
+                // 	// dd($buyer->addresses);
+                // 	$buyer->addresses()->save(factory(App\Address::class)->make());
+                // }
         }
     }
 }

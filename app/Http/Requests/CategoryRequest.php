@@ -4,8 +4,6 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use App\Category;
-use App\Store;
 
 class CategoryRequest extends FormRequest
 {
@@ -26,32 +24,44 @@ class CategoryRequest extends FormRequest
      */
     public function rules()
     {
-        //dd(request(['parent_id']));
+        $routeStore = $this->route()->parameter('store');
+        $routeCategory = $this->route()->parameter('category');
+
+        // $uniqueRule = Rule::unique('categories', 'name')
+        //             ->ignore($routeCategory ? $routeCategory->id : null)
+        //             ->where(function ($query) {
+        //                 $query->where('parent_id', request(['parent_id']))
+        //                 ->orWhereNull('parent_id');
+        //     });
+        // if ()
 
         return [
-            //'name' => 'required|min:2',
             'name' => [
                 'required',
                 'min:2',
+                /* Category name must be unique in its category,
+                root categories can't have same name, and subcategories
+                in category can't have same name */
+                // Category must be unique
+                // select * where name = $name where parent_id = $parent_id
                 Rule::unique('categories', 'name')
-                    ->ignore(Category::url()->id ?? null, 'id')
-                    ->where(function($query) {
-                        if (is_null(request()->input('parent_id'))) {
-                            $query->whereNull('parent_id');
-                            $query->where('store_id', Store::url()->id);
-                        } else {
-                            $query->where('parent_id', request(['parent_id']));
-                        }
-                    })
+                // where
+                ->where(function($query) {
+                    // parent is the same, or parent is null
+                    $query->where('parent_id', request(['parent_id']))
+                    ->orWhereNull('parent_id');
+                })
+                // Ignore current category
+                ->ignore($routeCategory ? $routeCategory->id : null)
             ],
             'parent_id' => [
-            	// parent_id moze da bude null
             	'nullable',
-            	// ako nije null mora da postoji u tabeli categories u tabeli id
-            	Rule::exists('categories', 'id')->where(function($query) {
-            		// I prodavnica iz url-a mora da bude prodavnica iz tabele
-            		$query->where('store_id', Store::url()->id);
-            		// Ako roditelj mora da nema svog roditelja
+                /* Must exist in categories table in column id,
+                and its store must be store from url. */
+            	Rule::exists('categories', 'id')->where(function($query) use ($routeStore) {
+            		$query->where('store_id', $routeStore->id);
+                    // Uncomment if you want parent category 
+                    // to not have it's own parent
             		//$query->where('parent_id', null);
             	}),
             ]

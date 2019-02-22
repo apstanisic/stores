@@ -11,13 +11,18 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\User::class, 2)->create()->each(function ($user) {
-            if ($user->id == 1) {
-                $user->username = 'aleksandar';
-                $user->email = 'aleksandar@example.com';
-                $user->password = '$2y$10$l07kG3A9ciFaauExHcFL2eAA7B8zSIP/3QAAG3vFgnMF3AyksOcHq';
-                $user->save();
-            }
-        });
+        // First user is always 'testing', easier for testing
+        factory(App\User::class, 2)->create();
+        // ->each(function ($user) {
+        //     if ($user->id == 1) {
+        //         $user->username = 'testing';
+        //         $user->email = 'testing@example.com';
+        //         $user->save();
+        //     }
+        // });
+        App\User::first()->update([
+            'username' => 'testing',
+            'email' => 'testing@example.com'
+        ]);
     }
 }

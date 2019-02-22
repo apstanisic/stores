@@ -13,12 +13,17 @@ class UserController extends Controller
 {
 
 
+    /**
+     * Apply correct middleware
+     */
     public function __construct()
     {
         $this->middleware('auth');
     }
+
+
     /**
-     * Display a listing of the resource.
+     * Display auth user profile
      *
      * @return \Illuminate\Http\Response
      */
@@ -27,10 +32,10 @@ class UserController extends Controller
         return view('auth.user.index', ['user' => auth()->user()]);
     }
 
+
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing logged user.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit()
@@ -38,18 +43,16 @@ class UserController extends Controller
         return view('auth.user.edit')->with('user', auth()->user());
     }
 
+
     /**
-     * Update the specified resource in storage.
+     * Update user profile.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Http\Requests\UpdateUserProfile  $request
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateProfileRequest $request)
     {
-        // Update user profile
-        // FIXME
-        // Kada se pravi profil moze da se napravi sa space-om
+        // TODO: FIXME: Kada se pravi profil moze da se napravi sa space-om
         auth()->user()->update(request(['username', 'email']));
 
         session()->flash('flash_success', 'Uspesno izmenjen profil');
@@ -57,7 +60,14 @@ class UserController extends Controller
         return redirect()->route('user.index')->with('user', auth()->user());
     }
 
-    public function updatePassword(updatePasswordRequest $request)
+
+    /**
+     * Change logged user password
+     *
+     * @param App\Http\Requests\UpdatePasswordRequest $request
+     * @return void
+     */
+    public function updatePassword(UpdatePasswordRequest $request)
     {
         auth()->user()->updatePassworrd(request('password'));
 
@@ -65,10 +75,12 @@ class UserController extends Controller
 
         return redirect()->route('user.index')->with('user', auth()->user());
     }
+
+
     /**
-     * Remove the specified resource from storage.
+     * Delete profile
      *
-     * @param  int  $id
+     * @param App\Http\Requests\DeleteProfileRequest $request
      * @return \Illuminate\Http\Response
      */
     public function destroy(DeleteProfileRequest $request)

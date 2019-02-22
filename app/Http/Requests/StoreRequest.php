@@ -6,7 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use App\Store;
 
-
 class StoreRequest extends FormRequest
 {
     /**
@@ -16,7 +15,6 @@ class StoreRequest extends FormRequest
      */
     public function authorize()
     {
-        // return true;
         return auth()->check();
     }
 
@@ -31,8 +29,9 @@ class StoreRequest extends FormRequest
             'name' => [
                 'required',
                 'min:3',
+                // User can only have one store with same name
                 Rule::unique('stores')
-                    ->ignore(Store::url()->id ?? null, 'id')
+                    ->ignore(Store::fromUrl()->id ?? null, 'id')
                     ->where(function($query) {
                         $query->where('user_id', auth()->id());
                 })

@@ -4,29 +4,13 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Cviebrock\EloquentSluggable\Sluggable;
-use Auth;
+use App\User;
 
 class User extends Authenticatable
 {
     use Notifiable;
-    use SoftDeletes;
     use Sluggable;
-
-    public function sluggable()
-    {
-        return [
-            'slug' => [
-                'source' => 'username'
-            ]
-        ];
-    }
-
-    public function getRouteKeyName()
-    {
-        return 'slug';
-    }
 
     /**
      * The attributes that are mass assignable.
@@ -34,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'username', 'email', 'password'
+        'username', 'email', 'password',
     ];
 
     /**
@@ -45,44 +29,37 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    
+    
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 
-    protected $dates = ['deleted_at'];
+    /**
+     * This method is used for model specific settings 
+     * on generating slug.
+     *
+     * @return array
+     */
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => 'username',
+                'onUpdate' => true,
+            ]
+        ];
+    }
 
-    public function stores() {
+    /**
+     * User has many stores
+     *
+     * @return Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function stores() 
+    {
         return $this->hasMany(Store::class);
     }
 
-    public function roles() {
-    	return $this->belongsToMany(Role::class)->withTimestamps();
-    }
-
-    public function products()
-    {
-        return $this->hasManyThrough(Product::class, Store::class);
-    }
-
-    public function updatePassword($password)
-    {
-        $this->update(['password' => bcrypt($password)]);
-    }
-
-    // Bolje za bazu nego da se dohvataju svi pa da se onda broji
-    public function productsCount()
-    {
-        return $this->products()->count();
-    }
-
-    // Check if passed store belongs to user
-    public function isStoreOwner (Store $store) {
-        if ($store->user->id !== $this->id) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    public static function url()
-    {
-        return \Route::input('user');
-    }
 }

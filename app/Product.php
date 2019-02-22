@@ -4,7 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
-use App\Store;
 
 class Product extends Model
 {
@@ -14,8 +13,8 @@ class Product extends Model
     {
         return [
             'slug' => [
-                'source' => 'name',
-                'unique' => false
+				'source' => 'name',
+				'onUpdate' => true
             ]
         ];
     }
@@ -45,47 +44,47 @@ class Product extends Model
 		return $this->belongsTo(Store::class);
 	}
 
-
 	public function images()
 	{
 		return $this->hasMany(Image::class);
 	}
 
-	public function inCart()
-	{
-		return Cart::items($this->store)->where('id', $this->id)->first()->pivot->amount ?? 0;
-	}
+	// public function inCart()
+	// {
+	// 	return Cart::items($this->store)->where('id', $this->id)->first()->pivot->amount ?? 0;
+	// }
 
-	public function subtractRemaining(int $amount)
-	{
-		$this->addRemaining(-$amount);
-	}
 
-	public function addRemaining(int $amount)
+	/**
+	 * Change remaing amount in stock
+	 *
+	 * @param integer $amount
+	 * @param boolean $replace Should new value replace old or calculate old and new
+	 * @return void
+	 */
+	public function changeRemaining(int $amount, bool $replace = false)
 	{
-		$remaining = $this->remaining + $amount;
-		$this->update([
-			'remaining' => $remaining
-		]);
-	}
+		$amount = $replace ? $amount : $this->remaining + $amount;
 
-	public function hasEnough(int $amount)
-	{
-		if ($this->remaining < $amount) {
-			return false;
-		} else {
-			return true;
-		}
+		$this->update(['remaining' => $amount]);
 	}
+	
 
+	/**
+	 * Return maximum number that can be put in the cart depending of available products
+	 * If remaining product amount is not specified it will return requested amount
+	 *
+	 * @param integer $amount
+	 * @return int
+	 */
 	public function requestedOrMax(int $amount)
 	{
-		return $this->hasEnough($amount) ? $amount : $this->remaining;
+		if ($this->remaining === null) {
+			return $amount;
+		}
+
+		return $this->remaining > $amount ? $amount : $this->remaining;
 	}
 
-	public static function url()
-	{
-		return \Route::input('product');
-	}
-
+	
 }

@@ -2,14 +2,12 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use App\BAuth;
-use App\Order;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Buyer extends Model
+class Buyer extends Authenticatable
 {
-    use SoftDeletes;
+    use Notifiable;
 
     protected $fillable = [
         'username', 'email', 'password'
@@ -22,9 +20,9 @@ class Buyer extends Model
     protected $dates = ['deleted_at'];
 
 
-    public function cart()
+    public function cart_items()
     {
-    	return $this->hasOne(Cart::class);
+    	return $this->hasMany(CartItem::class, 'product_id')->withPivot('amount')->withTimestamps();;
     }
 
     public function orders()
@@ -42,22 +40,14 @@ class Buyer extends Model
         return $this->hasMany(Address::class);
     }
 
-    public function hasOrder(Order $order)
-    {
-        // if (BAuth::buyer()->orders()->where('id', $order->id)->count()) {
-        if ($this->orders()->where('id', $order->id)->count()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    // public function hasOrder(Order $order)
+    // {
+    //     // if (BAuth::buyer()->orders()->where('id', $order->id)->count()) {
+    //     if ($this->orders()->where('id', $order->id)->count()) {
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    // }
 
-    public function hasAddress()
-    {
-        if (count($this->addresses) === 0) {
-            return false;
-        } else {
-            return true;
-        }
-    }
 }

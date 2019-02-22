@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class OrderRequest extends FormRequest
 {
@@ -27,6 +26,7 @@ class OrderRequest extends FormRequest
         return [
             'address_id' => [
                 'required',
+                // Address must be valid and belong to buyer
                 Rule::exists('addresses', 'id')->where(function($query) {
                     $query->where('buyer_id', bauth()->user()->id);
                 }),

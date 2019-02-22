@@ -6,8 +6,6 @@ use Illuminate\Http\Request;
 use App\Http\Requests\CategoryRequest;
 use App\Store;
 use App\Category;
-use Route;
-use Session;
 
 class CategoriesController extends Controller
 {
@@ -15,7 +13,7 @@ class CategoriesController extends Controller
     public function __construct(Request $request)
     {
         $this->middleware(['auth', 'owner']);
-        $this->middleware('store.haveCategory')->except('index', 'create', 'store');
+        $this->middleware('category.inStore')->except('index', 'create', 'store');
     }
     /**
      * Display a listing of the resource.
@@ -38,7 +36,8 @@ class CategoriesController extends Controller
     // If not ->where('parent_id', null);
     public function create(Store $store)
     {
-        return view('categories.create', ['parents' => $store->categories]);
+        $parents = $store->categories;
+        return view('categories.create', compact('parents'));
     }
 
     /**
@@ -51,7 +50,7 @@ class CategoriesController extends Controller
     {
         $store->categories()->create($request->all());
 
-        Session::flash('flash_success', 'Uspesno napravljena kategorija');
+        session()->flash('flash_success', 'Uspesno napravljena kategorija');
 
         return redirect()->route('stores.categories.index', [$store->slug]);
     }
@@ -91,7 +90,7 @@ class CategoriesController extends Controller
     {
         $category->update($request->all());
 
-        Session::flash('flash_success', 'Uspesno izmenjena kategorija');
+        session()->flash('flash_success', 'Uspesno izmenjena kategorija');
 
         return redirect()->route('stores.categories.show', [$store->slug, $category->slug]);
     }
@@ -106,7 +105,7 @@ class CategoriesController extends Controller
     {
         $category->delete();
 
-        Session::flash('flash_success', 'Uspesno izbrisana kategorija');
+        session()->flash('flash_success', 'Uspesno izbrisana kategorija');
 
         return redirect()->route('stores.categories.index', [$store->slug]);
     }

@@ -12,10 +12,12 @@ class StoresTableSeeder extends Seeder
     public function run()
     {
         $users = \App\User::all();
+
         foreach ($users as $user) {
-        	for ($i=0; $i < 3; $i++) {
-        		$user->stores()->save(factory(App\Store::class)->make());
-        	}
+            factory(App\Store::class, 2)->create([
+                'user_id' => $user->id,
+            ]);
         }
+
     }
 }

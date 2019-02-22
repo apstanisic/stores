@@ -3,10 +3,6 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Validator;
-// TODO Skinuti na novom mysql
-use Illuminate\Support\Facades\Schema;
-
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -17,10 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Validator::extend('check_password', function($attribute, $value, $parameters, $validator) {
-            return \Hash::check($value, current($parameters));
-        });
-
+        //
     }
 
     /**

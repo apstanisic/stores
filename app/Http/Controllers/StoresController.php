@@ -4,36 +4,35 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreRequest;
-use App\Category;
 use App\Store;
-use Session;
-use Auth;
 
 class StoresController extends Controller
 {
-
-    // private $stores;
+    /**
+     * Set correct middleware
+     *
+     * @param Illuminate\Http\Request $request
+     */
 	public function __construct()
     {
-        // $this->stores = $stores;
         $this->middleware('auth');
         $this->middleware('owner')->except('index', 'create', 'store');
     }
+
+
     /**
-     * Prikazuje sve korisnikove prodavnice
+     * Show stores 
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        // dd((new \App\Repositories\Stores)->all(auth()->user()));
-        // dd($this->stores->all());
         $stores = auth()->user()->stores;
         return view('stores.index', compact('stores'));
     }
 
     /**
-     * Forma za pravljenje nove prodavnice.
+     * Show the form for creating a new store.
      *
      * @return \Illuminate\Http\Response
      */
@@ -43,27 +42,19 @@ class StoresController extends Controller
     }
 
     /**
-     * Pravi novu prodavnicu u bazi.
-     *
-     * @param  App\Http\Requests\StoreRequest  $request
-     * @return \Illuminate\Http\Response
+     * Creates new store in database
      */
     public function store(StoreRequest $request)
     {
-        $store = Auth::user()->stores()->create($request->all());
-        // Default category
-        $store->categories()->create(['name' => 'Nesvrstano']);
+        $store = auth()->user()->stores()->create($request->all());
 
-        Session::flash('flash_success', 'Uspesno napravljena prodavnica');
+        session()->flash('flash_success', 'Successfuly created store');
 
         return redirect()->route('stores.show', [$store->slug]);
     }
 
     /**
-     * Prikazuje odredjenu prodavnicu.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Show store by slug
      */
     public function show(Store $store)
     {
@@ -71,42 +62,33 @@ class StoresController extends Controller
     }
 
     /**
-     * Forma za izmenu odredjene prodavnice.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Form for editing store
      */
     public function edit(Store $store)
     {
         return view('stores.edit', compact('store'));
     }
 
-    /**     * Menja prodavnicu u bazi.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+    /**     
+     * Changes store in db
      */
     public function update(StoreRequest $request, Store $store)
     {
         $store->update($request->all());
 
-        Session::flash('flash_success', 'Uspesno izmenjena prodavnica');
+        session()->flash('flash_success', 'Uspesno izmenjena prodavnica');
 
         return redirect()->route('stores.show', [$store->slug]);
     }
 
     /**
-     * Brise prodavnicu.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Deletes selected store
      */
     public function destroy(Store $store)
     {
     	$store->delete();
 
-        Session::flash('flash_success', 'Uspesno izbrisana prodavnica');
+        session()->flash('flash_success', 'Uspesno izbrisana prodavnica');
 
         return redirect()->route('stores.index');
     }

@@ -14,8 +14,10 @@ class ProductsTableSeeder extends Seeder
         $categories = \App\Category::all();
 
         foreach ($categories as $category) {
-        	for ($i=0; $i < 10; $i++) {
-        		$product = $category->products()->save(factory(App\Product::class)->make(['store_id' => $category->store_id]));
+        	for ($i=0; $i < 6; $i++) {
+        		$category->products()->save(
+                    factory(App\Product::class)->make(['store_id' => $category->store_id])
+                );
         	}
         }
     }

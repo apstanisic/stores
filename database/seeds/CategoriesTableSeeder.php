@@ -14,19 +14,14 @@ class CategoriesTableSeeder extends Seeder
         $stores = \App\Store::all();
 
         foreach ($stores as $store) {
-        	for ($i=0; $i < 5; $i++) {
-	        	if($store->categories()->get()->isNotEmpty()) {
-			        $parentCategory = $store->categories()->pluck('id')->random();
-			    } else {
-			        $parentCategory = null;
-			    }
-			    $optional = rand(1, 10);
-			    if ($optional > 5) $parentCategory = null;
-			    $category = $store->categories()->save(factory(App\Category::class)->make(['parent_id' => $parentCategory]));
-		    }
+            for ($i=0; $i < 5; $i++) { 
+                if ($store->categories->isEmpty() || random_int(0, 1)) {
+                    $parentId = null;
+                } else {
+                    $parentId = $store->categories()->pluck('id')->random();
+                }
+                $store->categories()->save(factory(App\Category::class)->make(['parent_id' => $parentId]));
+            }
         }
-
-
-
     }
 }

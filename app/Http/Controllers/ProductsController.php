@@ -13,28 +13,35 @@ use Session;
 class ProductsController extends Controller
 {
 
+    /**
+     * Set correct middleware
+     *
+     * @param Illuminate\Http\Request $request
+     */
     public function __construct(Request $request)
     {
         $this->middleware(['auth', 'owner']);
-        $this->middleware('store.haveProduct')->except('index', 'create', 'store');
+        $this->middleware('product.inStore')->except('index', 'create', 'store');
     }
 
 
     /**
-     * Display a listing of the resource.
+     * Show products 
      *
+     * @param App\Store $store
      * @return \Illuminate\Http\Response
      */
     public function index(Store $store)
     {
 
-        $products = $store->products()->latest()->paginate(10);
+        $products = $store->products()->latest()->paginate(12);
         return view('products.index', compact('products'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new product.
      *
+     * @param App\Store $store
      * @return \Illuminate\Http\Response
      */
     public function create(Store $store)
@@ -43,9 +50,10 @@ class ProductsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created product in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\ProductRequest  $request
+     * @param  \App\Store  $store
      * @return \Illuminate\Http\Response
      */
     public function store(ProductRequest $request, Store $store)
@@ -58,9 +66,10 @@ class ProductsController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified product.
      *
-     * @param  int  $id
+     * @param  App\Store  $store
+     * @param App\Product $product
      * @return \Illuminate\Http\Response
      */
     public function show(Store $store, Product $product)
@@ -69,9 +78,10 @@ class ProductsController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified product.
      *
-     * @param  int  $id
+     * @param App\Store $store
+     * @param App\Product $product
      * @return \Illuminate\Http\Response
      */
     public function edit(Store $store, Product $product)
@@ -81,10 +91,11 @@ class ProductsController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified product in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \App\Http\Requests\ProductRequest  $request
+     * @param App\Store  $store
+     * @param App\Product $product
      * @return \Illuminate\Http\Response
      */
     public function update(ProductRequest $request, Store $store, Product $product)
@@ -98,9 +109,10 @@ class ProductsController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
+     * Remove the specified product from storage.
+     * 
+     * @param App\Store  $store
+     * @param App\Product $product
      * @return \Illuminate\Http\Response
      */
     public function destroy(Store $store, Product $product)
@@ -112,6 +124,14 @@ class ProductsController extends Controller
         return redirect()->route('stores.products.index', [$store->slug]);
     }
 
+    /**
+     * Update amount of product in stock.
+     *
+     * @param App\Http\Requests\UpdateRemainingProductsRequest $request
+     * @param App\Store $store
+     * @param App\Product $product
+     * @return \Illuminate\Http\Response
+     */
     public function updateRemaining(UpdateRemainingProductsRequest $request, Store $store, Product $product)
     {
         $product->addRemaining($request->remaining);
